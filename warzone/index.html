@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>warzone vulnhub walkthrough | 2867a0's blog</title><meta name="keywords" content="vulnbox"><meta name="author" content="2867a0"><meta name="copyright" content="2867a0"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="warzone          信息收集通过nmap进行扫描，发现目标开放了21、22、5000端口  使用nikto扫描目标5000端口，发现了子目录console  java编写的AES加密软件先尝试使用匿名用户登录到ftp服务器，匿名用户登录成功  在ftp中找到了note.txt，warzone-encrypt.jar  文件夹note.txt是对jar包的提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="warzone vulnhub walkthrough">
+<meta property="og:url" content="http://2867a0.github.io/warzone/index.html">
+<meta property="og:site_name" content="2867a0&#39;s blog">
+<meta property="og:description" content="warzone          信息收集通过nmap进行扫描，发现目标开放了21、22、5000端口  使用nikto扫描目标5000端口，发现了子目录console  java编写的AES加密软件先尝试使用匿名用户登录到ftp服务器，匿名用户登录成功  在ftp中找到了note.txt，warzone-encrypt.jar  文件夹note.txt是对jar包的提">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://2867a0.github.io/img/default_cover.jpg">
+<meta property="article:published_time" content="2020-12-17T12:16:46.000Z">
+<meta property="article:modified_time" content="2020-12-17T12:21:14.000Z">
+<meta property="article:author" content="2867a0">
+<meta property="article:tag" content="vulnbox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2867a0.github.io/img/default_cover.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://2867a0.github.io/warzone/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-12-17 20:21:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}const fontSizeVal = saveToLocal.get('global-font-size')
+if (fontSizeVal !== undefined) {
+  document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default_cover.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">2867a0's blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">warzone vulnhub walkthrough</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-12-17T12:16:46.000Z" title="Created 2020-12-17 20:16:46">2020-12-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-12-17T12:21:14.000Z" title="Updated 2020-12-17 20:21:14">2020-12-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/VulnHub/">VulnHub</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div align="center">
+    <h2>
+        warzone
+    </h2>
+</div>
+
+<p><a href="https://imgchr.com/i/r8Id8x"><img src="https://s3.ax1x.com/2020/12/17/r8Id8x.png" alt="r8Id8x.png"></a></p>
+<hr>
+<h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>通过nmap进行扫描，发现目标开放了21、22、5000端口</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r8oPo9.png"></p>
+<p>使用nikto扫描目标5000端口，发现了子目录<code>console</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r8o9Z4.png" alt="r8o9Z4.png"></p>
+<h4 id="java编写的AES加密软件"><a href="#java编写的AES加密软件" class="headerlink" title="java编写的AES加密软件"></a>java编写的AES加密软件</h4><p>先尝试使用匿名用户登录到ftp服务器，匿名用户登录成功</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r8TsNd.png" alt="r8TsNd.png"></p>
+<p>在ftp中找到了<code>note.txt</code>，<code>warzone-encrypt.jar</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87taQ.png" alt="r87taQ.png"></p>
+<p>文件夹<code>note.txt</code>是对jar包的提示信息：Attention, please encrypt always your password using the warzone-encrypt.jar</p>
+<p>接着使用<code>jd-gui</code>反编译jar包，更进main函数，找到了<code>encryptString()</code>函数，可以看见该函数使用AES加密</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r870x0.png" alt="r870x0.png"></p>
+<p>继续跟进，发现初始化函数<code>init()</code>，AES设置的<code>getInstance</code>为<code>AES/CBC/PKCS5Padding</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87w2q.png" alt="r87w2q.png"></p>
+<p>接着在<code>Obfuscated.class</code>类中，获得<code>IV</code>值和<code>key</code>值。</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87dGn.png" alt="r87dGn.png"></p>
+<p>在这里就可以编写解密函数了，接着找到可解密的hash值</p>
+<h4 id="围栏密码"><a href="#围栏密码" class="headerlink" title="围栏密码"></a>围栏密码</h4><p>访问5000端口，发现如下表格。其实这个表格是<a href="https://zh.wikipedia.org/wiki/%E7%B1%AC%E7%AC%86%E5%AF%86%E7%A2%BC%E6%B3%95">围栏密码</a>的提示</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r878r8.png" alt="r878r8.png"></p>
+<p>查看源码，可以发现一串奇怪的字符</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GA DIE UHCEETASTTRNL</span><br></pre></td></tr></table></figure>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87YVg.png" alt="r87YVg.png"></p>
+<p>通过wiki的描述，将该字符串以围栏密码的形式进行排序</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87GqS.png" alt="r87GqS.png"></p>
+<p>我们获得了可阅读字符串<code>get auth credentials</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r873Kf.png" alt="r873Kf.png"></p>
+<p>将该字符串拼接到url，得到：<code>http://url:5000/get/auth/credentials</code>，再该页面下可以获得多个用户名和密码hash值，根据前面的jar包判断，hash值使用AES加密。接下来就是使用java编写AES解密函数</p>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>paratrooper</td>
+<td>GJSFBy6jihz/GbfaeOiXwtqgHe1QutGVVFlyDXbxVRo=</td>
+</tr>
+<tr>
+<td>specops</td>
+<td>mnKbQSV2k9UzJeTnJhoAyy4TqEryPw6ouANzIZMXF6Y=</td>
+</tr>
+<tr>
+<td>aquaman</td>
+<td>v9yjWjP7tKHLyt6ZCw5sxtktXIYm5ynlHmx+ZCI4OT4=</td>
+</tr>
+<tr>
+<td>commander</td>
+<td>2czKTfl/n519Kw5Ze7mVy4BsdzdzCbpRY8+BQxqnsYg=</td>
+</tr>
+<tr>
+<td>commando</td>
+<td>+uj9HGdnyJvkBagdB1i26M9QzsxKHUI0EFMhhfaqt2A=</td>
+</tr>
+<tr>
+<td>pathfinder</td>
+<td>eTQiiMXzrM4MkSItWUegd1rZ/pOIU0JyWlLNw2oW6oo=</td>
+</tr>
+<tr>
+<td>ranger</td>
+<td>LBN5Syc7D7Bdj7utCbmBiT7pXU+bISYj33Qzf4CmIDs=</td>
+</tr>
+</tbody></table>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87aPs.png" alt="r87aPs.png"></p>
+<p>再看看<code>console</code>子目录，需要pin码（这个页面其实是一个’兔子洞’）</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87N5j.png" alt="r87N5j.png"></p>
+<h4 id="编写AES解密代码"><a href="#编写AES解密代码" class="headerlink" title="编写AES解密代码"></a>编写AES解密代码</h4><p>AES解密函数需要key和iv值，还需要设置<code>genInstance</code>值，这些在前面都已经获得，解密函数如下，在AES类中添加静态解密函数<code>decrypt()</code><br><img src="https://s3.ax1x.com/2020/12/17/r87rrT.png" alt="r87rrT.png"></p>
+<p>在IDEA中编写测试代码，调用<code>decrypt()</code>函数，我放入了一个测试的hash值，该hash成功被解密</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87sqU.png" alt="r87sqU.png">接着将所有hash值进行解密，得到密码<br><img src="https://s3.ax1x.com/2020/12/17/r876ZF.png" alt="r876ZF.png"></p>
+<p>将获得的用户名和密码分别保存在文件中，使用<code>medusa</code>对目标22端口进行暴力破解</p>
+<p><a href="https://imgchr.com/i/r87gIJ"><img src="https://s3.ax1x.com/2020/12/17/r87gIJ.png" alt="r87gIJ.png"></a></p>
+<p>获得可登录用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">commando:c0mmandosArentRea1.!</span><br></pre></td></tr></table></figure>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87ca4.png" alt="r87ca4.png"></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/r87Ri9.png" alt="r87Ri9.png"></p>
+<h3 id="后渗透"><a href="#后渗透" class="headerlink" title="后渗透"></a>后渗透</h3><h4 id="commando-gt-captain"><a href="#commando-gt-captain" class="headerlink" title="commando -&gt; captain"></a><code>commando</code> -&gt; <code>captain</code></h4><p>进入commando用户目录，查看具有home目录的用户，发现另一个用户<code>captain</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGiOHJ.png" alt="rGiOHJ.png"></p>
+<p>继续查看当前用户能获得什么信息，我使用了命令<code>ls -al * | more</code>查看当前目录，在desktop目录中发现了隐藏文件夹<code>.crypt</code>和文件<code>user.txt</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGix41.png" alt="rGix41.png"></p>
+<p>同时该命令发现了一张图片</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFS9x.png" alt="rGFS9x.png"></p>
+<p>查看隐藏目录，内容如下</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGijE9.png" alt="rGijE9.png"></p>
+<p>依次读取文件内容，发现<code>encrypt.py</code>是一个使用<code>simpleencrypt</code>模块编写的加密密码的脚本</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFCjO.png" alt="rGFCjO.png"></p>
+<p><code>readme.txt</code>文件是作者留下的提示信息</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGivNR.png" alt="rGivNR.png"></p>
+<p>sh脚本调用py脚本将输出结果保存在<code>.c</code>文件夹中，但是作者在执行完脚本后将密码的明文删除了，这里就需要我们编写解密函数了。</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFp36.png" alt="rGFp36.png"></p>
+<p>加密后的密码hash，盲猜是<code>captain</code>用户的</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGF9gK.png" alt="rGF9gK.png"></p>
+<p>编写解密脚本，调用<code>decrypt</code>函数</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFFDe.png" alt="rGFFDe.png"></p>
+<p>执行解密脚本得到明文</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">_us3rz0ne_F1RE</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFiuD.png" alt="rGFiuD.png"></p>
+<p>登录到用户<code>captain</code>，成功登录。</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFkHH.png" alt="rGFkHH.png"></p>
+<h4 id="captain-gt-root"><a href="#captain-gt-root" class="headerlink" title="captain -&gt; root"></a><code>captain</code> -&gt; <code>root</code></h4><p>进入后使用<code>sudo -l</code>查看可执行命令，发现<code>/usr/bin/jjs</code>不需要密码就能以root用户执行（截图图片丢失）。使用<code>sudo -u root /usr/bin/jjs -h</code>查看其帮助文档，或者在google中搜索jjs，在第一条搜索结果中可以看到jjs命令获得root权限的方法</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFEEd.png" alt="rGFEEd.png"></p>
+<p>在我的测试中，发现获得shell方法会导致ssh卡死，只有通过写入数据到文件中可以。所以这里选择通过写入新的账户到<code>/etc/passwd</code>中。写入新的账户需要密码hash值，这里就使用<code>captain</code>用户的hash值，用jjs读取<code>/etc/shadow</code>得到<code>captain</code>用户的密码hash，然后写入新账户到<code>/etc/passwd</code>，写入新账户的命令如下</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;var FileWriter = Java.type(&quot;java.io.FileWriter&quot;);var fw=new FileWriter(&quot;/etc/passwd&quot;);fw.write(&quot;test1:\$6\$fMRktaoHjFCMulzM$OQ1fqusaGtjYRoqt0TrHbN.khguanKlfmt/LWxKlJ i6VhL2SHXoBHkPrwW1HO2xttkUo/CYhndW.NxHdsZnLs1:0:0::/root:/bin/bash&quot;);fw.close();&#x27;</span> | sudo -u root /usr/bin/jjs</span><br></pre></td></tr></table></figure>
+<p>写入的账号为<code>test1</code>，对应的hash密码是captain的hash值，然后使用新建用户登录，即可获得root权限</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFZ4I.png" alt="rGFZ4I.png"></p>
+<h4 id="root用户的密码"><a href="#root用户的密码" class="headerlink" title="root用户的密码"></a>root用户的密码</h4><p>登录后继续在<code>Desktop</code>文件夹中找到了<code>root.txt</code>和隐藏文件<code>.crypt</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFVUA.png" alt="rGFVUA.png"></p>
+<p><code>root.txt</code>内容如下</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFmCt.png" alt="rGFmCt.png"></p>
+<p>在隐藏文件中，发现<code>.c</code>文件中存储了加密后的密码</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFn8P.png" alt="rGFn8P.png"></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFugf.png" alt="rGFugf.png"></p>
+<p>继续使用刚才编写的解密脚本加密hash值，得到<code>#i.d0nt.l1ke.w4r#</code></p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFKv8.png" alt="rGFKv8.png"></p>
+<p>其实这个就是root用户的密码，可以正常登录</p>
+<p><img src="https://s3.ax1x.com/2020/12/17/rGFQKS.png" alt="rGFQKS.png"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="围栏密码-1"><a href="#围栏密码-1" class="headerlink" title="围栏密码"></a>围栏密码</h4><p><a href="https://zh.wikipedia.org/wiki/%E7%B1%AC%E7%AC%86%E5%AF%86%E7%A2%BC%E6%B3%95">围栏密码</a>是一种置换式密码，其加密方式为：明文由上至下顺序写上，当到达最低部时，再回头向上，一直重复直至整篇明文写完为止。然后，再往右顺序抄写一次。在上诉的例子中，先将明文<code>get auth credentials</code>围在具有3行“围栏”的“围栏”中，如下所示</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">g . . . a . . .   . . . d . . . i . . .</span><br><span class="line">. e .   . u . h . c . e . e . t . a . s</span><br><span class="line">. . t . . . t . . . r . . . n . . . l .</span><br></pre></td></tr></table></figure>
+<p>接着，将围栏中的文字依次读取，得到加密后的密文</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GA DIE UHCEETASTTRNL</span><br></pre></td></tr></table></figure>
+<p><strong>缺点</strong></p>
+<p>篱笆密码法并非一种强的加密法，其加密原理限制篱笆的最高数量不可能超过明文字母数，而实际加密时更要把篱笆数目减少，因此有些密码分析员甚至能用手直接解出明文。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/vulnbox/">vulnbox</a></div><div class="post_share"><div class="social-share" data-image="/img/default_cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/vuln_recurrence/CVE-2015-5254%E5%A9%95%E5%BF%94%E7%A4%8A%E6%BE%B6%E5%B6%87%E5%B9%87/"><img class="prev-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">CVE-2015-5254漏洞复现</div></div></a></div><div class="next-post pull-right"><a href="/vuln_recurrence/CVE-2019-0232%E5%A9%95%E5%BF%94%E7%A4%8A%E6%BE%B6%E5%B6%87%E5%B9%87/"><img class="next-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CVE-2019-0232漏洞复现</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">
+        warzone
+    </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#java%E7%BC%96%E5%86%99%E7%9A%84AES%E5%8A%A0%E5%AF%86%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">java编写的AES加密软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%B4%E6%A0%8F%E5%AF%86%E7%A0%81"><span class="toc-number">1.1.2.</span> <span class="toc-text">围栏密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E5%86%99AES%E8%A7%A3%E5%AF%86%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.3.</span> <span class="toc-text">编写AES解密代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E6%B8%97%E9%80%8F"><span class="toc-number">1.2.</span> <span class="toc-text">后渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#commando-gt-captain"><span class="toc-number">1.2.1.</span> <span class="toc-text">commando -&gt; captain</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#captain-gt-root"><span class="toc-number">1.2.2.</span> <span class="toc-text">captain -&gt; root</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#root%E7%94%A8%E6%88%B7%E7%9A%84%E5%AF%86%E7%A0%81"><span class="toc-number">1.2.3.</span> <span class="toc-text">root用户的密码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%B4%E6%A0%8F%E5%AF%86%E7%A0%81-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">围栏密码</span></a></li></ol></li></ol></li></ol></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 2867a0</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="Increase font size"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="Decrease font size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>

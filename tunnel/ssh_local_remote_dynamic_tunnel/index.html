@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ssh端口转发 | 2867a0's blog</title><meta name="keywords" content="SSH Port Forwarding"><meta name="author" content="2867a0"><meta name="copyright" content="2867a0"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="本地端口转发 本地端口转发的基本命令为： ssh &lt;user@IP&gt; -L &lt;local address&gt;:&lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt;   #如果只想与服务器建立SSH隧道，可以将第三方host修改为localhost 本地端口转发中，ssh客户端先与ssh服务器建立连接（&lt;us">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssh端口转发">
+<meta property="og:url" content="http://2867a0.github.io/tunnel/ssh_local_remote_dynamic_tunnel/index.html">
+<meta property="og:site_name" content="2867a0&#39;s blog">
+<meta property="og:description" content="本地端口转发 本地端口转发的基本命令为： ssh &lt;user@IP&gt; -L &lt;local address&gt;:&lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt;   #如果只想与服务器建立SSH隧道，可以将第三方host修改为localhost 本地端口转发中，ssh客户端先与ssh服务器建立连接（&lt;us">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://2867a0.github.io/img/default_cover.jpg">
+<meta property="article:published_time" content="2020-09-05T01:27:29.000Z">
+<meta property="article:modified_time" content="2020-10-07T11:40:36.000Z">
+<meta property="article:author" content="2867a0">
+<meta property="article:tag" content="SSH Port Forwarding">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://2867a0.github.io/img/default_cover.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://2867a0.github.io/tunnel/ssh_local_remote_dynamic_tunnel/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-10-07 19:40:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}const fontSizeVal = saveToLocal.get('global-font-size')
+if (fontSizeVal !== undefined) {
+  document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/default_cover.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">2867a0's blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/about/me.html"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ssh端口转发</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-09-05T01:27:29.000Z" title="Created 2020-09-05 09:27:29">2020-09-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-10-07T11:40:36.000Z" title="Updated 2020-10-07 19:40:36">2020-10-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Tunnel/">Tunnel</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="本地端口转发"><a href="#本地端口转发" class="headerlink" title="本地端口转发"></a>本地端口转发</h2><p><img src="https://i.loli.net/2020/04/21/5vX2M1qnDHy9zRl.png" alt="temp.png"></p>
+<p>本地端口转发的基本命令为：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh &lt;user@IP&gt; -L &lt;<span class="built_in">local</span> address&gt;:&lt;<span class="built_in">local</span> port&gt;:&lt;remote host&gt;:&lt;remote port&gt;   <span class="comment">#如果只想与服务器建立SSH隧道，可以将第三方host修改为localhost</span></span><br></pre></td></tr></table></figure>
+<p>本地端口转发中，ssh客户端先与ssh服务器建立连接（&lt;user@IP&gt;），然后在ssh客户端中监听一个IP地址（&lt;local address&gt;）和该IP对应的端口（&lt;local port&gt;）。该端口中的流量会通过ssh隧道流向服务器监听地址（&lt;remote host&gt;）和端口（&lt;remote port&gt;）。</p>
+<p>&lt;local address&gt;可以为空或者为“<em>”，表示该端口全局监听，在terminal中使用&quot;\</em>&quot;时需要转义&quot;*&quot;，即&quot;\*&quot;。</p>
+<p>&lt;remote host&gt;可以指定为localhost，此时就表示流量转发到ssh服务器的127.0.0.1：port</p>
+<h3 id="Linux-与-Linux建立本地端口转发"><a href="#Linux-与-Linux建立本地端口转发" class="headerlink" title="Linux 与 Linux建立本地端口转发"></a>Linux 与 Linux建立本地端口转发</h3><p><img src="https://s1.ax1x.com/2020/09/05/wAHMTK.jpg" alt="wAHMTK.jpg"></p>
+<p>本次实验中，选用2台虚拟机作为实验，kali作为ssh客户机。manjaro作为ssh服务端，同时提供web服务。客户端与服务器建立ssh连接，成功建立ssh连接后，在客户端中监听80端口，服务器监听资源提供端口4000。从客户端中访问的80端口的流量会通过ssh连接被转发到服务器的4000端口。这样，就实现了ssh“本地”端口转发。</p>
+<p>也可以在客户端中添加<code>-g</code>选项让客户端作为网关使用，和客户端处于同一局域网的其他机器就可以访问客户端的80端口从而获取到服务器中的4000端口上的资源。</p>
+<h4 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h4><p>设置ssh服务器防火墙规则，只允许本地IP地址访问web资源</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo iptables -A INPUT -s 127.0.0.1 -p tcp --dport 4000 -j ACCEPT</span><br><span class="line">          <span class="comment">##设置进站规则，允许tcp连接、127.0.0.1的源IP、目标端口为21的数据包通过防火墙</span></span><br><span class="line">sudo iptables -A INPUT -p tcp --dport 4000 -j DROP</span><br><span class="line">          <span class="comment">##设置进站规则，不允许tcp连接目标端口为21的数据包</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo iptables -F   <span class="comment">##删除所有添加的规则</span></span><br></pre></td></tr></table></figure>
+<p>完成之后可以在本地访问4000端口，但是无法在其他ip地址上进行访问</p>
+<p><img src="https://s1.ax1x.com/2020/09/05/wAbEAf.jpg" alt="wAbEAf.jpg"></p>
+<p>物理机中访问超时</p>
+<p><img src="https://s1.ax1x.com/2020/09/05/wAbm9g.jpg" alt="wAbm9g.jpg"></p>
+<h4 id="通过ssh本地端口转发"><a href="#通过ssh本地端口转发" class="headerlink" title="通过ssh本地端口转发"></a>通过ssh本地端口转发</h4><p>接下来kali和manjaro建立ssh连接，通过本地端口转发的命令，ssh会监听kali中的80端口，所有80端口的流量会被转发到远程主机的4000端口。</p>
+<p>在kali中（ssh客户端）使用如下命令建立ssh连接。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo ssh hhtt@10.0.0.16 -L :80:localhost:4000</span><br></pre></td></tr></table></figure>
+<p>与目标建立ssh连接后，使用netstat命令查看端口监听情况。本机使用40106与ssh服务器的22端口建立ssh连接，同时80端口被全局监听</p>
+<p><img src="https://s1.ax1x.com/2020/09/05/wAqcd0.jpg" alt="wAqcd0.jpg"></p>
+<p>使用浏览器访问80端口，成功在kali中访问目标web服务器资源</p>
+<p><img src="https://s1.ax1x.com/2020/09/05/wALkY8.jpg" alt="wALkY8.jpg"></p>
+<p>如果希望物理机也可以访问，可以在命令中加上 -g 参数开启路由功能</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo ssh hhtt@10.0.0.16 -L :80:localhost:4000 -g</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/09/05/wAL1YT.jpg" alt="wAL1YT.jpg"></p>
+<p>此时物理机访问kali的80端口，就能得到manjaro 4000端口提供的资源</p>
+<p><img src="https://s1.ax1x.com/2020/09/05/wALhAP.jpg" alt="wALhAP.jpg"></p>
+<h2 id="远程端口转发"><a href="#远程端口转发" class="headerlink" title="远程端口转发"></a>远程端口转发</h2><p><img src="https://i.loli.net/2020/04/21/AtVMCl4ZwaizEyX.png" alt="temp.png"></p>
+<p>远程端口转发的实现结果和本地端口转发相同，不同的是，我们需要在LDAP 服务器中去执行ssh。就比如我们已经通过某种手段获得了目标shell，现在希望将其中一个端口暴露在互联网</p>
+<p>ssh远程端口转发的命令格式如下:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh -R &lt;remote_IP&gt;:&lt;remote_port&gt;:&lt;localhost&gt;:&lt;local_port&gt; user@IP</span><br></pre></td></tr></table></figure>
+<p>和<code>-L</code>选项读取参数一样，ssh会在本地监听前面两个参数（remote_IP、remote_port），在远程服务器中监听后面两个参数（localhost、local_port）。当<code>remote_port</code>被访问时，ssh隧道才会建立。</p>
+<h3 id="Windows-和-Linux-进行远程端口转发"><a href="#Windows-和-Linux-进行远程端口转发" class="headerlink" title="Windows 和 Linux 进行远程端口转发"></a>Windows 和 Linux 进行远程端口转发</h3><p>在本次的隧道建立环境中，ssh客户端是Windows 7，ssh服务端是Kali Linux。使用windows 7 的 3389端口作为资源，同时开启防火墙，禁止从外部访问。然后在Windows 7中使用<code>xshell</code>连接服务端，创建远程端口转发，将3389端口映射到服务器的一个端口上。访问服务器上的端口就能（间接地）访问到3389端口。</p>
+<p>Windows 7的IP地址为10.0.0.9，开启3389和防火墙，不允许外部连接3389端口</p>
+<p><img src="https://s1.ax1x.com/2020/09/30/0m2SE9.jpg" alt="0m2SE9.jpg"></p>
+<p>此时服务器端（kali）尝试连接，失败</p>
+<p><img src="https://s1.ax1x.com/2020/09/30/0m2nUA.jpg" alt="0m2nUA.jpg"></p>
+<h4 id="ssh远程端口转发"><a href="#ssh远程端口转发" class="headerlink" title="ssh远程端口转发"></a>ssh远程端口转发</h4><p>在Windows 7上使用xshell连接kali，同时建立远程端口转发，该配置等同于命令行<code>ssh -R \*:33890:\*:3389 kali@10.0.0.2</code></p>
+<p><img src="https://s1.ax1x.com/2020/10/03/03QtG4.jpg" alt="03QtG4.jpg"></p>
+<p>与服务端（kali）成功建立会话后，在服务端中查看端口监听情况，可以发现10.0.0.9（Windows 7）使用了49235端口和10.0.0.2（kali）的ssh服务建立了连接，同时在kali（服务器）的本地监听了33890端口</p>
+<p><img src="https://s1.ax1x.com/2020/10/03/03l9FU.jpg" alt="03l9FU.jpg"></p>
+<p>接着使用<code>rdesktop</code>连接33890端口，看看是否可以获取到Windews 7的RDP资源，使用rdesktop命令为：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">rdesktop 127.0.0.1:33890</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/10/03/03lZex.jpg" alt="03lZex.jpg"></p>
+<p>成功登录Windows 7的桌面</p>
+<p><a href="https://imgchr.com/i/03luFO"><img src="https://s1.ax1x.com/2020/10/03/03luFO.jpg" alt="03luFO.jpg"></a></p>
+<h2 id="动态端口转发"><a href="#动态端口转发" class="headerlink" title="动态端口转发"></a>动态端口转发</h2><p>动态端口转发只需配置客户端监听的IP和端口即可，使用动态端口转发选项<code>-D</code>后ssh服务器会”聪明地“将流量转发到目标资源地址。端口转发命令格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh -D &lt;listen_IP&gt;:&lt;listen:port&gt; user@IP     <span class="comment">#可指定参数-g让客户端作为网关为其他机器提供服务</span></span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SSH-Port-Forwarding/">SSH Port Forwarding</a></div><div class="post_share"><div class="social-share" data-image="/img/default_cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/linux/oh-my-zsh%E7%80%B9%E5%A4%8E%EE%97%8A/"><img class="prev-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">oh-my-zsh安装</div></div></a></div><div class="next-post pull-right"><a href="/Glasgow%20Smile/"><img class="next-cover" src="/img/default_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Glasgow Smile Vulnhub Walkthrough</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.</span> <span class="toc-text">本地端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E4%B8%8E-Linux%E5%BB%BA%E7%AB%8B%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.1.</span> <span class="toc-text">Linux 与 Linux建立本地端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE"><span class="toc-number">1.1.1.</span> <span class="toc-text">防火墙配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87ssh%E6%9C%AC%E5%9C%B0%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.1.2.</span> <span class="toc-text">通过ssh本地端口转发</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">远程端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E5%92%8C-Linux-%E8%BF%9B%E8%A1%8C%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">2.1.</span> <span class="toc-text">Windows 和 Linux 进行远程端口转发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh%E8%BF%9C%E7%A8%8B%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">2.1.1.</span> <span class="toc-text">ssh远程端口转发</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">3.</span> <span class="toc-text">动态端口转发</span></a></li></ol></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 2867a0</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="Increase font size"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="Decrease font size"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
