@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Rpc introduction</title>
+    <meta name="description" content="Kerberos TGT请求">
+    <meta name="keywords" content='Rpc'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2022/rpc-intro/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rpc introduction">
+    <meta property="og:description" content="Kerberos TGT请求">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rpc introduction">
+    <meta name="twitter:description" content="Kerberos TGT请求">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2022/rpc-intro/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2022/rpc-intro/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2022/rpc-intro/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Rpc introduction</h1>
+        <small role="doc-subtitle">Kerberos TGT请求</small>
+        <p class="post-date">
+            September 10, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/rpc">Rpc</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="2-rpc介绍是什么有什么用谁在用">2. <strong>rpc介绍(是什么、有什么用、谁在用)</strong></h3>
+<h4 id="21-rpc介绍">2.1 RPC介绍</h4>
+<p>RPC协议主要用来进行远程过程调用，用一句话来概括，就是允许用户程序调用服务器上的函数进行计算，由此实现两者交互。</p>
+<p>早先的企业环境中，所有的服务都在一台主机上，就会导致服务器负荷过重，无法保证业务的正常运作。正因如此，后来企业就更换了一种思路，将不同服务分开，分别存放在不同主机上，暂时解决了负荷问题。但是久而久之，这样的方式也开始显现弊端，比如当用户需要使用不同服务器上的服务协作来完成任务时，服务与服务之间该如何交互？</p>
+<p>这就是RPC要解决的问题，简言之，RPC可以允许一台机器上的程序调用另一台机器上的函数，通过各计算机协作进行计算，以保证用户任务顺利完成，RPC的通信过程如下图所示（摘自微软官方）</p>
+<p><img src="/images/2022/rpc/rpc-1.png" alt="Rpc-1"></p>
+<p>客户端和服务器在各自的本地维护一个stub（理解为函数工厂），stub里面会暴露出客户端可以调用（服务器可以解析）的函数，客户端stub在收到这些函数之后会将其序列化并通过网络传递给服务器；服务器stub在收到函数调用之后会将序列化的内容解序列化，并调用本地对应的函数，获得结果之后序列化结果并传递给客户端。客户端会按照相同的方式反序列化结果。</p>
+<h4 id="23-有什么用">2.3 有什么用</h4>
+<ol>
+<li>分布式
+如上所说，我们可以利用RPC的这个通信方式将服务分散到不同的服务器上部署，在应用层面调用远程服务就像在本地调用一样简单。在很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。</li>
+<li>本地跨进程通信
+RPC也可以在本地进行调用，将RPC客户端和服务端放在同一服务器，实现不同进程之间的通信。</li>
+</ol>
+<h4 id="24-谁在用">2.4 谁在用</h4>
+<p>在Windows上面，很多功能都利用到了RPC通信，身份验证、服务创建、目录复制等。最典型的就是lsass.exe进程，我们用RpcView可以看到很多程序都有提供Rpc接口，下面是lsass.exe的rpc接口</p>
+<p><img src="/images/2022/rpc/rpc-2.png" alt="Rpc-2"></p>
+<ul>
+<li>服务创建 (MS-SCMR)</li>
+<li>目录复制服务 (MS-DRSR)</li>
+<li>远程注册表 (MS-RRP)</li>
+<li>计划任务 (MS-SCMR)</li>
+<li>打印系统 (MS-RPRN)</li>
+<li>Windows 管理规范 (MS-WMI)</li>
+<li>Netlogon 远程协议 (MS-NRPC)</li>
+</ul>
+<p>其他的，很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。</p>
+<h3 id="3-攻击面">3. 攻击面</h3>
+<p>针对Windows上的Rpc攻击面，目前在互联网上看到大多数都是在寻找Rpc接口中可以滥用的函数，典型案例就是Printer Bug和PetitPotam。</p>
+<p>Printer Bug 利用的是<code>\pipe\spoolss</code>接口中的 RpcRemoteFindFirstPrinterChangeNotificationEx() 函数，该函数会创建一个远程更改通知对象，该对象监视打印机对象的更改，如果指向的打印机路径为远程打印机，则RPC服务器会像远程打印机发起认证。</p>
+<p>PetitPotam 利用的是<code>\pipe\efsrpc</code>接口中的 EfsRpcOpenFileRaw() 函数，该函数用于打开服务器上的加密对象以进行备份或还原，当指定的加密对象为UNC路径时，RPC服务器就会去查找该UNC路径，同时会发起认证请求。</p>
+<table>
+<thead>
+<tr>
+<th>漏洞</th>
+<th>Protocol</th>
+<th>function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Printer Bug</td>
+<td>MS-RPRN</td>
+<td>RpcRemoteFindFirstPrinterChangeNotificationEx()</td>
+</tr>
+<tr>
+<td>PetitPotam</td>
+<td>MS-EFSR</td>
+<td>EfsRpcOpenFileRaw()</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-rpc挖掘方法">4. rpc挖掘方法</h3>
+<p>寻找可滥用的Rpc接口</p>
+<ul>
+<li>RpcView手动分析每一个接口</li>
+<li>Ghidra + Jupyter 图形化分析（该方法时用脚本导出所有具有Rpc功能的DLL，再用Ghidra将DLL进一步处理，输出出每个DLL具有的Rpc函数，最后将结果导入到Jupyter进行分析）</li>
+</ul>
+<h3 id="5-printer-bug">5. Printer BUG</h3>
+<p>Printer BUG 这个洞利用的是<code>spoolsv.exe</code>，它里面有一个Rpc 端点<code>\pipe\spoolss</code>，RPC 服务里面存在一个函数 <code>RpcRemoteFindFirstPrinterChangeNotificationEx</code>。</p>
+<p>可以在<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rprn/eb66b221-1c1f-4249-b8bc-c5befec2314d">MSDN</a>中找到相关函数的说明：</p>
+<p>RpcRemoteFindFirstPrinterChangeNotificationEx 创建一个远程更改通知对象，该对象监视打印机对象的更改，并使用RpcRouterReplyPrinter（第 3.2.4.1.2 节） 或RpcRouterReplyPrinterEx（第 3.2.4.1.4 节）将更改通知发送到打印客户端。</p>
+<p><img src="/images/2022/rpc/rpc-3.png" alt="Rpc-3"></p>
+<p>继续查看文档，发现第四个参数接收一个打印服务器的路径，在<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rprn/9b3f8135-7022-4b72-accb-aefcc360c83b">官方文档</a>中同样给出说明，该路径必须是DNS, NetBIOS, IPv4, or Universal Naming Convention (UNC) name。</p>
+<p>UNC路径？那是不是说可以指向一个攻击者的UNC路径呢？</p>
+<p><img src="/images/2022/rpc/rpc-4.png" alt="Rpc-4.png"></p>
+<p>流程为：</p>
+<p>SMB -&gt; 认证 testuser@password
+SMB -&gt; 绑定Rpc管道，UUID：12345678-1234-ABCD-EF00-0123456789AB，拿到句柄
+SMB -&gt; <code>RpcRemoteFindFirstPrinterChangeNotificationEx()</code>，设置访问UNC路径为攻击者的UNC路径。
+SMB -&gt; 服务器此时响应请求，像攻击着发起TCP连接，服务器通过SMB像攻击者发起NTLMSSP认证，服务器认证的用户为<code>TEST\DC$</code>
+攻击结束</p>
+<p><img src="/images/2022/rpc/rpc-5.png" alt="Rpc-5.png"></p>
+<h3 id="6-petitpotam">6. PetitPotam</h3>
+<p>在<code>lsass.exe</code>进程中有一个接口<code>c681d488-d850-11d0-8c52-00c04fd90f7e</code>，它有一些EFS文件相关操作的函数，查看MSDN相关文档可以发现，该接口中客户端与服务端之间的通信依赖<code>\pipe\lsarpc</code>和<code>\pipe\efsrpc</code>两个命名管道。</p>
+<p><img src="/images/2022/rpc/rpc-6.png" alt="Rpc-6.png"></p>
+<p>继续查看EFS相关函数，<code>EfsRpcOpenFileRaw()</code>函数用于打开服务器上的加密对象进行备份或还原。参数<code>FileName</code>指定加密对象的UNC路径，那么同样的，我们可以指定一个攻击者服务器上的UNC路径。</p>
+<p>![Rp-7.png]((/images/2022/rpc/rpc-7.png)</p>
+<p>SMB -&gt; 匿名认证，绑定<code>IPC$</code>，在匿名共享中创建<code>lsarpc</code>文件
+DCERPC -&gt; 绑定RPC接口<code>\pipe\lsarpc</code>，<code>c681d488-d850-11d0-8c52-00c04fd90f7e</code>
+EFS -&gt; 发起<code>EfsRpcOpenFileRaw()</code>请求，设置<code>fileName</code>=<code>\\attack\xxx</code></p>
+<p>SMB -&gt; 服务器响应操作，连接指定UNC路径，同时进行<code>NTLM_SSP</code>身份验证
+EFS -&gt; 将操作结果返回给Rpc客户端
+SMB -&gt; 断开连接</p>
+<p><img src="/images/2022/rpc/Rpc-8.png" alt="Rpc-8.png"></p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#2-rpc介绍是什么有什么用谁在用">2. <strong>rpc介绍(是什么、有什么用、谁在用)</strong></a>
+              <ul>
+                <li><a href="#21-rpc介绍">2.1 RPC介绍</a></li>
+                <li><a href="#23-有什么用">2.3 有什么用</a></li>
+                <li><a href="#24-谁在用">2.4 谁在用</a></li>
+              </ul>
+            </li>
+            <li><a href="#3-攻击面">3. 攻击面</a></li>
+            <li><a href="#4-rpc挖掘方法">4. rpc挖掘方法</a></li>
+            <li><a href="#5-printer-bug">5. Printer BUG</a></li>
+            <li><a href="#6-petitpotam">6. PetitPotam</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

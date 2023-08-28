@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Pe To Shellcode</title>
+    <meta name="description" content="Pe to shellcode programe study">
+    <meta name="keywords" content='reverse, code'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pe To Shellcode">
+    <meta property="og:description" content="Pe to shellcode programe study">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pe To Shellcode">
+    <meta name="twitter:description" content="Pe to shellcode programe study">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Pe To Shellcode</h1>
+        <small role="doc-subtitle">Pe to shellcode programe study</small>
+        <p class="post-date">
+            March 3, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/reverse">reverse</a></li>
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/code">code</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>原项目<a href="https://github.com/hasherezade/pe_to_shellcode">地址</a></p>
+<h2 id="pe2shc">pe2shc</h2>
+<p>先把它转成vs项目，程序入口接受两个参数，待转换文件和转换后文件输出路径</p>
+<p>首先执行的是<code>is_supported_pe()</code>函数。读取源文件，按照内存对齐方式将数据读取到内存，判断是否为可以转换的程序</p>
+<ul>
+<li>存在重定位表</li>
+<li>不支持.NET程序</li>
+</ul>
+<p><img src="/images/2023/petoshellcode/1.png" alt="image-20230301150615588"></p>
+<p>检查完成之后释放申请的内存空间，重新申请一块新的内存空间并内存对齐方式读取到内存，<code>shellcodify()</code>函数就是真正要转换的逻辑</p>
+<p>函数先从资源区读取<strong>stub</strong>代码，这个代码就是<code>stub64.bin</code>中的代码。再申请一块新的内存空间（就叫他扩展内存空间），将展开后的PE和<strong>stub</strong>代码都放到扩展内存空间中，<strong>stub</strong>代码会被放在PE数据的末尾。接着执行<code>overwrite_hdr()</code>函数。</p>
+<p><img src="/images/2023/petoshellcode/2.png" alt="image-20230301151312370"></p>
+<p><img src="/images/2023/petoshellcode/3.png" alt="image-20230301151440303"></p>
+<p><code>overwrite_hdr()</code>会修改扩展空间前32个字节，也就是源文件DoS头的前32字节。
+下图中<strong>00 16 60 00</strong>转换为10进制是<strong>1466368</strong>，是源程序内存展开后的大小，将这个数值写入<strong>redir_code</strong>，程序在执行到这里会跳转到(源程序内存展开后的首地址 + 1466368)地址，也就跳到了<strong>stub</strong>代码区</p>
+<p><img src="/images/2023/petoshellcode/4.png" alt="image-20230301155358689"></p>
+<p>目前，我们的源程序以内存对齐方式被读取在扩展空间，源程序的DoS头被修改（跳转到<strong>stub</strong>代码），<strong>stub</strong>代码被存放在程序的末尾。</p>
+<p>源代码中，到这里就开始执行保存逻辑了。在保存之前：</p>
+<ul>
+<li>判断程序是否需要修复导入表（这里用的是mimikatz作为源程序，没做导入表的修复）</li>
+<li>修改节表中文件对齐地址为内存对齐后的地址</li>
+</ul>
+<p>最后将内存中的数据保存到文件。因为节区块是按照内存对齐进行保存的，又有<strong>stub</strong>代码附加到了源程序的末尾，新生成的程序会比源程序大不少</p>
+<p><img src="/images/2023/petoshellcode/5.png" alt="image-20230301162411073"></p>
+<p><img src="/images/2023/petoshellcode/6.png" alt="image-20230301161414053"></p>
+<h2 id="stub-代码">stub 代码</h2>
+<p>附加到文件末尾的二进制代码是<strong>stub64.bin</strong>，它的源代码是<code>loader_v2</code>项目编译生成的。</p>
+<p>将<strong>stub64.bin</strong>拖到IDA里面配合<code>loader_v2</code>源代码分析，<code>stub_main()</code>函数就是程序跳转后要执行的第一个函数，首先初始化需要的函数地址，从PEB表里面拿到<strong>kernel32</strong>的地址，从<strong>kernel32</strong>中遍历出<strong>LoadLibraryA</strong>、<strong>GetProcAddress</strong>函数的地址</p>
+<p><img src="/images/2023/petoshellcode/7.png" alt="image-20230301185410163"></p>
+<p>然后判断参数1指向的地址能否被解析成PE结构，<strong>v4</strong>参数取的是DoS头中的第32个字节，在DoS头里面一般是0，所以主要看<strong>case 0</strong>的逻辑。</p>
+<p>NT头+176指向的是<strong>BaseRelocationTable</strong>的首地址，确保重定位表存在。
+修复重定位表，修复导入表，修复TLS表</p>
+<p><img src="/images/2023/petoshellcode/8.png" alt="image-20230301182024862"></p>
+<p>最后，找到程序的AddressOfEntryPoint，判断是DLL还是exe执行</p>
+<p><img src="/images/2023/petoshellcode/9.png" alt="image-20230301191129204"></p>
+<p>总体来说这个项目用到的还是PE结构的相关知识，和PE内存加载的逻辑很相似。利用这个项目转换出来的程序既可双击执行，也可以直接扔到内存中加载</p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#pe2shc">pe2shc</a></li>
+        <li><a href="#stub-代码">stub 代码</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

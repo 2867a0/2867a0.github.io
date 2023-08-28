@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Kerberos: AS-REQ</title>
+    <meta name="description" content="Kerberos TGT请求">
+    <meta name="keywords" content='Kerberos'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kerberos: AS-REQ">
+    <meta property="og:description" content="Kerberos TGT请求">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kerberos: AS-REQ">
+    <meta name="twitter:description" content="Kerberos TGT请求">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Kerberos: AS-REQ</h1>
+        <small role="doc-subtitle">Kerberos TGT请求</small>
+        <p class="post-date">
+            February 10, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/kerberos">Kerberos</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <hr>
+<p>分析kerberos请求第一阶段，以下是基于impacket请求发出的数据包进行分析。其他工具可能有所差异，但问题不大。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-getTGT yunwei.lab/jm:123.com -dc-ip 20.0.0.100
+</span></span></code></pre></div><p>在impacket中，一共会发送两次AS Req包。</p>
+<p><img src="/images/2022/kerberos/as-1.jpg" alt="AS-1"></p>
+<h3 id="第一次协商">第一次：协商</h3>
+<p>第一次为协商请求包，这个数据包的功能有两个：</p>
+<ol>
+<li>服务器和客户端协商加密协议（<code>etype.ENCTYPE</code>），如果不支持则继续协商。</li>
+<li>其次判断用户名是否存在（<code>cname.cname-string.CNameString</code>）。</li>
+</ol>
+<p>上述条件都满足后，会进入下一阶段：身份验证</p>
+<p>协商包里面只有用户名。服务器会去判断请求的用户名是否存在，如果不存在则不再进行后续操作。</p>
+<p><img src="/images/2022/kerberos/as-2.png" alt="AS-2"></p>
+<p>其他字段的信息：<code>realm</code>指的是域控的域名。<code>nonce</code>是随机生成的数</p>
+<!-- raw HTML omitted -->
+<h3 id="第二次身份认证">第二次：身份认证</h3>
+<p>这个请求中不会直接发送密码hash给服务器，而是发送一个用密码加密的时间戳（<code>padata-type: pA-ENC-TIMESTAMP</code>）给服务器。服务器收到请求后会使用用户名对应的密码解密时间戳。</p>
+<p><img src="/images/2022/kerberos/as-3.png" alt="AS-3"></p>
+<p>如果时间戳在一定范围内，则认证成功，服务器返回TGT票据（<code>ticket</code>）和Session Key（<code>etc-part.cipher</code>）。</p>
+<ul>
+<li>TGT票据使用<code>krbtgt</code>账户的密码hash进行加密，<code>TGT票据</code>中包含PAC。PAC又包含 Client SID + Client Group。</li>
+<li>Session Key使用（<code>CNameString</code>）用户名对应的密码进行加密，作为下阶段认证密钥。但是，服务器不会存储Session Key。</li>
+</ul>
+<p><img src="/images/2022/kerberos/as-4.png" alt="AS-4"></p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#第一次协商">第一次：协商</a></li>
+            <li><a href="#第二次身份认证">第二次：身份认证</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

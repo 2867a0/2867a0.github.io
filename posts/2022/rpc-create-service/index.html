@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Rpc Create Service</title>
+    <meta name="description" content="Kerberos TGT请求">
+    <meta name="keywords" content='Rpc, bypass'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2022/rpc-create-service/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rpc Create Service">
+    <meta property="og:description" content="Kerberos TGT请求">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rpc Create Service">
+    <meta name="twitter:description" content="Kerberos TGT请求">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2022/rpc-create-service/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2022/rpc-create-service/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2022/rpc-create-service/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Rpc Create Service</h1>
+        <small role="doc-subtitle">Kerberos TGT请求</small>
+        <p class="post-date">
+            November 23, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/rpc">Rpc</a></li>
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/bypass">bypass</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>调用<code>CreateService()</code>创建服务会被360拦截。用Rpc接口创建服务就能绕过。</p>
+<p><img src="/images/2022/rpc/srv-2.png" alt="srv-2.png"></p>
+<h3 id="scmr">SCMR</h3>
+<table>
+<thead>
+<tr>
+<th>pipe</th>
+<th>protocol</th>
+<th>uuid</th>
+<th>IDL file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\\pipe\svcctl</td>
+<td><a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/705b624a-13de-43cc-b8a2-99573da3635f">MS-SCMR</a></td>
+<td><a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/e7a38186-cde2-40ad-90c7-650822bd6333">{367ABB81-9844-35F1-AD32-98F038001003}</a></td>
+<td><a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/19168537-40b5-4d7a-99e0-d77f0f5e0241">微软官方文档</a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>SCMR（Service Control Manager Remote Protocol）是基于RPC的协议，用于配置和控制远程计算机上运行的服务程序。该协议维护一个内部数据库来存储服务程序配置和状态。服务控制管理器协议对该内部数据库具有独占访问权。</p>
+<p>在一个操作系统实例上只有一个 SCM 和一个对应的 SCM 数据库。对此内部数据库的任何更新都只能通过服务控制管理器远程协议进行。SCM 负责序列化对 SCM 数据库的所有并发访问。SCM数据库常驻内存；每次 SCM 重新启动时（每次重新启动后）都会重新创建它。SCM 数据库的一部分是从持久存储（有关注册服务的所有信息）和部分非持久存储（服务的当前活动状态）中检索的。</p>
+<p>当添加、配置服务时，持久性信息由 SCM 修改，或删除。任何直接在持久化存储中直接修改数据库持久化部分的尝试都是不支持的场景，并且会导致可能的不一致。最后，如果 SCM 被强制终止，操作系统将关闭并重新启动。</p>
+</blockquote>
+<p>通俗地说服务是存放在系统维护的SCM数据库里面的，我们调用创建、删除服务的函数都是对数据库的操作。SCMR对应的Rpc接口为<code>\\pipe\svcctl</code>，根据微软<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/e7a38186-cde2-40ad-90c7-650822bd6333">描述</a>，SCMR没有标准分配，只有 Microsoft 使用其他协议中指定的分配程序进行的私有分配。也就是说，RpcView里面是看不见这个Rpc接口的</p>
+<p><img src="/images/2022/rpc/srv-3.png" alt="srv-3.png"></p>
+<p>微软在其官方文档中提供了该协议的操作<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-scmr/b902a454-b5fa-403b-9325-029fae04cbe0">示例</a></p>
+<p><img src="/images/2022/rpc/srv-4.png" alt="srv-4.png"></p>
+<h3 id="demo代码">Demo代码</h3>
+<p>基于上述假设编写测试代码。将微软提供的IDL代码保存为<code>scmr.idl</code>，同时微软还提到该IDL还依赖<code>ms-dtyp.idl</code>，都将其保存下来并编译。因为是Rpc客户端，我们只需要<code>scmr.idl</code>编译生成的<code>scmr_c.c</code>、<code>scmr_h.h</code>，和<code>ms-dtyp.idl</code>编译生成的<code>ms-dtyp_h.h</code>相关代码。最后的文件如下图</p>
+<p><img src="/images/2022/rpc/srv-5.png" alt="srv-5.png"></p>
+<p>导入完成之后需要修复一些编译上的错误，“类型重定义错误”将相关代码代码注释就能解决。</p>
+<p>“无法解析外部符号”需要添加<code>rpcrt4.lib</code>，添加代码如下</p>
+<pre tabindex="0"><code>#pragma comment(lib, &#34;rpcrt4.lib&#34;)
+
+void __RPC_FAR* __RPC_USER MIDL_user_allocate (size_t size)
+{
+    return HeapAlloc (GetProcessHeap (), 0, size);
+}
+
+void __RPC_USER MIDL_user_free (void* p)
+{
+    HeapFree (GetProcessHeap (), 0, p);
+}
+</code></pre><p>之后main函数中导入<code>scmr_h.h</code>就可以调用<code>ROpenSCManagerW()</code>和<code>RCreateService()</code>函数创建服务</p>
+<p><img src="/images/2022/rpc/srv-6.png" alt="srv-6.png"></p>
+<p>编译，在装有火绒的虚拟机上试试看。结果如下图，代码可以运行，证明我们的思路是对的，后面就是启动服务并运行了。</p>
+<blockquote>
+<p>为什么选火绒？因为360太卡了。</p>
+</blockquote>
+<p><img src="/images/2022/rpc/srv-7.png" alt="srv-7.png"></p>
+<p>启动服务调用的函数顺序为：</p>
+<ol>
+<li><code>ROpenSCManagerW()</code>打开SCM管理器</li>
+<li><code>ROpenServiceW()</code>打开指定服务句柄</li>
+<li><code>RStartServiceW()</code>启动服务</li>
+</ol>
+<p>关键代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    SC_RPC_HANDLE schSCManager <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    ROpenSCManagerW (NULL, NULL, SC_MANAGER_ALL_ACCESS, (SC_RPC_HANDLE<span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>schSCManager);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    SC_RPC_HANDLE hService <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    ROpenServiceW (schSCManager,
+</span></span><span style="display:flex;"><span>                   (LPWSTR)<span style="color:#e6db74">L</span><span style="color:#e6db74">&#34;TestServiceName&#34;</span>,
+</span></span><span style="display:flex;"><span>                   SC_MANAGER_ALL_ACCESS,
+</span></span><span style="display:flex;"><span>                   <span style="color:#f92672">&amp;</span>hService);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    RStartServiceW (hService, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 最后关闭句柄
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RCloseServiceHandle ((LPSC_RPC_HANDLE)hService);
+</span></span></code></pre></div><p>编译运行，结果没有如预期那样正确，notepad程序启动成功，但是服务程序崩溃，控制台返回错误代码<code>1053</code>（服务未及时响应启动或控制请求）。究其原因，是因为服务在启动的时候需要进行初始化（默认30s），超时则会返回<code>1053</code>错误，而我们的服务程序是直接调用了系统的notepad，notepad并不是正常的服务程序。</p>
+<p>此时如果我们手动启动<code>TestService</code>服务，Process Hacker会卡住大概30秒，然后返回&quot;服务没有及时响应启动或控制请求&quot;错误提示，notepad会在服务停止之后关闭。</p>
+<p><img src="/images/2022/rpc/srv-8.png" alt="srv-8.png"></p>
+<p>有两个解决方案，一种是使用<code>cmd /k notepad.exe</code>的形式启动服务程序；另一种是写一个正常的服务程序，创建服务启动服务程序并让其调用notepad.exe。</p>
+<p>第一种方案只需要将<code>RCreateServiceW()</code>函数中<code>lpBinaryPathName</code>参数的值修改为<code>cmd /k C:\\Windows\\System32\\notepad.exe</code>就可以了。</p>
+<p>第二种方案也不难，网上有现成的服务程序模板代码直接拿过来改。完成之后再启动服务就正常了。</p>
+<p><img src="/images/2022/rpc/srv-9.png" alt="srv-9.png"></p>
+<h3 id="武器化">武器化</h3>
+<p>&hellip;</p>
+<h3 id="题外话">题外话</h3>
+<pre tabindex="0"><code>sc.exe sdset test &#34;D:(D;;DCLCWPDTSDCC;;;IU)(D;;DCLCWPDTSDCC;;;SU)(D;;DCLCWPDTSDCC;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)&#34;
+</code></pre>
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#scmr">SCMR</a></li>
+            <li><a href="#demo代码">Demo代码</a></li>
+            <li><a href="#武器化">武器化</a></li>
+            <li><a href="#题外话">题外话</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

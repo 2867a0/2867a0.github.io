@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 2867a0</title>
+    <link>https://gokarna-hugo.netlify.app/tags/</link>
+    <description>Recent content in Tags on 2867a0</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Jul 2023 07:16:00 +0800</lastBuildDate><atom:link href="https://gokarna-hugo.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ldap</title>
+      <link>https://gokarna-hugo.netlify.app/tags/ldap/</link>
+      <pubDate>Sun, 16 Jul 2023 07:16:00 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/ldap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>工具开发</title>
+      <link>https://gokarna-hugo.netlify.app/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Sun, 16 Jul 2023 07:16:00 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bypass</title>
+      <link>https://gokarna-hugo.netlify.app/tags/bypass/</link>
+      <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/bypass/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>code</title>
+      <link>https://gokarna-hugo.netlify.app/tags/code/</link>
+      <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>trick</title>
+      <link>https://gokarna-hugo.netlify.app/tags/trick/</link>
+      <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/trick/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>reverse</title>
+      <link>https://gokarna-hugo.netlify.app/tags/reverse/</link>
+      <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/reverse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rpc</title>
+      <link>https://gokarna-hugo.netlify.app/tags/rpc/</link>
+      <pubDate>Wed, 23 Nov 2022 22:53:46 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/rpc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kerberos</title>
+      <link>https://gokarna-hugo.netlify.app/tags/kerberos/</link>
+      <pubDate>Sat, 05 Mar 2022 22:53:46 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/kerberos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>test-tag-1</title>
+      <link>https://gokarna-hugo.netlify.app/tags/test-tag-1/</link>
+      <pubDate>Fri, 01 Jan 2021 22:53:46 +0800</pubDate>
+      
+      <guid>https://gokarna-hugo.netlify.app/tags/test-tag-1/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

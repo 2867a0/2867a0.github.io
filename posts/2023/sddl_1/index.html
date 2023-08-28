@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>GoLdapTool工具开发篇-1: SDDL解析</title>
+    <meta name="description" content="GoLdapTool工具开发">
+    <meta name="keywords" content='ldap, 工具开发'>
+
+    <meta property="og:url" content="https://gokarna-hugo.netlify.app/posts/2023/sddl_1/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="GoLdapTool工具开发篇-1: SDDL解析">
+    <meta property="og:description" content="GoLdapTool工具开发">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GoLdapTool工具开发篇-1: SDDL解析">
+    <meta name="twitter:description" content="GoLdapTool工具开发">
+    <meta property="twitter:domain" content="https://gokarna-hugo.netlify.app/posts/2023/sddl_1/">
+    <meta property="twitter:url" content="https://gokarna-hugo.netlify.app/posts/2023/sddl_1/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://gokarna-hugo.netlify.app/posts/2023/sddl_1/" />
+
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://gokarna-hugo.netlify.app/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://gokarna-hugo.netlify.app/css/dark.css">
+
+    <script src="https://gokarna-hugo.netlify.app/js/svg-injector.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/feather-icons.min.js"></script>
+    <script src="https://gokarna-hugo.netlify.app/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://gokarna-hugo.netlify.app">
+                <img src="https://gokarna-hugo.netlify.app/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://gokarna-hugo.netlify.app">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://gokarna-hugo.netlify.app/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>GoLdapTool工具开发篇-1: SDDL解析</h1>
+        <small role="doc-subtitle">GoLdapTool工具开发</small>
+        <p class="post-date">
+            July 16, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/ldap">ldap</a></li>
+        
+            <li class="post-tag"><a href="https://gokarna-hugo.netlify.app/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91">工具开发</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>python编写的ldap查询工具不能编译，不方便在windows主机上使用，于是想着用golang去重构。golang有ldap v3库，可以满足基本的查询需求。但是，该库没有实现SDDL的解析。在其<a href="https://github.com/go-ldap/ldap/issues/283">issues</a>中有提到相关的解析文章，可以自己实现。</p>
+<h3 id="解析">解析</h3>
+<p>要解析SDDL数据，需要先获取一段原始数据，做如下查询并将<code>nTSecurityDescriptor</code>​的原始数据打印出来，如下图。</p>
+<p><img src="/images/2023/sddl_1/1.png" alt="image-20230711223604349">​</p>
+<p>整个SDDL结构分为<code>NtSecurityDescriptor头</code>​+<code>Sacl头</code>​+<code>Sacl Ace条目</code>​+<code>Dacl头</code>​+<code>Dacl Ace条目</code>​</p>
+<p>后续的解析都以我在编写该文章之前的数据进行解析</p>
+<p><img src="/images/2023/sddl_1/2.png" alt="image-20230712064923533">​</p>
+<h4 id="ntsecuritydescriptor-header">NtSecurityDescriptor header</h4>
+<p><strong>根据微软官方</strong>​<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7d4dac05-9cef-4563-a058-f108abecce1d">[MS-DTYP]: 2.4.6</a>的描述，该部分是一个<code>SECURITY_DESCRIPTOR</code>​结构，有如下字段。其中，<code>Revision</code>​、<code>Sbz1</code>​、<code>Control</code>​、<code>OffsetOwner</code>​、<code>OffsetGroup</code>​、<code>OffsetSacl</code>​、<code>OffsetDacl</code>​这几个字段总共占20个字节。</p>
+<p><code>OffsetOwner</code>​和<code>OffsetGroup</code>​是所有者、所在组的数据偏移，<code>OffsetSacl</code>​和<code>OffsetDacl</code>​是Sacl header、Dacl header数据的偏移地址。根据这些偏移找到对应的数据并将数据解析赋值给变量<code>OwnerSid</code>​、<code>GroupSid</code>​、<code>Sacl</code>​、<code>Dacl</code>​</p>
+<p><img src="/images/2023/sddl_1/3.png" alt="image-20230712065629594">​​</p>
+<p>上述结构对应我们Dump出来的数据如下图。我们主要关心的是其偏移大小**。**​<code>OffsetOwner</code>​占4个字节，为<code>C0 08 00 00</code>​，按照小端解析为<code>00 00 08 C0</code>​，转换为10进制值为<code>2240</code>​。<code>OffsetGroup</code>​同理。</p>
+<p><code>OffsetSacl</code>​的数据为<code>14 00 00 00</code>​，转换为10进制后是<code>20</code>​，也就是说，<code>NtSecurityDescriptor header</code>​之后紧跟着<code>Sacl header</code>​（偏移的起始地址为<code>NtSecurityDescriptor header</code>​的第一个字节）。</p>
+<p><code>OffsetDacl</code>​的数据为<code>8C 00 00 00</code>​，按照小端排序为<code>00 00 00 8C</code>​，转换为10进制之后是<code>0x8C=140</code>​</p>
+<p><img src="/images/2023/sddl_1/4.png" alt="image-20230712070551868">​​</p>
+<p><code>NtSecurityDescriptor header</code>​的数据就解析完了，紧跟着的是<code>Sacl header</code>​</p>
+<h4 id="sacl-解析">Sacl 解析</h4>
+<p><code>Sacl</code>​这一部分的数据包含<code>Sacl header</code>​ 和多个 <code>Sacl Ace</code>​条目。</p>
+<p>根据微软<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/20233ed8-a6c6-4097-aafa-dd545ed24428">MS-DTYP: 2.4.5</a>中的描述，<code>Acl</code>​结构总共8个字节，我们需要关心的是<code>AclSize</code>​和<code>AceCount</code>​这两个字段，顾名思义，一个是<code>Sacl</code>​数据的大小，一个是<code>Sacl Ace</code>​的条目数量。</p>
+<p><img src="/images/2023/sddl_1/5.png" alt="image-20230712072508073">​​</p>
+<p>我们找到原始数据中对应的字节数，如下图，就是<code>Sacl header</code>​</p>
+<p><img src="/images/2023/sddl_1/6.png" alt="image-20230712072341341">​​</p>
+<p>这是解析之后的**。**​<code>Acl Size</code>​字段数据为<code>78 00</code>​，转换后的10进制值为<code>120</code>​。这个大小是<code>Sacl header</code>​的大小 + 所有<code>Sacl Ace</code>​的大小</p>
+<p><code>Ace Count</code>​的值为2，也就是说Sacl有两条Ace</p>
+<p><img src="/images/2023/sddl_1/7.png" alt="image-20230712072928229">​​</p>
+<p><code>Sacl header</code>​之后紧跟着的是其对应的Ace数据。</p>
+<p>先来看Ace数据结构，在微软的<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/628ebb1d-c509-4ea0-a10f-77ef97ca4586">文档</a>只将<code>AceType</code>​、<code>AceFlags</code>​、<code>AceSize</code>​作为<code>Ace Header</code>​的字段，而我这里是将<code>AceMask</code>​、<code>Extended</code>​、<code>SID</code>​都放在了<code>AceStruct</code>​中进行解析。</p>
+<p><code>AceType</code>​代表该Ace条目的类型是允许的ACE还是拒绝的ACE，或者是系统审核的ACE、特定于对象访问允许/拒绝的ACE。</p>
+<p><code>AceFlags</code>​用于指定一组特定于 ACE 类型的控制标志。此字段可以是多个值的组合</p>
+<p><code>AceSize</code>​是这条Ace的数据大小</p>
+<p><code>AceMask</code>​用于对对象的用户权限进行编码。访问掩码既用于对分配给主体的对象的权限进行编码，也用于在打开对象时对请求的访问权限进行编码。</p>
+<p><code>Extended</code>​是Ace的扩展位，该值存在4种情况。</p>
+<ul>
+<li>为0代表不存在扩展位（<code>ObjectType</code>​、<code>InheritedObjectType</code>​不存在）</li>
+<li>值为1代表存在<code>ObjectType</code>​字段</li>
+<li>为2存在<code>InheritedObjectType</code>​字段</li>
+<li>为3则<code>ObjectType</code>​和<code>InheritedObjectType</code>​都存在</li>
+</ul>
+<p><code>SID</code>​是该ACE对应的所有者SID，可能为用户也可能为组</p>
+<p><img src="/images/2023/sddl_1/8.png" alt="image-20230712073818787">​​</p>
+<p>如下图是我已经解析好的原始数据**。**​<code>07 5A</code>​分别是<code>Ace Type</code>​和<code>Ace Flags</code>​字段，他们各占用1个字节。</p>
+<p><code>Ace Size</code>​占用2个字节，为<code>38 00</code>​，转换后10进制值为56，代表该条ACE条目总共有56个字节（<code>07 5a 30 00</code>​ 一直到第19行的<code>00 00 00 00</code>​，共56个字节），下图中还有一个ACE也是56个字节（23行的<code>07 5a 38 00</code>​到26行的<code>01 00 00 00 00</code>​）。还记得上面<code>Sacl header</code>​中的<code>Acl size</code>​的值吗？这个值的计算就是两个ACE的大小(2 * 56) + <code>Sacl header</code>​的大小(8)，总共占用120个字节。</p>
+<p><code>Ace Mask</code>​占用4个字节，原始数据为<code>20 00 00 00</code>​，小端数据为<code>0x00000020</code>​，该字段对应的权限可参考微软<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN">MS-DTYE:2.4.3</a></p>
+<p><code>Extended</code>​也就是扩展位，值为0x03，所以有<code>ObjectType</code>​和<code>InheritedObjectType</code>​两个字段。</p>
+<p><code>ObjectType</code>​和<code>InheritedObjectType</code>​都是16字节大小的数据，是<a href="https://learn.microsoft.com/en-us/windows/win32/api/guiddef/ns-guiddef-guid">GUID</a>结构，数据以4 + 2 + 2 +2 +6的格式进行分割，如下图<code>ObjectType</code>​解析后的可读字符串为<code>F30E3BBE-9FF0-11D1-B603-0000F80367C1</code>​。改<code>ObjectType</code>​是一个<a href="https://learn.microsoft.com/en-us/windows/win32/adschema/a-gplink">GP-Link</a>属性。解析后的字符串对应的权限可以在<a href="https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb">MS-ADTS: 5.1.3.2.1</a>中查询。</p>
+<p><code>SID</code>​结构的信息可以在微软<a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers">Security identifiers | Microsoft Learn</a>文档中找到，已有人<a href="https://github.com/bwmarrin/go-objectsid">实现</a>了这一部分的解析。<code>SID</code>​的大小不是固定的，需要做一个运算。下图中，<code>SID</code>​的数据大小为<code>Ace Size</code>​的值 - <code>Ace Type</code>​大小-<code>Ace Flags</code>​大小 - <code>Ace Size</code>​大小 - <code>Extended</code>​大小 - <code>ObjectType</code>​大小 - <code>InheritedObjectType</code>​大小，即56-1-1-2-4-16-16=12字节</p>
+<p><img src="/images/2023/sddl_1/9.png" alt="image-20230712213829795">​​</p>
+<h4 id="dacl解析">Dacl解析</h4>
+<p><code>Sacl Ace</code>​条目解析完之后，就是<code>Dacl header</code>​数据，<code>Dacl header</code>​的数据大小和结构与<code>Sacl header</code>​一样。</p>
+<p><code>Dacl</code>​的数据包含了<code>Dacl header</code>​和<code>Dacl Aces</code>​。<code>Dacl</code>​的数据起始地址存放在<code>NtSecurityDescriptor header</code>​中的<code>OffsetDacl</code>​，当时解析出来的10进制为120，手动偏移后就是下图中标记的数据，正好紧跟在<code>Sacl Ace</code>​条目之后</p>
+<p><code>Dacl header</code>​中，<code>Acl Size</code>​按照上面的解析方法，得到的值为2100，<code>All Count</code>​值为46</p>
+<p><img src="/images/2023/sddl_1/10.png" alt="image-20230712164638669">​​</p>
+<p><code>Dacl header</code>​后面的数据就是<code>Dacl Ace</code>​条目，一共有46条。<code>Dacl Ace</code>​的数据结构和上面说的<code>Sacl Ace</code>​结构相同，不再赘述。</p>
+<p>下图中我解析了前两条Ace，拿第一条来看：</p>
+<p><code>Ace Size</code>​为<code>0x0038=56</code>​</p>
+<p><code>Ace Mask</code>​为<code>0x00000010</code>​</p>
+<p><code>Extended(扩展)</code>​为<code>0x000001=ObjectType</code>​</p>
+<p><code>ObjectType</code>​解析后为<code>4C164200-20C0-11D0-A768-00AA006E0529</code>​</p>
+<p><code>SID</code>​解析后为<code>S-1-5-21-556516541-2133182263-1194801646-553</code>​</p>
+<p><img src="/images/2023/sddl_1/11.png" alt="image-20230712213917749">​​</p>
+<h4 id="ownersid和groupsid">OwnerSid和GroupSid</h4>
+<p><code>OwnerSid</code>​和<code>GroupSid</code>​都是SID结构，<code>OwnerSid</code>​数据起始地址为<code>NtSecurityDescriptor header</code>​中的<code>OffsetOwner</code>​的值，数据大小为<code>OffsetGroup</code>​的值（2268） - <code>OffsetOwner</code>​的值（2240）为28个字节。<code>GroupSid</code>​的数据为<code>OffsetGroup</code>​的偏移到Dump数据的末尾。如下图</p>
+<p><img src="/images/2023/sddl_1/12.png" alt="image-20230712174842799">​​</p>
+<p>至此，整个SDDL原始数据我们已经手动解析完成。</p>
+<h4 id="guid结构转换成字符串">GUID结构转换成字符串</h4>
+<p>我们拿上面<code>Dacl 第一条ACE</code>​中的<code>ObjectType</code>​数据做解析，上文说过，该结构占用16字节，解析该数据需要以4+2+2+2+6的格式进行解析</p>
+<pre tabindex="0"><code>00 42 16 4c c0 20 d0 11 a7 68 00 aa 00 6e 05 29
+
+//按照4+2+2+2+6的格式进行分割
+00 42 16 4c
+c0 20
+d0 11
+a7 68 
+00 aa 00 6e 05 29
+</code></pre><p>该结构的前8个字节按照小端进行解析，后8个字节是按照大端进行解析的，就是</p>
+<pre tabindex="0"><code>4C 16 42 00
+20 C0
+11 d0
+
+a7 68
+00 aa 00 6e 05 29
+</code></pre><p>所以上文的ACE转换成字符串就是</p>
+<pre tabindex="0"><code>4C164200-20C0-11D0-A768-00AA006E0529
+</code></pre><p>代码如下</p>
+<p><img src="/images/2023/sddl_1/13.png" alt="image-20230712180153183">​​</p>
+<h4 id="sid结构转换成字符串">SID结构转换成字符串</h4>
+<p>幸运的是，该结构已经有现成的<a href="!%5Bimage-20230712180245171%5D(/Users/a0/Library/Application%20Support/typora-user-images/image-20230712180245171.png)">代码</a>可以使用了</p>
+<p><img src="/images/2023/sddl_1/14.png" alt="image-20230712180300976">​​</p>
+<h3 id="golang自动化解析">Golang自动化解析</h3>
+<p>我们编写如下测试代码，以管理员账户<code>administrator</code>​连接目标<code>dc.test.lab</code>​ ldap服务器，设置过滤器<code>(objectclass=domain)</code>​，查询属性为<code>nTSecurityDescriptor</code>​，第39 ～ 50行两个for循环是打印出解析完成后的<code>nTSecurityDescriptor</code>​数据</p>
+<p><img src="/images/2023/sddl_1/15.png" alt="image-20230712214306971">​​</p>
+<p>运行后结果如下：</p>
+<p><code>NtSecurityDescriptor header</code>​数据</p>
+<p><img src="/images/2023/sddl_1/16.png" alt="image-20230712214804820">​​​</p>
+<p><code>Sacl</code>​数据</p>
+<p><img src="/images/2023/sddl_1/17.png" alt="image-20230712214850388">​​</p>
+<p><code>Dacl</code>​数据</p>
+<p><img src="/images/2023/sddl_1/18.png" alt="image-20230712214923542">​​</p>
+<p>查出了具有<code>DS_Replication_Get_Changes</code>​权限的DAcl Ace</p>
+<p><img src="/images/2023/sddl_1/19.png" alt="image-20230712215015744">​​</p>
+<h4 id="普通用户不能查询dcsync权限">普通用户不能查询DCSync权限</h4>
+<p>普通用户如果想要查询哪些用户具有DCSync权限，查询的返回结果是空。原因在这篇<a href="https://49.235.250.38/question/db21120501.html">文章</a>中有提到，简单来说就是默认情况下查询的SDDL属性中包含<code>Sacl</code>​和<code>Dacl</code>​，<code>Sacl</code>​的属性是需要鉴权的，如果查询的用户没有读取<code>Sacl</code>​的权限，域控就不会返回任何数据(Sacl + Dacl)。如下图，使用普通用户查询域控的<code>nTSecurityDescriptor</code>属性，（因为普通用户没有读取Sacl的权限）域控返回的结果中不包含任何内容。</p>
+<p><img src="/images/2023/sddl_1/20.png" alt="image-20230713065702641">​​</p>
+<p>解决方法是只查询<code>Dacl</code>​部分就行了。在python impack中可以设置controls的sdflags位为<code>0x04</code>​</p>
+<p><img src="/images/2023/sddl_1/21.png" alt="image-20230713065859133">​​</p>
+<p>而在golang中，这篇<a href="https://blog.csdn.net/LeoForBest/article/details/121051195">文章</a>提到了ldap3 controls位的设置，于是我们可以在查询请求中配置controls位为<code>0x04</code>​，查询结果如下。此时返回的数据中就不包含<code>Sacl</code>​数据了，<code>OffsetSacl</code>​的值为0</p>
+<p><img src="/images/2023/sddl_1/22.png" alt="image-20230713070231088">​​</p>
+<h3 id="参考">参考</h3>
+<p><a href="!%5Bimage-20230713070437862%5D(/Users/a0/Library/Application%20Support/typora-user-images/image-20230713070437862.png)">Process low level NtSecurityDescriptor - IT Insights Blog</a></p>
+<p><a href="https://github.com/fortra/impacket">Impact</a></p>
+<p>‍</p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#解析">解析</a>
+              <ul>
+                <li><a href="#ntsecuritydescriptor-header">NtSecurityDescriptor header</a></li>
+                <li><a href="#sacl-解析">Sacl 解析</a></li>
+                <li><a href="#dacl解析">Dacl解析</a></li>
+                <li><a href="#ownersid和groupsid">OwnerSid和GroupSid</a></li>
+                <li><a href="#guid结构转换成字符串">GUID结构转换成字符串</a></li>
+                <li><a href="#sid结构转换成字符串">SID结构转换成字符串</a></li>
+              </ul>
+            </li>
+            <li><a href="#golang自动化解析">Golang自动化解析</a>
+              <ul>
+                <li><a href="#普通用户不能查询dcsync权限">普通用户不能查询DCSync权限</a></li>
+              </ul>
+            </li>
+            <li><a href="#参考">参考</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
