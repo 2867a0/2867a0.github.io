@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kerberos on 2867a0</title>
-    <link>https://gokarna-hugo.netlify.app/tags/kerberos/</link>
+    <link>https://2867a0.github.io/tags/kerberos/</link>
     <description>Recent content in Kerberos on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Mar 2022 22:53:46 +0800</lastBuildDate><atom:link href="https://gokarna-hugo.netlify.app/tags/kerberos/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Mar 2022 22:53:46 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/kerberos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kerberos: 利用</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-attack/</link>
       <pubDate>Sat, 05 Mar 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-attack/</guid>
       <description>TGT阶段 黄金票据 利用的是第二次：身份认证请求包，身份认证返回包中的ticket使用krbtgt的 NTLM hash加密，如果能获得krbtgt hash，就能自己制作TGT票据。即黄金票据
 kerberos::golden /domain:[domain] /sid:[domain sid] /id:500 /user:AnyFuckUser /krbtgt:[krbtgt NTLM Hash] 用户名枚举 在请求TGT票据协商请求包中，因为服务器没有去验证请求用户的密码，所以可以修改CNameString去猜解域用户名
 nmap的krb5-enum-users脚本使用该方式来枚举用户名。
@@ -35,10 +35,10 @@ TGS阶段 Kerberoasting 在请求TGS票据的时候，只要请求的TGT票据�
     
     <item>
       <title>Kerberos: AP-REQ</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-ap-req/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-ap-req/</link>
       <pubDate>Sun, 20 Feb 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-ap-req/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-ap-req/</guid>
       <description>请求TGS票据我准备用kekeo。在普通域机器上执行下面的命令发起TGS请求。
 # 先请求一张jm的TGT票据 kekeo.exe &amp;#34;tgt::ask /domain:yunwei.lab /user:jm /password:123.com&amp;#34; # 再请求TGS票据 kekeo.exe &amp;#34;tgs::ask /tgt:TGT_.kirbi /service:cifs/srv2012.yunwei.lab&amp;#34; &amp;#34;exit&amp;#34; 请求 常规的请求TGS票据里面会携带padata和req-body数据块。
 padata中的ap-req.ticket是请求的TGT票据。KDC会校验TGT票据，如果票据正确，就返回TGS票据。
@@ -50,10 +50,10 @@ req-body块中，cname.CNameString表示发起请求的用户是jm；sname.SName
     
     <item>
       <title>Kerberos: AS-REQ</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-as-req/</link>
       <pubDate>Thu, 10 Feb 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-as-req/</guid>
       <description> 分析kerberos请求第一阶段，以下是基于impacket请求发出的数据包进行分析。其他工具可能有所差异，但问题不大。
 impacket-getTGT yunwei.lab/jm:123.com -dc-ip 20.0.0.100 在impacket中，一共会发送两次AS Req包。
 第一次：协商 第一次为协商请求包，这个数据包的功能有两个：
@@ -67,10 +67,10 @@ TGT票据使用krbtgt账户的密码hash进行加密，TGT票据中包含PAC。P
     
     <item>
       <title>Kerberos: 认证过程</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-base/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-base/</link>
       <pubDate>Tue, 01 Feb 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-base/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-base/</guid>
       <description>基本认证过程 请求TGT票据 客户端请求：发送客户端hash加密的时间戳
 服务器响应：解密，如果时间戳在一定范围内，认证通过，返回TGT票据和session key。TGT票据使用krbtgt hash加密，TGT票据中包含PAC。PAC又包含 Client SID + Client Group。session key会作为下阶段认证密钥
 请求TGS票据 客户端请求：拿着TGT票据向KDC发起针对特定服务的TGS请求

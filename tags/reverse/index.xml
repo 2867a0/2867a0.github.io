@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>reverse on 2867a0</title>
-    <link>https://gokarna-hugo.netlify.app/tags/reverse/</link>
+    <link>https://2867a0.github.io/tags/reverse/</link>
     <description>Recent content in reverse on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 03 Mar 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://gokarna-hugo.netlify.app/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Mar 2023 08:00:00 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pe To Shellcode</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/</link>
+      <link>https://2867a0.github.io/posts/2023/petoshellcode/</link>
       <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/</guid>
+      <guid>https://2867a0.github.io/posts/2023/petoshellcode/</guid>
       <description>原项目地址
 pe2shc 先把它转成vs项目，程序入口接受两个参数，待转换文件和转换后文件输出路径
 首先执行的是is_supported_pe()函数。读取源文件，按照内存对齐方式将数据读取到内存，判断是否为可以转换的程序

