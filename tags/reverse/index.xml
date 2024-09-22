@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Reverse on 2867a0</title>
-    <link>https://github.com/2867a0/tags/reverse/</link>
+    <link>https://2867a0.github.io//2867a0/tags/reverse/</link>
     <description>Recent content in Reverse on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 03 Mar 2023 08:00:00 +0800</lastBuildDate>
-    <atom:link href="https://github.com/2867a0/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://2867a0.github.io//2867a0/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pe To Shellcode</title>
-      <link>https://github.com/2867a0/posts/2023/petoshellcode/</link>
+      <link>https://2867a0.github.io//2867a0/posts/2023/petoshellcode/</link>
       <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
-      <guid>https://github.com/2867a0/posts/2023/petoshellcode/</guid>
+      <guid>https://2867a0.github.io//2867a0/posts/2023/petoshellcode/</guid>
       <description>原项目地址&#xA;pe2shc 先把它转成vs项目，程序入口接受两个参数，待转换文件和转换后文件输出路径&#xA;首先执行的是is_supported_pe()函数。读取源文件，按照内存对齐方式将数据读取到内存，判断是否为可以转换的程序&#xA;存在重定位表 不支持.NET程序 检查完成之后释放申请的内存空间，重新申请一块新的内存空间并内存对齐方式读取到内存，shellcodify()函数就是真正要转换的逻辑&#xA;函数先从资源区读取stub代码，这个代码就是stub64.bin中的代码。再申请一块新的内存空间（就叫他扩展内存空间），将展开后的PE和stub代码都放到扩展内存空间中，stub代码会被放在PE数据的末尾。接着执行overwrite_hdr()函数。&#xA;overwrite_hdr()会修改扩展空间前32个字节，也就是源文件DoS头的前32字节。 下图中00 16 60 00转换为10进制是1466368，是源程序内存展开后的大小，将这个数值写入redir_code，程序在执行到这里会跳转到(源程序内存展开后的首地址 + 1466368)地址，也就跳到了stub代码区&#xA;目前，我们的源程序以内存对齐方式被读取在扩展空间，源程序的DoS头被修改（跳转到stub代码），stub代码被存放在程序的末尾。&#xA;源代码中，到这里就开始执行保存逻辑了。在保存之前：&#xA;判断程序是否需要修复导入表（这里用的是mimikatz作为源程序，没做导入表的修复） 修改节表中文件对齐地址为内存对齐后的地址 最后将内存中的数据保存到文件。因为节区块是按照内存对齐进行保存的，又有stub代码附加到了源程序的末尾，新生成的程序会比源程序大不少&#xA;stub 代码 附加到文件末尾的二进制代码是stub64.bin，它的源代码是loader_v2项目编译生成的。&#xA;将stub64.bin拖到IDA里面配合loader_v2源代码分析，stub_main()函数就是程序跳转后要执行的第一个函数，首先初始化需要的函数地址，从PEB表里面拿到kernel32的地址，从kernel32中遍历出LoadLibraryA、GetProcAddress函数的地址&#xA;然后判断参数1指向的地址能否被解析成PE结构，v4参数取的是DoS头中的第32个字节，在DoS头里面一般是0，所以主要看case 0的逻辑。&#xA;NT头+176指向的是BaseRelocationTable的首地址，确保重定位表存在。 修复重定位表，修复导入表，修复TLS表&#xA;最后，找到程序的AddressOfEntryPoint，判断是DLL还是exe执行&#xA;总体来说这个项目用到的还是PE结构的相关知识，和PE内存加载的逻辑很相似。利用这个项目转换出来的程序既可双击执行，也可以直接扔到内存中加载</description>
     </item>
   </channel>
