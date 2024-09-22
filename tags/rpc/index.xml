@@ -2,47 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rpc on 2867a0</title>
-    <link>https://2867a0.github.io/tags/rpc/</link>
+    <link>http://localhost:1313/tags/rpc/</link>
     <description>Recent content in Rpc on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 23 Nov 2022 22:53:46 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/rpc/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Nov 2022 22:53:46 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/rpc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rpc Create Service</title>
-      <link>https://2867a0.github.io/posts/2022/rpc-create-service/</link>
+      <link>http://localhost:1313/posts/2022/rpc-create-service/</link>
       <pubDate>Wed, 23 Nov 2022 22:53:46 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2022/rpc-create-service/</guid>
-      <description>调用CreateService()创建服务会被360拦截。用Rpc接口创建服务就能绕过。
-SCMR pipe protocol uuid IDL file \\pipe\svcctl MS-SCMR {367ABB81-9844-35F1-AD32-98F038001003} 微软官方文档 SCMR（Service Control Manager Remote Protocol）是基于RPC的协议，用于配置和控制远程计算机上运行的服务程序。该协议维护一个内部数据库来存储服务程序配置和状态。服务控制管理器协议对该内部数据库具有独占访问权。
-在一个操作系统实例上只有一个 SCM 和一个对应的 SCM 数据库。对此内部数据库的任何更新都只能通过服务控制管理器远程协议进行。SCM 负责序列化对 SCM 数据库的所有并发访问。SCM数据库常驻内存；每次 SCM 重新启动时（每次重新启动后）都会重新创建它。SCM 数据库的一部分是从持久存储（有关注册服务的所有信息）和部分非持久存储（服务的当前活动状态）中检索的。
-当添加、配置服务时，持久性信息由 SCM 修改，或删除。任何直接在持久化存储中直接修改数据库持久化部分的尝试都是不支持的场景，并且会导致可能的不一致。最后，如果 SCM 被强制终止，操作系统将关闭并重新启动。
-通俗地说服务是存放在系统维护的SCM数据库里面的，我们调用创建、删除服务的函数都是对数据库的操作。SCMR对应的Rpc接口为\\pipe\svcctl，根据微软描述，SCMR没有标准分配，只有 Microsoft 使用其他协议中指定的分配程序进行的私有分配。也就是说，RpcView里面是看不见这个Rpc接口的
-微软在其官方文档中提供了该协议的操作示例
-Demo代码 基于上述假设编写测试代码。将微软提供的IDL代码保存为scmr.idl，同时微软还提到该IDL还依赖ms-dtyp.idl，都将其保存下来并编译。因为是Rpc客户端，我们只需要scmr.idl编译生成的scmr_c.c、scmr_h.h，和ms-dtyp.idl编译生成的ms-dtyp_h.h相关代码。最后的文件如下图
-导入完成之后需要修复一些编译上的错误，“类型重定义错误”将相关代码代码注释就能解决。
-“无法解析外部符号”需要添加rpcrt4.lib，添加代码如下
-#pragma comment(lib, &amp;#34;rpcrt4.lib&amp;#34;) void __RPC_FAR* __RPC_USER MIDL_user_allocate (size_t size) { return HeapAlloc (GetProcessHeap (), 0, size); } void __RPC_USER MIDL_user_free (void* p) { HeapFree (GetProcessHeap (), 0, p); } 之后main函数中导入scmr_h.h就可以调用ROpenSCManagerW()和RCreateService()函数创建服务</description>
+      <guid>http://localhost:1313/posts/2022/rpc-create-service/</guid>
+      <description>调用CreateService()创建服务会被360拦截。用Rpc接口创建服务就能绕过。&#xA;SCMR pipe protocol uuid IDL file \\pipe\svcctl MS-SCMR {367ABB81-9844-35F1-AD32-98F038001003} 微软官方文档 SCMR（Service Control Manager Remote Protocol）是基于RPC的协议，用于配置和控制远程计算机上运行的服务程序。该协议维护一个内部数据库来存储服务程序配置和状态。服务控制管理器协议对该内部数据库具有独占访问权。&#xA;在一个操作系统实例上只有一个 SCM 和一个对应的 SCM 数据库。对此内部数据库的任何更新都只能通过服务控制管理器远程协议进行。SCM 负责序列化对 SCM 数据库的所有并发访问。SCM数据库常驻内存；每次 SCM 重新启动时（每次重新启动后）都会重新创建它。SCM 数据库的一部分是从持久存储（有关注册服务的所有信息）和部分非持久存储（服务的当前活动状态）中检索的。&#xA;当添加、配置服务时，持久性信息由 SCM 修改，或删除。任何直接在持久化存储中直接修改数据库持久化部分的尝试都是不支持的场景，并且会导致可能的不一致。最后，如果 SCM 被强制终止，操作系统将关闭并重新启动。&#xA;通俗地说服务是存放在系统维护的SCM数据库里面的，我们调用创建、删除服务的函数都是对数据库的操作。SCMR对应的Rpc接口为\\pipe\svcctl，根据微软描述，SCMR没有标准分配，只有 Microsoft 使用其他协议中指定的分配程序进行的私有分配。也就是说，RpcView里面是看不见这个Rpc接口的&#xA;微软在其官方文档中提供了该协议的操作示例&#xA;Demo代码 基于上述假设编写测试代码。将微软提供的IDL代码保存为scmr.idl，同时微软还提到该IDL还依赖ms-dtyp.idl，都将其保存下来并编译。因为是Rpc客户端，我们只需要scmr.idl编译生成的scmr_c.c、scmr_h.h，和ms-dtyp.idl编译生成的ms-dtyp_h.h相关代码。最后的文件如下图&#xA;导入完成之后需要修复一些编译上的错误，“类型重定义错误”将相关代码代码注释就能解决。&#xA;“无法解析外部符号”需要添加rpcrt4.lib，添加代码如下&#xA;#pragma comment(lib, &amp;#34;rpcrt4.lib&amp;#34;) void __RPC_FAR* __RPC_USER MIDL_user_allocate (size_t size) { return HeapAlloc (GetProcessHeap (), 0, size); } void __RPC_USER MIDL_user_free (void* p) { HeapFree (GetProcessHeap (), 0, p); } 之后main函数中导入scmr_h.h就可以调用ROpenSCManagerW()和RCreateService()函数创建服务</description>
     </item>
-    
     <item>
       <title>Rpc introduction</title>
-      <link>https://2867a0.github.io/posts/2022/rpc-intro/</link>
+      <link>http://localhost:1313/posts/2022/rpc-intro/</link>
       <pubDate>Sat, 10 Sep 2022 22:53:46 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2022/rpc-intro/</guid>
-      <description>2. rpc介绍(是什么、有什么用、谁在用) 2.1 RPC介绍 RPC协议主要用来进行远程过程调用，用一句话来概括，就是允许用户程序调用服务器上的函数进行计算，由此实现两者交互。
-早先的企业环境中，所有的服务都在一台主机上，就会导致服务器负荷过重，无法保证业务的正常运作。正因如此，后来企业就更换了一种思路，将不同服务分开，分别存放在不同主机上，暂时解决了负荷问题。但是久而久之，这样的方式也开始显现弊端，比如当用户需要使用不同服务器上的服务协作来完成任务时，服务与服务之间该如何交互？
-这就是RPC要解决的问题，简言之，RPC可以允许一台机器上的程序调用另一台机器上的函数，通过各计算机协作进行计算，以保证用户任务顺利完成，RPC的通信过程如下图所示（摘自微软官方）
-客户端和服务器在各自的本地维护一个stub（理解为函数工厂），stub里面会暴露出客户端可以调用（服务器可以解析）的函数，客户端stub在收到这些函数之后会将其序列化并通过网络传递给服务器；服务器stub在收到函数调用之后会将序列化的内容解序列化，并调用本地对应的函数，获得结果之后序列化结果并传递给客户端。客户端会按照相同的方式反序列化结果。
-2.3 有什么用 分布式 如上所说，我们可以利用RPC的这个通信方式将服务分散到不同的服务器上部署，在应用层面调用远程服务就像在本地调用一样简单。在很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。 本地跨进程通信 RPC也可以在本地进行调用，将RPC客户端和服务端放在同一服务器，实现不同进程之间的通信。 2.4 谁在用 在Windows上面，很多功能都利用到了RPC通信，身份验证、服务创建、目录复制等。最典型的就是lsass.exe进程，我们用RpcView可以看到很多程序都有提供Rpc接口，下面是lsass.exe的rpc接口
-服务创建 (MS-SCMR) 目录复制服务 (MS-DRSR) 远程注册表 (MS-RRP) 计划任务 (MS-SCMR) 打印系统 (MS-RPRN) Windows 管理规范 (MS-WMI) Netlogon 远程协议 (MS-NRPC) 其他的，很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。
-3. 攻击面 针对Windows上的Rpc攻击面，目前在互联网上看到大多数都是在寻找Rpc接口中可以滥用的函数，典型案例就是Printer Bug和PetitPotam。
-Printer Bug 利用的是\pipe\spoolss接口中的 RpcRemoteFindFirstPrinterChangeNotificationEx() 函数，该函数会创建一个远程更改通知对象，该对象监视打印机对象的更改，如果指向的打印机路径为远程打印机，则RPC服务器会像远程打印机发起认证。
-PetitPotam 利用的是\pipe\efsrpc接口中的 EfsRpcOpenFileRaw() 函数，该函数用于打开服务器上的加密对象以进行备份或还原，当指定的加密对象为UNC路径时，RPC服务器就会去查找该UNC路径，同时会发起认证请求。
-漏洞 Protocol function Printer Bug MS-RPRN RpcRemoteFindFirstPrinterChangeNotificationEx() PetitPotam MS-EFSR EfsRpcOpenFileRaw() 4. rpc挖掘方法 寻找可滥用的Rpc接口
-RpcView手动分析每一个接口 Ghidra + Jupyter 图形化分析（该方法时用脚本导出所有具有Rpc功能的DLL，再用Ghidra将DLL进一步处理，输出出每个DLL具有的Rpc函数，最后将结果导入到Jupyter进行分析） 5. Printer BUG Printer BUG 这个洞利用的是spoolsv.</description>
+      <guid>http://localhost:1313/posts/2022/rpc-intro/</guid>
+      <description>2. rpc介绍(是什么、有什么用、谁在用) 2.1 RPC介绍 RPC协议主要用来进行远程过程调用，用一句话来概括，就是允许用户程序调用服务器上的函数进行计算，由此实现两者交互。&#xA;早先的企业环境中，所有的服务都在一台主机上，就会导致服务器负荷过重，无法保证业务的正常运作。正因如此，后来企业就更换了一种思路，将不同服务分开，分别存放在不同主机上，暂时解决了负荷问题。但是久而久之，这样的方式也开始显现弊端，比如当用户需要使用不同服务器上的服务协作来完成任务时，服务与服务之间该如何交互？&#xA;这就是RPC要解决的问题，简言之，RPC可以允许一台机器上的程序调用另一台机器上的函数，通过各计算机协作进行计算，以保证用户任务顺利完成，RPC的通信过程如下图所示（摘自微软官方）&#xA;客户端和服务器在各自的本地维护一个stub（理解为函数工厂），stub里面会暴露出客户端可以调用（服务器可以解析）的函数，客户端stub在收到这些函数之后会将其序列化并通过网络传递给服务器；服务器stub在收到函数调用之后会将序列化的内容解序列化，并调用本地对应的函数，获得结果之后序列化结果并传递给客户端。客户端会按照相同的方式反序列化结果。&#xA;2.3 有什么用 分布式 如上所说，我们可以利用RPC的这个通信方式将服务分散到不同的服务器上部署，在应用层面调用远程服务就像在本地调用一样简单。在很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。 本地跨进程通信 RPC也可以在本地进行调用，将RPC客户端和服务端放在同一服务器，实现不同进程之间的通信。 2.4 谁在用 在Windows上面，很多功能都利用到了RPC通信，身份验证、服务创建、目录复制等。最典型的就是lsass.exe进程，我们用RpcView可以看到很多程序都有提供Rpc接口，下面是lsass.exe的rpc接口&#xA;服务创建 (MS-SCMR) 目录复制服务 (MS-DRSR) 远程注册表 (MS-RRP) 计划任务 (MS-SCMR) 打印系统 (MS-RPRN) Windows 管理规范 (MS-WMI) Netlogon 远程协议 (MS-NRPC) 其他的，很多大型架构上可以看到它的身影如Dubbo，当然这不是本次讨论的重点。&#xA;3. 攻击面 针对Windows上的Rpc攻击面，目前在互联网上看到大多数都是在寻找Rpc接口中可以滥用的函数，典型案例就是Printer Bug和PetitPotam。&#xA;Printer Bug 利用的是\pipe\spoolss接口中的 RpcRemoteFindFirstPrinterChangeNotificationEx() 函数，该函数会创建一个远程更改通知对象，该对象监视打印机对象的更改，如果指向的打印机路径为远程打印机，则RPC服务器会像远程打印机发起认证。&#xA;PetitPotam 利用的是\pipe\efsrpc接口中的 EfsRpcOpenFileRaw() 函数，该函数用于打开服务器上的加密对象以进行备份或还原，当指定的加密对象为UNC路径时，RPC服务器就会去查找该UNC路径，同时会发起认证请求。&#xA;漏洞 Protocol function Printer Bug MS-RPRN RpcRemoteFindFirstPrinterChangeNotificationEx() PetitPotam MS-EFSR EfsRpcOpenFileRaw() 4. rpc挖掘方法 寻找可滥用的Rpc接口&#xA;RpcView手动分析每一个接口 Ghidra + Jupyter 图形化分析（该方法时用脚本导出所有具有Rpc功能的DLL，再用Ghidra将DLL进一步处理，输出出每个DLL具有的Rpc函数，最后将结果导入到Jupyter进行分析） 5. Printer BUG Printer BUG 这个洞利用的是spoolsv.</description>
     </item>
-    
   </channel>
 </rss>

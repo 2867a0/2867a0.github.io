@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>cobalt strike Defender绕过</title>
+    <meta name="description" content="cobalt strike Defender绕过">
+    <meta name="keywords" content='cobalt strike'>
+
+    <meta property="og:url" content="http://localhost:1313/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87-copy/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="cobalt strike Defender绕过">
+    <meta property="og:description" content="cobalt strike Defender绕过">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="cobalt strike Defender绕过">
+    <meta name="twitter:description" content="cobalt strike Defender绕过">
+    <meta property="twitter:domain" content="http://localhost:1313/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87-copy/">
+    <meta property="twitter:url" content="http://localhost:1313/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87-copy/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="http://localhost:1313/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87-copy/" />
+
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="http://localhost:1313//css/dark.css">
+
+    <script src="http://localhost:1313//js/svg-injector.min.js"></script>
+    <script src="http://localhost:1313//js/feather-icons.min.js"></script>
+    <script src="http://localhost:1313//js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="http://localhost:1313/">
+                <img src="http://localhost:1313//images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="http://localhost:1313/">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>cobalt strike Defender绕过</h1>
+        <small role="doc-subtitle">cobalt strike Defender绕过</small>
+        <p class="post-date">
+            October 25, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="http://localhost:1313/tags/cobalt-strike">cobalt strike</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h2 id="解析defender-vdm特征库">解析Defender VDM特征库</h2>
+<p>网上有相关的VMD解密<a href="https://tttang.com/archive/1798/#toc_0x01asr">文章</a></p>
+<p>根据上面的研究，又有解析各种字段的文章和工具，工具可以将上面的extracted文件进一步解析成csv格式的文件。现在能清楚Defender查了cs哪一段特征，当然不只是cs，其他工具特征也一样能看。</p>
+<p><a href="https://paper.seebug.org/3045/">Windows Defender 数据库结构分析（上）</a></p>
+<p><a href="https://paper.seebug.org/3046/">Windows Defender 数据库结构分析（下）</a></p>
+<p>同时，BRC4的作者在Twitter上<a href="https://twitter.com/NinjaParanoid/status/1712487680100147405">分享</a>了一份内存特征定位的<a href="https://github.com/paranoidninja/Cobaltstrike-Detection">代码</a></p>
+<p>其他的，微步发布了关于defender内存调试的<a href="https://mp.weixin.qq.com/s/C6CePu9albvGTj3_9aUxeg">文章</a></p>
+<h2 id="defender针对cs的查杀点">Defender针对CS的查杀点</h2>
+<p>生成beaconx64.exe，用Virtest探测，结果如下</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>报毒</th>
+<th>特征</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>beaconx64.exe</td>
+<td>VirTool:Win64/CobaltStrike.G</td>
+<td>00044C3D -&gt; 76 65 72 00 00</td>
+</tr>
+<tr>
+<td>artifact64.exe</td>
+<td>CobaltStrike.MBK!MTB</td>
+<td>00000970 -&gt; 7C E9 48 89 D9</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cobaltstrikeg">CobaltStrike.G</h2>
+<p>这个特征是命名管道的字符串特征，修改一下就可以了。</p>
+<p>特征文件位于源码中的<code>resources</code>文件夹中，<code>artifact*</code> 相关文件。该文件夹中的内容不需要反编译</p>
+<p>要注意的是<code>resources</code>文件夹不要放在<code>src</code>目录中，继续放在<code>decompiled_src</code>目录中。因为可能会找不到bof而导致beacon用不了bof扩展。</p>
+<h2 id="cobaltstrikembkmtb">CobaltStrike.MBK!MTB</h2>
+<p>在IDA中查找字节码，发现对应的反汇编内容是for循环。</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/1.png" alt="1.png"></p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/2.png" alt="2.png"></p>
+<p>逆向分析一下在for循环之前，程序都在做什么，首先找到main函数入口。看到在main函数中有两个函数和一个while循环，这个循环只做睡眠用。</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/3.png" alt="3.png"></p>
+<p>进入<code>sub_401795()</code>，在该函数内调用了<code>GetTickCount()</code>函数获取当前时间，还有一堆硬编码的字符，解密过来是<code>.\pipe\</code>，然后将硬编码的字符通过<code>sprintf()</code>函数写入到<code>Buffer</code>变量中，用x64DBG动态调试这段代码，能看到拼接后的命名管道为<code>\\.\pipe\MSSE-9301-revres</code></p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/4.png" alt="4.png"></p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/5.png" alt="5.png"></p>
+<p>继续看CreateThread这个函数干了什么，IDA跟进后能看到调用了<code>CreateNamedPipeA()</code>函数，管道名称就是刚才拼接的管道名称<code>\\.\pipe\MSSE-9301-revres</code>，之后如果有数据则调用<code>WriteFile()</code>将数据写入管道内并关闭管道，所以这里是创建了一个新线程并初始化了命名管道。</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/6.png" alt="6.png"></p>
+<p>再来看下创建线程之后调用的函数<code>sub_401742()</code>内的逻辑，首先是分配了一块内存空间，然后执行<code>do ... while</code>循环，一直到<code>while</code>里面的函数返回为true时停止，跟进这个函数</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/7.png" alt="7.png"></p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/8.png" alt="8.png"></p>
+<p>这个函数的逻辑也很清晰，从命名管道中读取数据，当读取到数据的时候返回true</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/9.png" alt="9.png"></p>
+<p>继续看<code>do ... while()</code> 之后的逻辑，跟进函数，分配一块内存空间，for循环异或解密命名管道内的数据，修改内存空间属性为RX并创建新线程执行这块内存空间。</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/10.png" alt="10.png"></p>
+<p>到这里就明白了，Defender查杀的是这个for循环的逻辑，绕过方法直接把<code>jl</code>改成<code>jb</code>，也就是<code>7C E9</code> -&gt; <code>72 E9</code></p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/11.png" alt="11.png"></p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/12.png" alt="12.png"></p>
+<p>涉及的文件为<code>resources</code>文件夹内的<code>artifact64*</code>相关文件。</p>
+<h2 id="behaviorwin32cobaltstrikebnri">Behavior:Win32/CobaltStrike.B!nri</h2>
+<p>生成x64 https Stageless可执行文件分析</p>
+<p>调试程序，在发起https连接请求时会触发报毒，第一次http请求可以用内存加载的方式绕过，后续注入依然会触发该特征</p>
+<p><img src="/images/2023/cobalt_strike_Defender%E7%BB%95%E8%BF%87/13.png" alt="13.png"></p>
+<p>这个特征可以用Hook <code>HttpQueryInfo()</code>可解决</p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#解析defender-vdm特征库">解析Defender VDM特征库</a></li>
+        <li><a href="#defender针对cs的查杀点">Defender针对CS的查杀点</a></li>
+        <li><a href="#cobaltstrikeg">CobaltStrike.G</a></li>
+        <li><a href="#cobaltstrikembkmtb">CobaltStrike.MBK!MTB</a></li>
+        <li><a href="#behaviorwin32cobaltstrikebnri">Behavior:Win32/CobaltStrike.B!nri</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>cobalt strike BeaconEye绕过</title>
+    <meta name="description" content="cobalt strike BeaconEye绕过">
+    <meta name="keywords" content='cobalt strike'>
+
+    <meta property="og:url" content="http://localhost:1313/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87-copy/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="cobalt strike BeaconEye绕过">
+    <meta property="og:description" content="cobalt strike BeaconEye绕过">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="cobalt strike BeaconEye绕过">
+    <meta name="twitter:description" content="cobalt strike BeaconEye绕过">
+    <meta property="twitter:domain" content="http://localhost:1313/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87-copy/">
+    <meta property="twitter:url" content="http://localhost:1313/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87-copy/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="http://localhost:1313/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87-copy/" />
+
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="http://localhost:1313//css/dark.css">
+
+    <script src="http://localhost:1313//js/svg-injector.min.js"></script>
+    <script src="http://localhost:1313//js/feather-icons.min.js"></script>
+    <script src="http://localhost:1313//js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="http://localhost:1313/">
+                <img src="http://localhost:1313//images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="http://localhost:1313/">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>cobalt strike BeaconEye绕过</h1>
+        <small role="doc-subtitle">cobalt strike BeaconEye绕过</small>
+        <p class="post-date">
+            October 30, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="http://localhost:1313/tags/cobalt-strike">cobalt strike</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="beaconeye绕过">BeaconEye绕过</h3>
+<p>BeaconEye中对cobalt strike内存的检测逻辑如下，检测的是内存中profile的配置信息。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/1.png" alt="1.png"></p>
+<p>cs源码分析profile构成方式。在服务端创建一个<code>Listener</code>之后会处理beacon、profile和sleepmask。首先进入到<code>Common.ScListener#export()</code>函数中。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/2.png" alt="2.png"></p>
+<p>一直跟到<code>src.Beacon.BeaconPayload#exportBeaconStage()</code>函数中的<code>Settings</code>结构，这个结构体保存了profile处理后的格式。在415行创建了<code>Settings</code>结构体后，读取配置信息并按照一定的格式写入结构体</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/3.png" alt="3.png"></p>
+<p>跟进<code>addShort()</code>，多次调用了<code>this.patch.addShort()</code>写入<code>key</code>和<code>value</code>，写入后的数据先保存在<code>this.patch.out.buf</code>，写入对应的位置如下。<code>addShort()</code>会在写入<code>key</code>和<code>value</code>值的中间插入两个字节的<code>1</code>、<code>2</code></p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/4.png" alt="4.png"></p>
+<p>第二次调用<code>addShort()</code>函数写入后<code>buf</code>中的结果</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/5.png" alt="5.png"></p>
+<p><code>addInt()</code>函数，这一回<code>value</code>的占用大小为4个字节。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/6.png" alt="6.png"></p>
+<p>继续往下，添加pivot、killDate、进程注入的配置，接着会填充4096个随机字节在配置的末尾，处理完这些后会对<code>profile</code>配置做一次异或加密。函数中<code>94</code>就是加密密钥。这里已经将默认的修改掉了。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/7.png" alt="7.png"></p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/8.png" alt="8.png"></p>
+<p>将加密前后的profile配置信息导出到文件分析，和BeaconEye的扫描规则并不匹配，BeaconEye中开头有16个字节的0</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/9.png" alt="9.png"></p>
+<p>在函数最后return的数据是将profile写入到beacon后的字节数据，将其也导出</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/10.png" alt="10.png"></p>
+<p>逆向分析导出的BeaconDll，在写本文之前已经分析过一遍了，所以后面就用分析后的dll代码进行记录。</p>
+<p>DllMain会进入<code>process_profile_config</code>函数中，这个函数是处理profile逻辑函数</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/11.png" alt="11.png"></p>
+<p>跟进，函数会先创建一块新的内存空间并将句柄保存在<code>profile_mem_addr</code>变量中，之后将空间内容全部重置为6（原来是0，这里已经改成了6），向下进入for循环xor解密profile配置信息，如下图。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/12.png" alt="12.png"></p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/13.png" alt="13.png"></p>
+<p>解密之后完成之后，会保存解密后的内存地址和大小到变量<code>profile_decode_ptr</code>中。然后执行下一个for循环，</p>
+<p>在这个for循环中，首先调用<code>readShort</code>函数将结果返回给变量<code>j</code>，接着再执行for循环内的逻辑。函数<code>readShort</code>逻辑如下，首先会做一个if判断，然后调用<code>ntohs</code>函数读取两个字节，对应的正好是服务端代码中的<code>addShort()</code>函数的逻辑，读取完成后当前读取的指针地址+2，未读取内存空间大小-2，返回读取的结果。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/14.png" alt="14.png"></p>
+<p>在for循环语句体内，首先判断第一个<code>readShort</code>读取的数据是否为0，是则退出循环，不为0则继续读取两个字节赋值给变量<code>data_type</code>，第三次读取赋值给变量<code>data_size</code>（变量的含义是根据下面代码中switch对数据的使用得出的），之后计算一次地址偏移，第一次的<code>offset</code>根据动态调试发现是8，这也就对应上了BeaconEye为什么前面会有一堆0的检测，只要我将上面的<code>memset</code>重置的内存设置为非0就能绕过BeaconEye的规则了。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/15.png" alt="15.png"></p>
+<p>回到IDA，计算完偏移后将变量<code>data_type</code>的值写入到偏移指定的地址，(第一次写入的是数据类型)，往下进入switch循环，对<code>data_type</code>的值进行判断如果是1则再次读取两个字节并写入到内存空间，是2则读取4个字节并写入，3则是string类型，<code>sub_10006C81</code>传入了数据大小<code>data_size</code>。</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/16.png" alt="16.png"></p>
+<p>分析到这里就明白了，cobalt strike只会将profile中的数据类型和数据内容写入到内存，并且保存profile处理后的内存空间中前8个数据为0，这时候beaconeye扫描是能扫描到的，绕过方法就是在其<code>memset</code>的时候将其替换为非0</p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/17.png" alt="17.png"></p>
+<p><img src="/images/2023/cobalt_strike_BeaconEye%E7%BB%95%E8%BF%87/18.png" alt="18.png"></p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#beaconeye绕过">BeaconEye绕过</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>cobalt strike 天擎特征</title>
+    <meta name="description" content="cobalt strike 天擎特征">
+    <meta name="keywords" content='cobalt strike'>
+
+    <meta property="og:url" content="http://localhost:1313/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87-copy/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="cobalt strike 天擎特征">
+    <meta property="og:description" content="cobalt strike 天擎特征">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="cobalt strike 天擎特征">
+    <meta name="twitter:description" content="cobalt strike 天擎特征">
+    <meta property="twitter:domain" content="http://localhost:1313/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87-copy/">
+    <meta property="twitter:url" content="http://localhost:1313/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87-copy/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="http://localhost:1313/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87-copy/" />
+
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="http://localhost:1313//css/dark.css">
+
+    <script src="http://localhost:1313//js/svg-injector.min.js"></script>
+    <script src="http://localhost:1313//js/feather-icons.min.js"></script>
+    <script src="http://localhost:1313//js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="http://localhost:1313/">
+                <img src="http://localhost:1313//images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="http://localhost:1313/">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>cobalt strike 天擎特征</h1>
+        <small role="doc-subtitle">cobalt strike 天擎特征</small>
+        <p class="post-date">
+            November 10, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="http://localhost:1313/tags/cobalt-strike">cobalt strike</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h2 id="特征1-上线特征">特征1-上线特征</h2>
+<pre tabindex="0"><code>48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48
+89 78 20 45 33 DB 45 33 D2 33 FF 33 F6 48 8B E9
+BB 03 00 00 00 85 D2 0F 84 81 00 00 00 0F B6 45
+</code></pre><p>检测(baes64_decode 函数)</p>
+<pre tabindex="0"><code>48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48
+89 78 20 45 33 DB 45 33 D2 33 FF 33 F6 48 8B E9
+BB 03 00 00 00 85 D2 0F 84 81 00 00 00
+</code></pre><p>bypass</p>
+<pre tabindex="0"><code>33 FF
+
+29 FF
+</code></pre><pre tabindex="0"><code>48 8B C4                   mov     rax, rsp
+48 89 58 08                mov     [rax+8], rbx
+48 89 68 10                mov     [rax+10h], rbp
+48 89 70 18                mov     [rax+18h], rsi
+48 89 78 20                mov     [rax+20h], rdi
+45 33 DB                   xor     r11d, r11d
+45 33 D2                   xor     r10d, r10d
+33 FF                      xor     edi, edi
+33 F6                      xor     esi, esi
+48 8B E9                   mov     rbp, rcx
+BB 03 00 00 00             mov     ebx, 3
+85 D2                      test    edx, edx
+0F 84 81 00 00 00          jz      loc_1800010AE
+</code></pre><h2 id="特征2">特征2</h2>
+<pre tabindex="0"><code>0D B8 7B 03 00 8A 0C 08 80 F9 FF 74 61 80 F9 FE
+75 0D 32 C9 FF CB 79 0C B8 07 00 00 00 EB 61 83
+FB 03 75 F4 41 C1 E3 06
+</code></pre><pre tabindex="0"><code>80 F9 FF 	90 84 C9
+</code></pre><h2 id="特征3">特征3</h2>
+<pre tabindex="0"><code>48 89 5C 24 08 48 89 6C 24 18 48 89 74 24 20 57
+41 54 41 55 41 56 41 57 48 83 EC 20 45 33 E4 45
+33 F6 33 DB
+</code></pre><pre tabindex="0"><code>48 89 5C 24 08             mov     [rsp+arg_0], rbx
+48 89 6C 24 18             mov     [rsp+arg_10], rbp
+48 89 74 24 20             mov     [rsp+arg_18], rsi
+57                         push    rdi
+41 54                      push    r12
+41 55                      push    r13
+41 56                      push    r14
+41 57                      push    r15
+48 83 EC 20                sub     rsp, 20h
+45 33 E4                   xor     r12d, r12d
+45 33 F6                   xor     r14d, r14d
+33 DB                      xor     ebx, ebx
+</code></pre><p>bypass</p>
+<pre tabindex="0"><code>33 DB
+29 DB
+</code></pre>
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#特征1-上线特征">特征1-上线特征</a></li>
+        <li><a href="#特征2">特征2</a></li>
+        <li><a href="#特征3">特征3</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

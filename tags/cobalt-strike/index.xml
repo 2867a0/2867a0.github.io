@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cobalt Strike on 2867a0</title>
+    <link>http://localhost:1313/tags/cobalt-strike/</link>
+    <description>Recent content in Cobalt Strike on 2867a0</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 10 Nov 2023 08:18:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cobalt-strike/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cobalt strike 天擎特征</title>
+      <link>http://localhost:1313/posts/2023/cobalt_strike_%E5%A4%A9%E6%93%8E%E7%89%B9%E5%BE%81/</link>
+      <pubDate>Fri, 10 Nov 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2023/cobalt_strike_%E5%A4%A9%E6%93%8E%E7%89%B9%E5%BE%81/</guid>
+      <description>特征1-上线特征 48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 45 33 DB 45 33 D2 33 FF 33 F6 48 8B E9 BB 03 00 00 00 85 D2 0F 84 81 00 00 00 0F B6 45 检测(baes64_decode 函数)&#xA;48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 45 33 DB 45 33 D2 33 FF 33 F6 48 8B E9 BB 03 00 00 00 85 D2 0F 84 81 00 00 00 bypass</description>
+    </item>
+    <item>
+      <title>cobalt strike Yara规则绕过</title>
+      <link>http://localhost:1313/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Wed, 01 Nov 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2023/cobalt_strike_yara%E8%A7%84%E5%88%99%E7%BB%95%E8%BF%87/</guid>
+      <description>yara规则绕过 yara规则&#xA;将解密后的beacon.dll用yara扫描能找到特征&#xA;![2.png(/images/2023/cobalt_strike_Yara规则绕过/2.png)&#xA;用010edit改一下代码就能绕过，其他同理</description>
+    </item>
+    <item>
+      <title>cobalt strike BeaconEye绕过</title>
+      <link>http://localhost:1313/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Mon, 30 Oct 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2023/cobalt_strike_beaconeye%E7%BB%95%E8%BF%87/</guid>
+      <description>BeaconEye绕过 BeaconEye中对cobalt strike内存的检测逻辑如下，检测的是内存中profile的配置信息。&#xA;cs源码分析profile构成方式。在服务端创建一个Listener之后会处理beacon、profile和sleepmask。首先进入到Common.ScListener#export()函数中。&#xA;一直跟到src.Beacon.BeaconPayload#exportBeaconStage()函数中的Settings结构，这个结构体保存了profile处理后的格式。在415行创建了Settings结构体后，读取配置信息并按照一定的格式写入结构体&#xA;跟进addShort()，多次调用了this.patch.addShort()写入key和value，写入后的数据先保存在this.patch.out.buf，写入对应的位置如下。addShort()会在写入key和value值的中间插入两个字节的1、2&#xA;第二次调用addShort()函数写入后buf中的结果&#xA;addInt()函数，这一回value的占用大小为4个字节。&#xA;继续往下，添加pivot、killDate、进程注入的配置，接着会填充4096个随机字节在配置的末尾，处理完这些后会对profile配置做一次异或加密。函数中94就是加密密钥。这里已经将默认的修改掉了。&#xA;将加密前后的profile配置信息导出到文件分析，和BeaconEye的扫描规则并不匹配，BeaconEye中开头有16个字节的0&#xA;在函数最后return的数据是将profile写入到beacon后的字节数据，将其也导出&#xA;逆向分析导出的BeaconDll，在写本文之前已经分析过一遍了，所以后面就用分析后的dll代码进行记录。&#xA;DllMain会进入process_profile_config函数中，这个函数是处理profile逻辑函数&#xA;跟进，函数会先创建一块新的内存空间并将句柄保存在profile_mem_addr变量中，之后将空间内容全部重置为6（原来是0，这里已经改成了6），向下进入for循环xor解密profile配置信息，如下图。&#xA;解密之后完成之后，会保存解密后的内存地址和大小到变量profile_decode_ptr中。然后执行下一个for循环，&#xA;在这个for循环中，首先调用readShort函数将结果返回给变量j，接着再执行for循环内的逻辑。函数readShort逻辑如下，首先会做一个if判断，然后调用ntohs函数读取两个字节，对应的正好是服务端代码中的addShort()函数的逻辑，读取完成后当前读取的指针地址+2，未读取内存空间大小-2，返回读取的结果。&#xA;在for循环语句体内，首先判断第一个readShort读取的数据是否为0，是则退出循环，不为0则继续读取两个字节赋值给变量data_type，第三次读取赋值给变量data_size（变量的含义是根据下面代码中switch对数据的使用得出的），之后计算一次地址偏移，第一次的offset根据动态调试发现是8，这也就对应上了BeaconEye为什么前面会有一堆0的检测，只要我将上面的memset重置的内存设置为非0就能绕过BeaconEye的规则了。&#xA;回到IDA，计算完偏移后将变量data_type的值写入到偏移指定的地址，(第一次写入的是数据类型)，往下进入switch循环，对data_type的值进行判断如果是1则再次读取两个字节并写入到内存空间，是2则读取4个字节并写入，3则是string类型，sub_10006C81传入了数据大小data_size。&#xA;分析到这里就明白了，cobalt strike只会将profile中的数据类型和数据内容写入到内存，并且保存profile处理后的内存空间中前8个数据为0，这时候beaconeye扫描是能扫描到的，绕过方法就是在其memset的时候将其替换为非0</description>
+    </item>
+    <item>
+      <title>cobalt strike Defender绕过</title>
+      <link>http://localhost:1313/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87/</link>
+      <pubDate>Wed, 25 Oct 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2023/cobalt_strike_defender%E7%BB%95%E8%BF%87/</guid>
+      <description>解析Defender VDM特征库 网上有相关的VMD解密文章&#xA;根据上面的研究，又有解析各种字段的文章和工具，工具可以将上面的extracted文件进一步解析成csv格式的文件。现在能清楚Defender查了cs哪一段特征，当然不只是cs，其他工具特征也一样能看。&#xA;Windows Defender 数据库结构分析（上）&#xA;Windows Defender 数据库结构分析（下）&#xA;同时，BRC4的作者在Twitter上分享了一份内存特征定位的代码&#xA;其他的，微步发布了关于defender内存调试的文章&#xA;Defender针对CS的查杀点 生成beaconx64.exe，用Virtest探测，结果如下&#xA;文件 报毒 特征 beaconx64.exe VirTool:Win64/CobaltStrike.G 00044C3D -&amp;gt; 76 65 72 00 00 artifact64.exe CobaltStrike.MBK!MTB 00000970 -&amp;gt; 7C E9 48 89 D9 CobaltStrike.G 这个特征是命名管道的字符串特征，修改一下就可以了。&#xA;特征文件位于源码中的resources文件夹中，artifact* 相关文件。该文件夹中的内容不需要反编译&#xA;要注意的是resources文件夹不要放在src目录中，继续放在decompiled_src目录中。因为可能会找不到bof而导致beacon用不了bof扩展。&#xA;CobaltStrike.MBK!MTB 在IDA中查找字节码，发现对应的反汇编内容是for循环。&#xA;逆向分析一下在for循环之前，程序都在做什么，首先找到main函数入口。看到在main函数中有两个函数和一个while循环，这个循环只做睡眠用。&#xA;进入sub_401795()，在该函数内调用了GetTickCount()函数获取当前时间，还有一堆硬编码的字符，解密过来是.\pipe\，然后将硬编码的字符通过sprintf()函数写入到Buffer变量中，用x64DBG动态调试这段代码，能看到拼接后的命名管道为\\.\pipe\MSSE-9301-revres&#xA;继续看CreateThread这个函数干了什么，IDA跟进后能看到调用了CreateNamedPipeA()函数，管道名称就是刚才拼接的管道名称\\.\pipe\MSSE-9301-revres，之后如果有数据则调用WriteFile()将数据写入管道内并关闭管道，所以这里是创建了一个新线程并初始化了命名管道。&#xA;再来看下创建线程之后调用的函数sub_401742()内的逻辑，首先是分配了一块内存空间，然后执行do ... while循环，一直到while里面的函数返回为true时停止，跟进这个函数&#xA;这个函数的逻辑也很清晰，从命名管道中读取数据，当读取到数据的时候返回true&#xA;继续看do ... while() 之后的逻辑，跟进函数，分配一块内存空间，for循环异或解密命名管道内的数据，修改内存空间属性为RX并创建新线程执行这块内存空间。&#xA;到这里就明白了，Defender查杀的是这个for循环的逻辑，绕过方法直接把jl改成jb，也就是7C E9 -&amp;gt; 72 E9&#xA;涉及的文件为resources文件夹内的artifact64*相关文件。&#xA;Behavior:Win32/CobaltStrike.B!nri 生成x64 https Stageless可执行文件分析&#xA;调试程序，在发起https连接请求时会触发报毒，第一次http请求可以用内存加载的方式绕过，后续注入依然会触发该特征&#xA;这个特征可以用Hook HttpQueryInfo()可解决</description>
+    </item>
+    <item>
+      <title>cobalt strike 特征修改</title>
+      <link>http://localhost:1313/posts/2023/cobalt_strike_%E7%89%B9%E5%BE%81%E4%BF%AE%E6%94%B9/</link>
+      <pubDate>Thu, 12 Oct 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2023/cobalt_strike_%E7%89%B9%E5%BE%81%E4%BF%AE%E6%94%B9/</guid>
+      <description>JA3特征修改 JA3指纹识别工具，可以在censys里面找对应指纹的C2&#xA;git clone https://github.com/salesforce/jarm.git cd jarm pip3 install -r requirements.txt python3 jarm.py IP/DOMAIN -p 443 services.jarm.fingerprint: xxx 解密sleeve里面的dll文件 找到密钥&#xA;解密，解密后的文件存放在cs45Resource\Decode\sleeve文件夹内&#xA;javac -encoding UTF-8 -classpath cs_2867a0.jar CrackSleeve.java java -classpath cs_2867a0.jar;./ CrackSleeve decode # 加密 java -classpath cs_2867a0.jar;./ CrackSleeve encode f38eb3d1a335b252b58bc2acde81b542 </description>
+    </item>
+    <item>
+      <title>cobalt strike 二开环境部署</title>
+      <link>http://localhost:1313/posts/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</link>
+      <pubDate>Sun, 08 Oct 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</guid>
+      <description>前期准备 IDEA 2022.1 java 11 cobalt strike 4.5 反编译 IDEA自带反编译软件，在idea目录的plugins\java-decompiler\lib\java-decompiler&#xA;在该jar文件同级目录创建src、bin文件夹，将cobalt strike服务器jar包放到bin目录中，执行如下代码，反编译后的源码在src目录中。&#xA;java -cp java-decompiler.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dsg=true bin/cobaltstrike.jar src 项目创建 创建lib目录，里面存放cobaltstrike.jar包&#xA;创建decompiled_src目录，路面存放反编译后的源码&#xA;将decompiled_src目录中的aggressor移动到src目录中。&#xA;项目结构 -&amp;gt; 模块 -&amp;gt; 依赖 -&amp;gt; + -&amp;gt; 库 -&amp;gt; java中将cs jar包导入&#xA;配置工件&#xA;将反编译文件夹里面的MANIFEST.MF文件夹内容复制到src对应的文件，之后可以删除decompiler里面的META-INF&#xA;Javaagent暗桩去除 直接全局搜索-javaagent:，将检测代码都注释掉，完成后重新编译&#xA;如果修改完成后beacon上线报错，则是去除暗桩的时候出了问题。保险起见是删除while循环的相关逻辑&#xA;去除screenshot暗桩 位于beacon.BeaconC2#A()函数中，如果存在javaagent就会进入下面框出来的部分，导致screenshot返回一直报错。正确的分支是进入934行的代码。&#xA;源码调试Teamserver teamserver 在server/TeamServer.java，先随便启动一下让IDEA生成默认配置，之后修改配置，将teamserver启动文件中vm选项填入diea启动配置的vm选项中，将启动参数填入程序实参</description>
+    </item>
+  </channel>
+</rss>

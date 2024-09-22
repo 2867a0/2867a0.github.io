@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>cobalt strike 二开环境部署</title>
+    <meta name="description" content="cobalt strike 二开环境部署">
+    <meta name="keywords" content='cobalt strike'>
+
+    <meta property="og:url" content="http://localhost:1313/posts/2023/cobalt_strike_/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="cobalt strike 二开环境部署">
+    <meta property="og:description" content="cobalt strike 二开环境部署">
+    <meta property="og:image" content="/images/home.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="cobalt strike 二开环境部署">
+    <meta name="twitter:description" content="cobalt strike 二开环境部署">
+    <meta property="twitter:domain" content="http://localhost:1313/posts/2023/cobalt_strike_/">
+    <meta property="twitter:url" content="http://localhost:1313/posts/2023/cobalt_strike_/">
+    <meta name="twitter:image" content="/images/home.jpg">
+
+    
+    <link rel="canonical" href="http://localhost:1313/posts/2023/cobalt_strike_/" />
+
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="http://localhost:1313//css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="http://localhost:1313//css/dark.css">
+
+    <script src="http://localhost:1313//js/svg-injector.min.js"></script>
+    <script src="http://localhost:1313//js/feather-icons.min.js"></script>
+    <script src="http://localhost:1313//js/main.js"></script>
+
+    
+    
+        <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      });
+    </script>
+  
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="http://localhost:1313/">
+                <img src="http://localhost:1313//images/home.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="http://localhost:1313/">2867a0</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/posts"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="http://localhost:1313/about/"><span data-feather='code'></span> About </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/2867a0"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>cobalt strike 二开环境部署</h1>
+        <small role="doc-subtitle">cobalt strike 二开环境部署</small>
+        <p class="post-date">
+            October 8, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="http://localhost:1313/tags/cobalt-strike">cobalt strike</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h3 id="前期准备">前期准备</h3>
+<ul>
+<li>IDEA 2022.1</li>
+<li>java 11</li>
+<li>cobalt strike 4.5</li>
+</ul>
+<h3 id="反编译">反编译</h3>
+<p>IDEA自带反编译软件，在idea目录的<code>plugins\java-decompiler\lib\java-decompiler</code></p>
+<p>在该jar文件同级目录创建<code>src</code>、<code>bin</code>文件夹，将cobalt strike服务器jar包放到<code>bin</code>目录中，执行如下代码，反编译后的源码在<code>src</code>目录中。</p>
+<pre tabindex="0"><code>java -cp java-decompiler.jar org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dsg=true bin/cobaltstrike.jar src
+</code></pre><h3 id="项目创建">项目创建</h3>
+<p>创建<code>lib</code>目录，里面存放<code>cobaltstrike.jar</code>包</p>
+<p>创建<code>decompiled_src</code>目录，路面存放反编译后的源码</p>
+<p>将<code>decompiled_src</code>目录中的<code>aggressor</code>移动到<code>src</code>目录中。</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/1.png" alt="1.png"></p>
+<p>项目结构 -&gt; <code>模块</code> -&gt; <code>依赖</code> -&gt; <code>+</code> -&gt; <code>库</code> -&gt; <code>java</code>中将cs jar包导入</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/2.png" alt="2.png"></p>
+<p>配置工件</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/3.png" alt="3.png"></p>
+<p>将反编译文件夹里面的<code>MANIFEST.MF</code>文件夹内容复制到src对应的文件，之后可以删除decompiler里面的<code>META-INF</code></p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/4.png" alt="4.png"></p>
+<h3 id="javaagent暗桩去除">Javaagent暗桩去除</h3>
+<p>直接全局搜索<code>-javaagent:</code>，将检测代码都注释掉，完成后重新编译</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/5.png" alt="5.png"></p>
+<p>如果修改完成后beacon上线报错，则是去除暗桩的时候出了问题。保险起见是删除while循环的相关逻辑</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/6.png" alt="6.png"></p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/7.png" alt="7.png"></p>
+<h3 id="去除screenshot暗桩">去除screenshot暗桩</h3>
+<p>位于<code>beacon.BeaconC2#A()</code>函数中，如果存在javaagent就会进入下面框出来的部分，导致screenshot返回一直报错。正确的分支是进入934行的代码。</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/8.png" alt="8.png"></p>
+<h3 id="源码调试teamserver">源码调试Teamserver</h3>
+<p>teamserver 在<code>server/TeamServer.java</code>，先随便启动一下让IDEA生成默认配置，之后修改配置，将teamserver启动文件中vm选项填入diea启动配置的vm选项中，将启动参数填入程序实参</p>
+<p><img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/9.png" alt="9.png">
+<img src="/images/2023/cobalt_strike_%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/10.png" alt="10.png"></p>
+
+        </p>
+    </div>
+
+    <div class="prev-next">
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#前期准备">前期准备</a></li>
+            <li><a href="#反编译">反编译</a></li>
+            <li><a href="#项目创建">项目创建</a></li>
+            <li><a href="#javaagent暗桩去除">Javaagent暗桩去除</a></li>
+            <li><a href="#去除screenshot暗桩">去除screenshot暗桩</a></li>
+            <li><a href="#源码调试teamserver">源码调试Teamserver</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2024 The Marauders</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

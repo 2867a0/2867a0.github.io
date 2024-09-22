@@ -2,91 +2,81 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 2867a0</title>
-    <link>https://2867a0.github.io/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jul 2023 23:09:00 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Nov 2023 08:18:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>bypass</title>
-      <link>https://2867a0.github.io/tags/bypass/</link>
-      <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/bypass/</guid>
+      <title>Cobalt Strike</title>
+      <link>http://localhost:1313/tags/cobalt-strike/</link>
+      <pubDate>Fri, 10 Nov 2023 08:18:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/cobalt-strike/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ldap</title>
-      <link>https://2867a0.github.io/tags/ldap/</link>
+      <title>Bypass</title>
+      <link>http://localhost:1313/tags/bypass/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/ldap/</guid>
+      <guid>http://localhost:1313/tags/bypass/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>trick</title>
-      <link>https://2867a0.github.io/tags/trick/</link>
+      <title>Ldap</title>
+      <link>http://localhost:1313/tags/ldap/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/trick/</guid>
+      <guid>http://localhost:1313/tags/ldap/</guid>
       <description></description>
     </item>
-    
+    <item>
+      <title>Trick</title>
+      <link>http://localhost:1313/tags/trick/</link>
+      <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
+      <guid>http://localhost:1313/tags/trick/</guid>
+      <description></description>
+    </item>
     <item>
       <title>工具开发</title>
-      <link>https://2867a0.github.io/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/</link>
+      <link>http://localhost:1313/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/</guid>
+      <guid>http://localhost:1313/tags/%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>code</title>
-      <link>https://2867a0.github.io/tags/code/</link>
+      <title>Code</title>
+      <link>http://localhost:1313/tags/code/</link>
       <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/code/</guid>
+      <guid>http://localhost:1313/tags/code/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>reverse</title>
-      <link>https://2867a0.github.io/tags/reverse/</link>
+      <title>Reverse</title>
+      <link>http://localhost:1313/tags/reverse/</link>
       <pubDate>Fri, 03 Mar 2023 08:00:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/reverse/</guid>
+      <guid>http://localhost:1313/tags/reverse/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Rpc</title>
-      <link>https://2867a0.github.io/tags/rpc/</link>
+      <link>http://localhost:1313/tags/rpc/</link>
       <pubDate>Wed, 23 Nov 2022 22:53:46 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/rpc/</guid>
+      <guid>http://localhost:1313/tags/rpc/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Kerberos</title>
-      <link>https://2867a0.github.io/tags/kerberos/</link>
+      <link>http://localhost:1313/tags/kerberos/</link>
       <pubDate>Sat, 05 Mar 2022 22:53:46 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/kerberos/</guid>
+      <guid>http://localhost:1313/tags/kerberos/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>test-tag-1</title>
-      <link>https://2867a0.github.io/tags/test-tag-1/</link>
+      <title>Test-Tag-1</title>
+      <link>http://localhost:1313/tags/test-tag-1/</link>
       <pubDate>Fri, 01 Jan 2021 22:53:46 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/tags/test-tag-1/</guid>
+      <guid>http://localhost:1313/tags/test-tag-1/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

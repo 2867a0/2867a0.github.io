@@ -1,69 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ldap on 2867a0</title>
-    <link>https://2867a0.github.io/tags/ldap/</link>
-    <description>Recent content in ldap on 2867a0</description>
+    <title>Ldap on 2867a0</title>
+    <link>http://localhost:1313/tags/ldap/</link>
+    <description>Recent content in Ldap on 2867a0</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jul 2023 23:09:00 +0800</lastBuildDate><atom:link href="https://2867a0.github.io/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jul 2023 23:09:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/ldap/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GoLdapTool工具开发篇-2: SDDL修改</title>
-      <link>https://2867a0.github.io/posts/2023/sddl_2/</link>
+      <link>http://localhost:1313/posts/2023/sddl_2/</link>
       <pubDate>Sat, 22 Jul 2023 23:09:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2023/sddl_2/</guid>
-      <description>SDDL修改 能解析就能修改，线索
-在官方issues中提到Dacl修改的步骤。在impacket中有没有相关库呢，example文件夹中ldap-shell下的do_write_gpo_dacl有相关实现，代码如下，查询了Dacl后创建新的ace条目，将其添加到Dacl的数据末尾，之后执行修改操作。既然python可以，那么golang也可以。
-​
-修改 在golang中，我们也可以按照python的逻辑：
-查询Dacl 创建Ace条目，将Ace添加到Dacl中 更新数据偏移 修改 相关代码我已经实现了。首先是查询域控的SDDL属性，按照上一节所述的格式解析之后，创建一个新的Ace条目，逻辑如下图函数所示。首先创建一个Ace结构体，（这里是硬编码）填充相关结构，设置Ace的扩展为ObjectType，SID和ObjectType是可以指定的。
-209行aceEntry.Update()是将数据转换为字节结构保存，是为了后续转换为原始数据准备。
-215行将ace条目写入到Dacl中的Ace数组中。之后要记得更新Dacl中的AceCount、AclSize。dacl.update()也是更新了Dacl的原始数据。
-​
-Dacl的数据更新完毕后还要更新SrSecurityDescriptor中的OffsetOwner和OffsetGroup，更新大小为我们添加的Ace的大小偏移+原来的偏移大小
-​
-最后，将修改完毕的数据转换为字节，并调用ldap的修改方法进行修改。
-​
-效果 先查询域控中哪些用户具有DCSync权限，如下图，存在用户john。
-​
-之后，我们再添加一个用户jim，脚本提示添加完成。
-​
-再次查询，jim用户具有DCSync权限
-​</description>
+      <guid>http://localhost:1313/posts/2023/sddl_2/</guid>
+      <description>SDDL修改 能解析就能修改，线索&#xA;在官方issues中提到Dacl修改的步骤。在impacket中有没有相关库呢，example文件夹中ldap-shell下的do_write_gpo_dacl有相关实现，代码如下，查询了Dacl后创建新的ace条目，将其添加到Dacl的数据末尾，之后执行修改操作。既然python可以，那么golang也可以。&#xA;​&#xA;修改 在golang中，我们也可以按照python的逻辑：&#xA;查询Dacl 创建Ace条目，将Ace添加到Dacl中 更新数据偏移 修改 相关代码我已经实现了。首先是查询域控的SDDL属性，按照上一节所述的格式解析之后，创建一个新的Ace条目，逻辑如下图函数所示。首先创建一个Ace结构体，（这里是硬编码）填充相关结构，设置Ace的扩展为ObjectType，SID和ObjectType是可以指定的。&#xA;209行aceEntry.Update()是将数据转换为字节结构保存，是为了后续转换为原始数据准备。&#xA;215行将ace条目写入到Dacl中的Ace数组中。之后要记得更新Dacl中的AceCount、AclSize。dacl.update()也是更新了Dacl的原始数据。&#xA;​&#xA;Dacl的数据更新完毕后还要更新SrSecurityDescriptor中的OffsetOwner和OffsetGroup，更新大小为我们添加的Ace的大小偏移+原来的偏移大小&#xA;​&#xA;最后，将修改完毕的数据转换为字节，并调用ldap的修改方法进行修改。&#xA;​&#xA;效果 先查询域控中哪些用户具有DCSync权限，如下图，存在用户john。&#xA;​&#xA;之后，我们再添加一个用户jim，脚本提示添加完成。&#xA;​&#xA;再次查询，jim用户具有DCSync权限&#xA;​</description>
     </item>
-    
     <item>
       <title>GoLdapTool工具开发篇-1: SDDL解析</title>
-      <link>https://2867a0.github.io/posts/2023/sddl_1/</link>
+      <link>http://localhost:1313/posts/2023/sddl_1/</link>
       <pubDate>Sun, 16 Jul 2023 07:16:00 +0800</pubDate>
-      
-      <guid>https://2867a0.github.io/posts/2023/sddl_1/</guid>
-      <description>python编写的ldap查询工具不能编译，不方便在windows主机上使用，于是想着用golang去重构。golang有ldap v3库，可以满足基本的查询需求。但是，该库没有实现SDDL的解析。在其issues中有提到相关的解析文章，可以自己实现。
-解析 要解析SDDL数据，需要先获取一段原始数据，做如下查询并将nTSecurityDescriptor​的原始数据打印出来，如下图。
-​
-整个SDDL结构分为NtSecurityDescriptor头​+Sacl头​+Sacl Ace条目​+Dacl头​+Dacl Ace条目​
-后续的解析都以我在编写该文章之前的数据进行解析
-​
-NtSecurityDescriptor header 根据微软官方​[MS-DTYP]: 2.4.6的描述，该部分是一个SECURITY_DESCRIPTOR​结构，有如下字段。其中，Revision​、Sbz1​、Control​、OffsetOwner​、OffsetGroup​、OffsetSacl​、OffsetDacl​这几个字段总共占20个字节。
-OffsetOwner​和OffsetGroup​是所有者、所在组的数据偏移，OffsetSacl​和OffsetDacl​是Sacl header、Dacl header数据的偏移地址。根据这些偏移找到对应的数据并将数据解析赋值给变量OwnerSid​、GroupSid​、Sacl​、Dacl​
-​​
-上述结构对应我们Dump出来的数据如下图。我们主要关心的是其偏移大小。​OffsetOwner​占4个字节，为C0 08 00 00​，按照小端解析为00 00 08 C0​，转换为10进制值为2240​。OffsetGroup​同理。
-OffsetSacl​的数据为14 00 00 00​，转换为10进制后是20​，也就是说，NtSecurityDescriptor header​之后紧跟着Sacl header​（偏移的起始地址为NtSecurityDescriptor header​的第一个字节）。
-OffsetDacl​的数据为8C 00 00 00​，按照小端排序为00 00 00 8C​，转换为10进制之后是0x8C=140​
-​​
-NtSecurityDescriptor header​的数据就解析完了，紧跟着的是Sacl header​
-Sacl 解析 Sacl​这一部分的数据包含Sacl header​ 和多个 Sacl Ace​条目。
-根据微软MS-DTYP: 2.4.5中的描述，Acl​结构总共8个字节，我们需要关心的是AclSize​和AceCount​这两个字段，顾名思义，一个是Sacl​数据的大小，一个是Sacl Ace​的条目数量。
-​​
-我们找到原始数据中对应的字节数，如下图，就是Sacl header​
-​​
-这是解析之后的。​Acl Size​字段数据为78 00​，转换后的10进制值为120​。这个大小是Sacl header​的大小 + 所有Sacl Ace​的大小
-Ace Count​的值为2，也就是说Sacl有两条Ace
-​​
-Sacl header​之后紧跟着的是其对应的Ace数据。
-先来看Ace数据结构，在微软的文档只将AceType​、AceFlags​、AceSize​作为Ace Header​的字段，而我这里是将AceMask​、Extended​、SID​都放在了AceStruct​中进行解析。</description>
+      <guid>http://localhost:1313/posts/2023/sddl_1/</guid>
+      <description>python编写的ldap查询工具不能编译，不方便在windows主机上使用，于是想着用golang去重构。golang有ldap v3库，可以满足基本的查询需求。但是，该库没有实现SDDL的解析。在其issues中有提到相关的解析文章，可以自己实现。&#xA;解析 要解析SDDL数据，需要先获取一段原始数据，做如下查询并将nTSecurityDescriptor​的原始数据打印出来，如下图。&#xA;​&#xA;整个SDDL结构分为NtSecurityDescriptor头​+Sacl头​+Sacl Ace条目​+Dacl头​+Dacl Ace条目​&#xA;后续的解析都以我在编写该文章之前的数据进行解析&#xA;​&#xA;NtSecurityDescriptor header 根据微软官方​[MS-DTYP]: 2.4.6的描述，该部分是一个SECURITY_DESCRIPTOR​结构，有如下字段。其中，Revision​、Sbz1​、Control​、OffsetOwner​、OffsetGroup​、OffsetSacl​、OffsetDacl​这几个字段总共占20个字节。&#xA;OffsetOwner​和OffsetGroup​是所有者、所在组的数据偏移，OffsetSacl​和OffsetDacl​是Sacl header、Dacl header数据的偏移地址。根据这些偏移找到对应的数据并将数据解析赋值给变量OwnerSid​、GroupSid​、Sacl​、Dacl​&#xA;​​&#xA;上述结构对应我们Dump出来的数据如下图。我们主要关心的是其偏移大小。​OffsetOwner​占4个字节，为C0 08 00 00​，按照小端解析为00 00 08 C0​，转换为10进制值为2240​。OffsetGroup​同理。&#xA;OffsetSacl​的数据为14 00 00 00​，转换为10进制后是20​，也就是说，NtSecurityDescriptor header​之后紧跟着Sacl header​（偏移的起始地址为NtSecurityDescriptor header​的第一个字节）。&#xA;OffsetDacl​的数据为8C 00 00 00​，按照小端排序为00 00 00 8C​，转换为10进制之后是0x8C=140​&#xA;​​&#xA;NtSecurityDescriptor header​的数据就解析完了，紧跟着的是Sacl header​&#xA;Sacl 解析 Sacl​这一部分的数据包含Sacl header​ 和多个 Sacl Ace​条目。&#xA;根据微软MS-DTYP: 2.4.5中的描述，Acl​结构总共8个字节，我们需要关心的是AclSize​和AceCount​这两个字段，顾名思义，一个是Sacl​数据的大小，一个是Sacl Ace​的条目数量。&#xA;​​&#xA;我们找到原始数据中对应的字节数，如下图，就是Sacl header​&#xA;​​&#xA;这是解析之后的。​Acl Size​字段数据为78 00​，转换后的10进制值为120​。这个大小是Sacl header​的大小 + 所有Sacl Ace​的大小&#xA;Ace Count​的值为2，也就是说Sacl有两条Ace&#xA;​​&#xA;Sacl header​之后紧跟着的是其对应的Ace数据。&#xA;先来看Ace数据结构，在微软的文档只将AceType​、AceFlags​、AceSize​作为Ace Header​的字段，而我这里是将AceMask​、Extended​、SID​都放在了AceStruct​中进行解析。</description>
     </item>
-    
   </channel>
 </rss>
